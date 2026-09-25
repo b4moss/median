@@ -68,6 +68,8 @@ type Config struct {
 	DefaultActor        string
 	Thumbnails          *pipeline.ThumbnailsConfig
 	PresignTTL          time.Duration
+	// PDFRenderer rasterizes PDF pages for PDFThumbnail. Required when generating PDF thumbs.
+	PDFRenderer pipeline.PDFRenderer
 
 	// AdapterOverrides injects prebuilt adapters (tests).
 	AdapterOverrides map[string]storage.Adapter
