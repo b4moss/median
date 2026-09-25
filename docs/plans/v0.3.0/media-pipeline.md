@@ -3,7 +3,7 @@ type: Plan
 title: メディア加工パイプライン
 description: 圧縮・リサイズ・サムネイルプリセットの仕様詳細。
 tags: [median, plans, v0.3.0, media]
-timestamp: 2026-09-25T06:30:00Z
+timestamp: 2026-09-25T07:20:00Z
 ---
 
 # メディア加工パイプライン
@@ -60,8 +60,23 @@ timestamp: 2026-09-25T06:30:00Z
 | `fixed` | 幅・高さの固定値（px） | **必須**: `cover` / `contain` / `stretch` |
 
 - `cover` … 領域を埋め、はみ出しはトリミング
-- `contain` … 全体が収まるようレターボックス（余白の扱いは実装時に固定）
+- `contain` … 全体が収まるようレターボックス。余白（レターボックス）の塗りは **containBackground** で指定する
 - `stretch` … 比率を無視して押し込み（旧称 squeeze と同義）
+
+##### containBackground（`fit: contain` のとき）
+
+| 値 | 意味 |
+| --- | --- |
+| `black` | 不透明黒（**デフォルト**） |
+| `white` | 不透明白 |
+| `transparent` | 透明。出力が alpha を持てるときのみ（**PNG / WebP / GIF**）。JPEG は拒否 |
+| `#RRGGBB` | 不透明 HEX（大文字小文字不問） |
+| `#RRGGBBAA` | alpha 付き HEX（大文字小文字不問） |
+
+- プリセットおよび本体リサイズ制約の両方で指定可。省略時は `black`
+- `transparent` と HEX の同時指定はしない（排他）
+- GIF / indexed PNG ではアンチエイリアスなしでよい（パレット制約）
+- 余白はレターボックス矩形の塗り。画像本体エッジの AA はフォーマット依存
 
 ### デフォルト生成セット
 
@@ -72,6 +87,7 @@ thumbnails: {
   presets: {
     sm: { mode: longEdge, size: 320, quality: 0.8 },
     md: { mode: fixed, width: 640, height: 360, fit: cover, quality: 0.75 },
+    letterbox: { mode: fixed, width: 640, height: 360, fit: contain, containBackground: "#00FF00AA", quality: 0.8 },
     ...
   },
   defaultKeys: ["sm", "md"]
