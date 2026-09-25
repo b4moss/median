@@ -3,7 +3,7 @@ type: Index
 title: tests
 description: TDD入力となるテスト仕様の置き場。
 tags: [median, tests, index]
-timestamp: 2026-09-25T07:15:00Z
+timestamp: 2026-09-25T11:40:00Z
 ---
 
 # tests
