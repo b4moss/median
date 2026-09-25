@@ -2,16 +2,16 @@
 type: Plan
 title: PDF サムネイル
 description: PDF先頭ページサムネの意図スタブ。
-tags: [median, plans, v0.7.0, pdf]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.4.0, pdf]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # PDF サムネイル
 
 - **状態**: 意図スタブ
-- **マイルストーン**: `v0.7.0`
-- **前提**: `v0.4.0`（サムネ契約）
-- **関連**: [v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)
+- **マイルストーン**: `v0.4.0`
+- **前提**: `v0.3.0`（サムネ契約）
+- **関連**: [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md) / [svg-sanitize.md](./svg-sanitize.md)
 
 ## 目的
 

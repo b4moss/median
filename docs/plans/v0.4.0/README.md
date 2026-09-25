@@ -1,32 +1,32 @@
 ---
 type: Index
-title: v0.4.0 索引 — Go 画像パイプライン
+title: v0.4.0 索引 — SVG・PDF
 description: v0.4.0 マイルストーンの受け入れと文書索引。
 tags: [median, plans, v0.4.0, index]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-25T06:30:00Z
 ---
 
-# v0.4.0 索引 — Go 画像パイプライン
+# v0.4.0 索引 — SVG・PDF
 
-- **状態**: 仕様詳細
+- **状態**: 方針確定 / 意図スタブ
 - **マイルストーン**: `v0.4.0`
-- **前提**: `v0.2.0`（必須）。DB 連携サムネ自己参照は `v0.3.0` 前提
-- **関連**: [roadmap](../../roadmap.md)
+- **前提**: `v0.2.0`。パイプライン接続は `v0.3.0` 以降が自然
+- **関連**: [roadmap](../../roadmap.md) / [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md)
+
+互いに独立な拡張（SVG サニタイズ / PDF 先頭ページサムネ）を同一版に統合する。版内は並列してよい。
 
 ## 受け入れ（短い）
 
-- 画像の圧縮・本体リサイズ・サムネイル生成がオプションとして動く
-- サムネイルは config の名前付きプリセット（key / 基準サイズ / fit / 圧縮率）と `defaultKeys` で制御できる
-- 対象フォーマット（JPEG/PNG/WebP/GIF・アニメ GIF/APNG）を扱える
+- 危険な script / handler / 外部参照が SVG から除去され、基本図形・style は残る
+- PDF アップロード時、先頭 1 ページのサムネイル生成を選択できる（既存サムネ契約へ接続）
 - TDD・CI（Go path）あり
 
-**含めない**: SVG サニタイズ（`v0.6.0`）、PDF サムネ（`v0.7.0`）
-
-## 文書
+## ドメイン分割
 
 | 文書 | 内容 |
 | --- | --- |
-| [media-pipeline.md](./media-pipeline.md) | 加工パイプライン・画像フォーマット |
+| [svg-sanitize.md](./svg-sanitize.md) | SVG サニタイズ |
+| [pdf-thumbnail.md](./pdf-thumbnail.md) | PDF 先頭ページサムネ |
 
 ----
 

@@ -2,14 +2,14 @@
 type: Plan
 title: S3 互換 Adapter
 description: S3互換ストレージと署名付きGET URLの方針。
-tags: [median, plans, v0.5.0, s3]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.3.0, s3]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # S3 互換 Adapter
 
 - **状態**: 方針確定
-- **マイルストーン**: `v0.5.0`
+- **マイルストーン**: `v0.3.0`
 - **前提**: `v0.2.0`（storage key モデル）
 - **関連**: [v0.2.0/storage.md](../v0.2.0/storage.md)
 

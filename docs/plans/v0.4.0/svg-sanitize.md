@@ -2,16 +2,16 @@
 type: Plan
 title: SVG サニタイズ
 description: SVGから危険なscript等を除去する方針。
-tags: [median, plans, v0.6.0, svg]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.4.0, svg]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # SVG サニタイズ
 
 - **状態**: 方針確定
-- **マイルストーン**: `v0.6.0`
-- **前提**: `v0.2.0`。画像パイプライン接続は `v0.4.0` 以降が自然
-- **関連**: [v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)
+- **マイルストーン**: `v0.4.0`
+- **前提**: `v0.2.0`。画像パイプライン接続は `v0.3.0` 以降が自然
+- **関連**: [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md) / [pdf-thumbnail.md](./pdf-thumbnail.md)
 
 ## 目的
 
@@ -22,7 +22,7 @@ timestamp: 2026-09-25T05:28:00Z
 - script / event handler / external 参照（xlink 等）を除去
 - 基本図形・style は許可
 - npm **svgo** のサニタイズ周りを参考にする
-- TypeScript 実装（`v0.8.0`）では svgo をそのまま利用してよい
+- TypeScript 実装（`v0.5.0`）では svgo をそのまま利用してよい
 - Go / PHP は同等の挙動を目指す（ライブラリ選定は実装時）
 
 ## やらぬこと（当面）
