@@ -1,0 +1,73 @@
+name: Publish npm
+
+# JS port only. Go-only merges to release must not publish to npm.
+# Independent SemVer: packages/js/package.json + root tag vX.Y.Z.
+on:
+  push:
+    branches:
+      - release
+    paths:
+      - "packages/js/**"
+      - ".github/workflows/publish-npm.yml"
+      - ".github/scripts/should-publish-median.sh"
+
+concurrency:
+  group: publish-npm-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: publish @b4moss/median
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: packages/js
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+
+      - name: Gate publish eligibility
+        id: gate
+        working-directory: .
+        run: bash .github/scripts/should-publish-median.sh gate
+
+      - name: Install npm for Trusted Publishing
+        if: steps.gate.outputs.skip != 'true'
+        run: npm install -g npm@11.19.1
+
+      - name: Install dependencies
+        if: steps.gate.outputs.skip != 'true'
+        run: npm ci
+
+      - name: Test
+        if: steps.gate.outputs.skip != 'true'
+        run: npm test
+
+      - name: Build
+        if: steps.gate.outputs.skip != 'true'
+        run: npm run build
+
+      - name: Compare with published package
+        id: decide
+        if: steps.gate.outputs.skip != 'true'
+        working-directory: .
+        run: bash .github/scripts/should-publish-median.sh compare
+
+      - name: Publish to npm
+        if: steps.gate.outputs.skip != 'true' && steps.decide.outputs.skip != 'true'
+        run: npm publish --access public --provenance --ignore-scripts
