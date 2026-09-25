@@ -1,3 +1,11 @@
+---
+type: Plan
+title: メディア加工パイプライン
+description: 圧縮・リサイズ・サムネイルプリセットの仕様詳細。
+tags: [median, plans, v0.4.0, media]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # メディア加工パイプライン
 
 - **状態**: 仕様詳細
@@ -77,6 +85,7 @@ thumbnails: {
 ### 返却・永続化
 
 - Store 返却の `variants` は、生成したサムネを **key 付き**で列挙する
+- 本体・派生いずれも、寸法が分かる場合は **`width` / `height`（px）** をメタに載せる（不明なら NULL）
 - DB 使用時、派生は同一テーブルの子行（`original_id` → 親）。区別用に **`variant_key`**（text、オリジナルは NULL）を持つ（[er.dbml](../../er.dbml) / [db-media.md](../v0.3.0/db-media.md)）
 
 ## 推奨処理順

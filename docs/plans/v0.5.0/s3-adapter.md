@@ -1,3 +1,11 @@
+---
+type: Plan
+title: S3 互換 Adapter
+description: S3互換ストレージと署名付きGET URLの方針。
+tags: [median, plans, v0.5.0, s3]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # S3 互換 Adapter
 
 - **状態**: 方針確定

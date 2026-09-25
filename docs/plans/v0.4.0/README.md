@@ -1,3 +1,11 @@
+---
+type: Index
+title: v0.4.0 索引 — Go 画像パイプライン
+description: v0.4.0 マイルストーンの受け入れと文書索引。
+tags: [median, plans, v0.4.0, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # v0.4.0 索引 — Go 画像パイプライン
 
 - **状態**: 仕様詳細

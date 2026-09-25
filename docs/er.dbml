@@ -11,6 +11,8 @@ Table media {
   path varchar(2048) [not null, unique, note: 'ストレージルートからの相対パス。storage key は持たない。preserve時は危険文字と端の . / 空白を除去']
   mime varchar(255) [not null]
   size bigint [not null, note: 'バイトサイズ']
+  width integer [note: 'px。画像等で寸法が分かるとき。不明なら NULL']
+  height integer [note: 'px。画像等で寸法が分かるとき。不明なら NULL']
   hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
   original_id bigint [note: 'NULLならオリジナル。派生は親を参照。型は id に合わせる（デフォルト integer、UUID/ULID 時は text）']
   variant_key varchar(64) [note: '派生プリセット key。オリジナルは NULL。サムネイル key 名']

@@ -1,3 +1,11 @@
+---
+type: Plan
+title: packages/php
+description: 契約語彙をPHPへ移植する意図スタブ。
+tags: [median, plans, v0.9.0, php]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # packages/php
 
 - **状態**: 意図スタブ

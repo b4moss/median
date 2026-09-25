@@ -1,3 +1,11 @@
+---
+type: Reference
+title: migrations
+description: 方言解釈型gooseマイグレーションの正本説明。
+tags: [median, migrations, goose]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # migrations
 
 スキーママイグレーションの正本ディレクトリ。論理 ER は [`docs/er.dbml`](../docs/er.dbml)。
@@ -27,6 +35,7 @@ libSQL を使う場合は SQLite 系として扱う（crudian の libSQL アダ�
 | `path` varchar(2048) | `VARCHAR(2048)` | `VARCHAR(2048)` | `TEXT` |
 | `mime` varchar(255) | `VARCHAR(255)` | `VARCHAR(255)` | `TEXT` |
 | `size` bigint | `BIGINT` | `BIGINT` | `INTEGER` |
+| `width` / `height` | `INT NULL` | `INT NULL` | `INTEGER NULL` |
 | `hash` char(64) | `CHAR(64)` | `CHAR(64)` | `TEXT` |
 | `created_by` / `owned_by` | `VARCHAR(255)` | `VARCHAR(255)` | `TEXT` |
 | `variant_key` | `VARCHAR(64) NULL` | `VARCHAR(64) NULL` | `TEXT NULL` |

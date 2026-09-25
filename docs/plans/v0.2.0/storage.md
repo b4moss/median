@@ -1,3 +1,11 @@
+---
+type: Plan
+title: ストレージ・パス・ファイル名
+description: Local FS・storage key・ファイル名・shardian の仕様詳細。
+tags: [median, plans, v0.2.0, storage]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # ストレージ・パス・ファイル名
 
 - **状態**: 仕様詳細

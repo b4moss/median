@@ -1,3 +1,11 @@
+---
+type: Plan
+title: packages/js（TypeScript）
+description: Go契約をTypeScriptへ移植する意図スタブ。
+tags: [median, plans, v0.8.0, js]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # packages/js（TypeScript）
 
 - **状態**: 意図スタブ

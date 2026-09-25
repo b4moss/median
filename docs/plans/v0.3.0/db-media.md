@@ -1,3 +1,11 @@
+---
+type: Plan
+title: DB・メディアメタデータ
+description: crudian・カラム・削除・原子性・採番の仕様詳細。
+tags: [median, plans, v0.3.0, db]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # DB・メディアメタデータ
 
 - **状態**: 仕様詳細
@@ -35,6 +43,8 @@
 | `path` | ストレージルートからの相対パス（storage key は持たない） |
 | `mime` | MIME タイプ |
 | `size` | バイトサイズ |
+| `width` | 幅 px（寸法が分かるとき。不明なら NULL） |
+| `height` | 高さ px（寸法が分かるとき。不明なら NULL） |
 | `hash` | SHA-256（重複抑止） |
 | `created_at` | 作成日時 |
 | `original_id` | オリジナルへの自己参照。派生は子行 |

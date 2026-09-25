@@ -1,3 +1,11 @@
+---
+type: Index
+title: tests
+description: TDD入力となるテスト仕様の置き場。
+tags: [median, tests, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # tests
 
 TDD の入力となるテスト仕様を置く。`specs/` / `plans/` と同じドメイン分割にする。
