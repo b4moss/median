@@ -2,14 +2,24 @@ name: CodeQL
 
 # Default setup は使わず、advanced setup でトリガを制御する。
 # 方針: main への pull_request のときだけ解析する（develop / dev-v* / release では走らない）。
-# median は private かつ GitHub Advanced Security 未導入のため、SARIF upload は行わない
-# （upload: never）。GHAS 有効化後に upload を戻す。
-# スキャフォールド段階では actions のみ（go / js ソースが揃ってから言語を追加する）。
+#
+# --- Private 現状 ---
+# - GitHub Advanced Security 未導入のため SARIF upload 不可 → upload: never
+# - スキャフォールド段階のため解析言語は actions のみ
+#
+# --- Public 化（または GHAS 有効化）したら ---
+# 1. matrix の go / javascript-typescript をアンコメント
+# 2. analyze ステップの `upload: never` を削除（デフォルト upload に戻す）
+# 3. 必要なら下の push trigger もアンコメント
 
 on:
   pull_request:
     branches:
       - main
+  # Public / GHAS 後に main への push でも回したい場合:
+  # push:
+  #   branches:
+  #     - main
 
 concurrency:
   group: codeql-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -31,6 +41,11 @@ jobs:
         include:
           - language: actions
             build-mode: none
+          # Public 化後（packages に実ソースが揃ってから）アンコメント:
+          # - language: go
+          #   build-mode: autobuild
+          # - language: javascript-typescript
+          #   build-mode: none
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -49,5 +64,5 @@ jobs:
         uses: github/codeql-action/analyze@6f5948dfacef28e207b48d0905cf90c03365536d # v3.37.9
         with:
           category: "/language:${{ matrix.language }}"
-          # Private repo without GitHub Advanced Security cannot upload SARIF.
+          # Private + no GHAS: keep. Public / GHAS 有効化後はこの行を削除する。
           upload: never
