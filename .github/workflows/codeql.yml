@@ -1,16 +1,15 @@
 name: CodeQL
 
+# Default setup は使わず、advanced setup でトリガを制御する。
+# 方針: main への pull_request のときだけ解析する（develop / dev-v* / release では走らない）。
+# median は private かつ GitHub Advanced Security 未導入のため、SARIF upload は行わない
+# （upload: never）。GHAS 有効化後に upload を戻す。
+# スキャフォールド段階では actions のみ（go / js ソースが揃ってから言語を追加する）。
+
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-      - develop
-      - "dev-v*"
-  schedule:
-    - cron: "17 5 * * 1"
 
 concurrency:
   group: codeql-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -18,24 +17,18 @@ concurrency:
 
 permissions:
   contents: read
+  security-events: write
+  actions: read
 
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      security-events: write
-      contents: read
-      actions: read
     strategy:
       fail-fast: false
       matrix:
         include:
-          - language: javascript-typescript
-            build-mode: none
-          - language: go
-            build-mode: autobuild
           - language: actions
             build-mode: none
     steps:
@@ -56,3 +49,5 @@ jobs:
         uses: github/codeql-action/analyze@6f5948dfacef28e207b48d0905cf90c03365536d # v3.37.9
         with:
           category: "/language:${{ matrix.language }}"
+          # Private repo without GitHub Advanced Security cannot upload SARIF.
+          upload: never
