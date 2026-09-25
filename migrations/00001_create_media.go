@@ -1,5 +1,7 @@
-// Package migrations holds dialect-aware goose migrations.
-// Wired from packages/go at v0.3.0 (embed + goose.Provider).
+//go:build ignore
+
+// Dialect-aware goose migration for media (default auto-increment schema).
+// Imported/embedded from packages/go at v0.3.0 without the ignore constraint.
 //
 // One migration definition; goose dialect selects DDL.
 // Targets: MySQL, MariaDB (mysql driver), Postgres, SQLite — aligned with crudian.

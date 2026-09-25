@@ -7,8 +7,8 @@
 
 ## 受け入れ（短い）
 
-- b4moss/crudian 経由でメタデータを永続化できる
-- 独自スキーマを `migrations/`（goose）で適用できる
+- b4moss/crudian 経由でメタデータを永続化できる（MySQL / MariaDB / Postgres / SQLite）
+- 独自スキーマを `migrations/`（goose・**1 定義を dialect で解釈**）で適用できる
 - 重複抑止・物理削除カスケード・採番・actor 契約が満たされる
 - TDD・CI（Go path）あり
 
