@@ -3,14 +3,14 @@ type: Index
 title: v0.2.0 索引 — Go コア API + Local FS
 description: v0.2.0 マイルストーンの受け入れと文書索引。
 tags: [median, plans, v0.2.0, index]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # v0.2.0 索引 — Go コア API + Local FS
 
 - **状態**: 仕様詳細
 - **マイルストーン**: `v0.2.0`
-- **関連**: [roadmap](../../roadmap.md) / 後続 [v0.3.0](../v0.3.0/) / [v0.4.0](../v0.4.0/)
+- **関連**: [roadmap](../../roadmap.md) / 後続 [v0.3.0](../v0.3.0/)
 
 ## 受け入れ（短い）
 

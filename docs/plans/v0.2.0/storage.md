@@ -3,14 +3,14 @@ type: Plan
 title: ストレージ・パス・ファイル名
 description: Local FS・storage key・ファイル名・shardian の仕様詳細。
 tags: [median, plans, v0.2.0, storage]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # ストレージ・パス・ファイル名
 
 - **状態**: 仕様詳細
-- **マイルストーン**: `v0.2.0`（Local FS）。S3 は `v0.5.0`
-- **関連**: [core-api.md](./core-api.md) / [v0.5.0/s3-adapter.md](../v0.5.0/s3-adapter.md)
+- **マイルストーン**: `v0.2.0`（Local FS）。S3 は `v0.3.0`
+- **関連**: [core-api.md](./core-api.md) / [v0.3.0/s3-adapter.md](../v0.3.0/s3-adapter.md)
 
 ## Adapter（v0.2.0）
 

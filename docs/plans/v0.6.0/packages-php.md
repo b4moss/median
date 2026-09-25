@@ -2,16 +2,16 @@
 type: Plan
 title: packages/php
 description: 契約語彙をPHPへ移植する意図スタブ。
-tags: [median, plans, v0.9.0, php]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.6.0, php]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # packages/php
 
 - **状態**: 意図スタブ
-- **マイルストーン**: `v0.9.0`
+- **マイルストーン**: `v0.6.0`
 - **前提**: Go / JS の契約語彙が先行していること
-- **関連**: [main.md](../../main.md) / [v0.8.0/](../v0.8.0/)
+- **関連**: [main.md](../../main.md) / [v0.5.0/](../v0.5.0/)
 
 ## 目的
 

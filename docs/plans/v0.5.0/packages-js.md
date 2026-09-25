@@ -2,16 +2,16 @@
 type: Plan
 title: packages/js（TypeScript）
 description: Go契約をTypeScriptへ移植する意図スタブ。
-tags: [median, plans, v0.8.0, js]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.5.0, js]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # packages/js（TypeScript）
 
 - **状態**: 意図スタブ
-- **マイルストーン**: `v0.8.0`
+- **マイルストーン**: `v0.5.0`
 - **前提**: Go 側の契約が `v0.2.0` 以降で固まっていること（段階投入可）
-- **関連**: [main.md](../../main.md) / [v0.2.0/](../v0.2.0/) / [v0.6.0/svg-sanitize.md](../v0.6.0/svg-sanitize.md)
+- **関連**: [main.md](../../main.md) / [v0.2.0/](../v0.2.0/) / [v0.4.0/svg-sanitize.md](../v0.4.0/svg-sanitize.md)
 
 ## 目的
 
