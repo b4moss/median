@@ -53,20 +53,21 @@ jobs:
         uses: dorny/paths-filter@0e4a8c6effa4802afeda77dc8d303f8176d7dfad # v3.0.4
         with:
           filters: |
+            # Only real package sources (not empty scaffold dirs).
             js:
-              - 'packages/js/**'
-              - '.github/workflows/ci.yml'
-              - 'codecov.yml'
-            # Only real Go module sources (not .gitkeep). Avoids job.if hashFiles,
-            # which GitHub Actions rejects at workflow parse time.
+              - 'packages/js/**/*.ts'
+              - 'packages/js/**/*.tsx'
+              - 'packages/js/**/*.js'
+              - 'packages/js/package.json'
+              - 'packages/js/package-lock.json'
             go:
               - 'packages/go/**/*.go'
               - 'packages/go/go.mod'
               - 'packages/go/go.sum'
             php:
-              - 'packages/php/**'
-              - '.github/workflows/ci.yml'
-              - 'codecov.yml'
+              - 'packages/php/**/*.php'
+              - 'packages/php/composer.json'
+              - 'packages/php/composer.lock'
 
   js:
     name: packages/js
