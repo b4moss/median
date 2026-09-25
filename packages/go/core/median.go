@@ -55,6 +55,7 @@ type StoreOptions struct {
 	Quality          float64
 	Resize           *pipeline.ResizeConstraint
 	ThumbnailKeys    []string
+	PDFThumbnail     bool
 }
 
 type GetOptions struct {
@@ -87,8 +88,9 @@ var (
 	ErrUnknownKey   = errors.New("median: unknown storage key")
 	ErrActorRequired = errors.New("median: actor required")
 	ErrIDRequired   = errors.New("median: id required")
-	ErrDuplicate    = errors.New("median: duplicate hash")
-	ErrNotS3        = errors.New("median: storage is not s3")
+	ErrDuplicate            = errors.New("median: duplicate hash")
+	ErrNotS3                = errors.New("median: storage is not s3")
+	ErrPDFRendererRequired  = errors.New("median: PDFRenderer required")
 )
 
 func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOptions) (*StoreResult, error) {
@@ -118,6 +120,12 @@ func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOp
 	if err != nil {
 		return nil, err
 	}
+	if isSVGMIME(opt.MIME) {
+		data, err = pipeline.SanitizeSVG(data)
+		if err != nil {
+			return nil, err
+		}
+	}
 	sum := sha256.Sum256(data)
 	hash := hex.EncodeToString(sum[:])
 
@@ -146,6 +154,7 @@ func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOp
 	}
 	runPipe := isImageMIME(opt.MIME) && (opt.Compress || opt.Resize != nil || len(opt.ThumbnailKeys) > 0 ||
 		(m.cfg.Thumbnails != nil && len(m.cfg.Thumbnails.DefaultKeys) > 0))
+	runPDFThumbs := isPDFMIME(opt.MIME) && opt.PDFThumbnail
 
 	var (
 		mainData = data
@@ -162,6 +171,24 @@ func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOp
 		w, h := pres.Width, pres.Height
 		width, height = &w, &h
 		variants = pres.Variants
+	} else if runPDFThumbs {
+		keys := opt.ThumbnailKeys
+		if len(keys) == 0 && m.cfg.Thumbnails != nil {
+			keys = append([]string{}, m.cfg.Thumbnails.DefaultKeys...)
+		}
+		if len(keys) > 0 {
+			if m.cfg.PDFRenderer == nil {
+				return nil, ErrPDFRendererRequired
+			}
+			img, err := m.cfg.PDFRenderer.RenderPage(data, 0)
+			if err != nil {
+				return nil, err
+			}
+			variants, err = pipeline.ThumbnailsFromImage(img, m.cfg.Thumbnails, keys)
+			if err != nil {
+				return nil, err
+			}
+		}
 	} else if !isImageMIME(opt.MIME) && (opt.Resize != nil || len(opt.ThumbnailKeys) > 0) {
 		return nil, pipeline.ErrInvalidImage
 	}
@@ -429,6 +456,14 @@ func isImageMIME(mime string) bool {
 	default:
 		return false
 	}
+}
+
+func isSVGMIME(mime string) bool {
+	return mime == "image/svg+xml"
+}
+
+func isPDFMIME(mime string) bool {
+	return mime == "application/pdf"
 }
 
 func mediaToStoreResult(row *db.Media, storageKey, defaultKey string) *StoreResult {
