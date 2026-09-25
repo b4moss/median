@@ -37,6 +37,9 @@
 
 - 選択可: `auto increment` / `UUID v4` / `UUID v7` / `ULID`
 - **デフォルトは auto increment**
+- 物理型:
+  - `auto increment` → **integer / bigint**（デフォルト ER はこちら。`docs/er.dbml`）
+  - `UUID v4` / `UUID v7` / `ULID` → **text**
 - `original_id` の物理型は `id` に合わせる
 
 ## actor（`created_by` / `owned_by`）
