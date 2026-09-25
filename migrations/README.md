@@ -32,15 +32,22 @@ libSQL を使う場合は SQLite 系として扱う（crudian の libSQL アダ�
 | `status` text | `TEXT` | `TEXT` | `TEXT` |
 | `created_at` timestamptz | `DATETIME(6)` | `TIMESTAMPTZ` | `TEXT`（ISO-8601） |
 
-UUID / ULID 採番を選ぶ場合は、同じマイグレーション定義内で `id` / `original_id` を **TEXT** に切り替える（方言共通）。
+UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、同じ `00001` 定義内の条件分岐で `id` / `original_id` を **TEXT** にする（方言共通）。
+
+実行時は環境変数 `MEDIAN_ID_STRATEGY` で切替（未指定 = `auto_increment`）:
+
+| 値 | PK 型 |
+| --- | --- |
+| `auto_increment`（デフォルト） | integer / bigint AI |
+| `uuid_v4` / `uuid_v7` / `ulid` | text |
+
+`v0.3.0` で `packages/go` から embed / Provider で読み込む（現行ファイルは配線前のため `//go:build ignore`）。
 
 ## ファイル
 
 | ファイル | 内容 |
 | --- | --- |
-| [`00001_create_media.go`](./00001_create_media.go) | media テーブル作成（dialect 解釈） |
-
-`v0.3.0` 実装時に `packages/go` から embed / Provider で読み込む。
+| [`00001_create_media.go`](./00001_create_media.go) | media テーブル作成（dialect × id strategy の同一定義内分岐） |
 
 ## 実行（実装後）
 

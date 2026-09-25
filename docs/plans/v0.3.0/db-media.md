@@ -23,7 +23,7 @@
 - **方言別 SQL を並べてメンテしない**。1 バージョン = 1 定義とし、goose の dialect（`mysql` / `postgres` / `sqlite3`）に応じて解釈・展開する
   - MariaDB は goose / driver 上 `mysql` として扱う
 - 正本の実装形: [`migrations/00001_create_media.go`](../../../migrations/00001_create_media.go)（詳細は [`migrations/README.md`](../../../migrations/README.md)）
-- UUID / ULID 採番時は同じ定義内で `id` / `original_id` を text に切り替える
+- 採番方式（auto increment / UUID / ULID）も **同一定義内の条件分岐**（別マイグレーション版にしない）。切替は `MEDIAN_ID_STRATEGY`
 
 論理 ER の正本: [er.dbml](../../er.dbml)（適用後の物理スキーマは migrations が正）
 
@@ -50,6 +50,7 @@
   - `auto increment` → **integer / bigint**（デフォルト ER はこちら。`docs/er.dbml`）
   - `UUID v4` / `UUID v7` / `ULID` → **text**
 - `original_id` の物理型は `id` に合わせる
+- マイグレーションは方式ごとに版を増やさず、**同一 `00001` 内の分岐**で DDL を選ぶ
 
 ## actor（`created_by` / `owned_by`）
 
@@ -71,6 +72,7 @@
 ## DB とストレージの原子性
 
 - ライブラリが補償する（片方だけ成功した場合、可能な範囲で戻す）
+- **プロセスクラッシュ等で補償処理自体が中断した場合は責務外**（呼び出し側の再実行・運用で扱う）
 
 ----
 
