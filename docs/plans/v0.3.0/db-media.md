@@ -7,16 +7,25 @@
 
 ## crudian
 
-- DB 操作は **b4moss/crudian** を用いる（MySQL / Postgres / SQLite / libSQL）
+- DB 操作は **b4moss/crudian** を用いる
+- 対応 Dialects（crudian と同じ系統）: **MySQL / MariaDB / Postgres / SQLite**（libSQL は SQLite 系として扱う）
 - 呼び出し側が CRUD / DB ハンドルを注入できる
 - 注入がなければ config から DB / crudian を内部生成してもよい
 
 ## スキーマ方式
 
-1. 独自テーブルを `migrations/` でマイグレーション（正本はリポジトリ直下。Go は **goose**）
+1. 独自テーブルをリポジトリ直下 `migrations/` でマイグレーション（論理 ER は [er.dbml](../../er.dbml)）
 2. 既存メディアテーブルへ、必須カラムをマッピング
 
-論理 ER の正本: [er.dbml](../../er.dbml)（実装スキーマは migrations が正）
+### マイグレーションの書き方
+
+- Go は **goose** を用いる
+- **方言別 SQL を並べてメンテしない**。1 バージョン = 1 定義とし、goose の dialect（`mysql` / `postgres` / `sqlite3`）に応じて解釈・展開する
+  - MariaDB は goose / driver 上 `mysql` として扱う
+- 正本の実装形: [`migrations/00001_create_media.go`](../../../migrations/00001_create_media.go)（詳細は [`migrations/README.md`](../../../migrations/README.md)）
+- UUID / ULID 採番時は同じ定義内で `id` / `original_id` を text に切り替える
+
+論理 ER の正本: [er.dbml](../../er.dbml)（適用後の物理スキーマは migrations が正）
 
 ## 必須カラム（マッピングの正）
 

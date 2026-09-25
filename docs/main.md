@@ -39,7 +39,7 @@
 | `packages/go` | Go（開発順 1） |
 | `packages/js` | TypeScript / bun・Node.js（開発順 2） |
 | `packages/php` | PHP（開発順 3） |
-| `migrations/` | スキーママイグレーション正本（Go は goose） |
+| `migrations/` | スキーママイグレーション正本（goose・方言解釈。MySQL/MariaDB/Postgres/SQLite） |
 
 ## ランタイム
 

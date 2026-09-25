@@ -1,8 +1,9 @@
 // median default media ER (logical)
-// docs/er.dbml — design ER; implementation migrations under /migrations are source of truth.
+// docs/er.dbml — design ER; physical DDL is produced by dialect-aware goose migrations under /migrations.
 // Default id strategy is auto increment → integer (serial/bigserial 相当).
 // UUID v4 / UUID v7 / ULID 選択時は id / original_id を text にする。
-// Migration source of truth: /migrations (Go uses goose)
+// Dialects (crudian-aligned): MySQL, MariaDB, Postgres, SQLite.
+// Migration source of truth: /migrations (Go uses goose; one definition, dialect interprets).
 // DB ops via b4moss/crudian. path is relative to storage root only (no storage key).
 
 Table media {
