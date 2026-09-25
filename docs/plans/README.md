@@ -1,3 +1,11 @@
+---
+type: Index
+title: plans 索引
+description: 未実装計画・仕様詳細の版フォルダ索引。
+tags: [median, plans, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # plans 索引
 
 未実装の計画・仕様詳細の索引。実装後は対応ファイルを `docs/specs/` へ移す。

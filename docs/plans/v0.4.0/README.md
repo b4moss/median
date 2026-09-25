@@ -1,3 +1,11 @@
+---
+type: Index
+title: v0.4.0 索引 — Go 画像パイプライン
+description: v0.4.0 マイルストーンの受け入れと文書索引。
+tags: [median, plans, v0.4.0, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # v0.4.0 索引 — Go 画像パイプライン
 
 - **状態**: 仕様詳細
@@ -8,6 +16,7 @@
 ## 受け入れ（短い）
 
 - 画像の圧縮・本体リサイズ・サムネイル生成がオプションとして動く
+- サムネイルは config の名前付きプリセット（key / 基準サイズ / fit / 圧縮率）と `defaultKeys` で制御できる
 - 対象フォーマット（JPEG/PNG/WebP/GIF・アニメ GIF/APNG）を扱える
 - TDD・CI（Go path）あり
 

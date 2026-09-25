@@ -1,3 +1,11 @@
+---
+type: Index
+title: v0.2.0 索引 — Go コア API + Local FS
+description: v0.2.0 マイルストーンの受け入れと文書索引。
+tags: [median, plans, v0.2.0, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # v0.2.0 索引 — Go コア API + Local FS
 
 - **状態**: 仕様詳細

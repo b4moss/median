@@ -1,3 +1,11 @@
+---
+type: Hub
+title: median
+description: ファイル操作を抽象化するDDD向けライブラリの目的・スコープ・技術方針ハブ。
+tags: [median, hub]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # median
 
 ファイル操作を抽象化する DDD 向けライブラリ。
@@ -39,7 +47,7 @@
 | `packages/go` | Go（開発順 1） |
 | `packages/js` | TypeScript / bun・Node.js（開発順 2） |
 | `packages/php` | PHP（開発順 3） |
-| `migrations/` | スキーママイグレーション正本（Go は goose） |
+| `migrations/` | スキーママイグレーション正本（goose・方言解釈。MySQL/MariaDB/Postgres/SQLite） |
 
 ## ランタイム
 

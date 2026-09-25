@@ -1,3 +1,11 @@
+---
+type: Index
+title: specs
+description: 現行バージョンに存在する機能の仕様正本の置き場。
+tags: [median, specs, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # specs
 
 現行バージョンに存在する機能の仕様正本を置く。

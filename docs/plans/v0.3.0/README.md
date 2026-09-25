@@ -1,3 +1,11 @@
+---
+type: Index
+title: v0.3.0 索引 — Go DB 連携
+description: v0.3.0 マイルストーンの受け入れと文書索引。
+tags: [median, plans, v0.3.0, index]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # v0.3.0 索引 — Go DB 連携
 
 - **状態**: 仕様詳細
@@ -7,8 +15,8 @@
 
 ## 受け入れ（短い）
 
-- b4moss/crudian 経由でメタデータを永続化できる
-- 独自スキーマを `migrations/`（goose）で適用できる
+- b4moss/crudian 経由でメタデータを永続化できる（MySQL / MariaDB / Postgres / SQLite）
+- 独自スキーマを `migrations/`（goose・**1 定義を dialect で解釈**）で適用できる
 - 重複抑止・物理削除カスケード・採番・actor 契約が満たされる
 - TDD・CI（Go path）あり
 

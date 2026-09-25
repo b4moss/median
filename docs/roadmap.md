@@ -1,3 +1,11 @@
+---
+type: Hub
+title: median roadmap
+description: SemVerマイルストーン一覧と短い受け入れのハブ。
+tags: [median, roadmap]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # median roadmap
 
 SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リリース前のため、MINOR 更新でも破壊的変更を許容する。

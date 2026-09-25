@@ -1,3 +1,11 @@
+---
+type: Plan
+title: PDF サムネイル
+description: PDF先頭ページサムネの意図スタブ。
+tags: [median, plans, v0.7.0, pdf]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # PDF サムネイル
 
 - **状態**: 意図スタブ

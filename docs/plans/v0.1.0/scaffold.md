@@ -1,3 +1,11 @@
+---
+type: Plan
+title: v0.1.0 — Go スキャフォールド
+description: packages/go のディレクトリ骨格のみを用意する計画。
+tags: [median, plans, v0.1.0, go]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # v0.1.0 — Go スキャフォールド
 
 - **状態**: 方針確定

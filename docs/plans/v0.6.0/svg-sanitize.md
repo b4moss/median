@@ -1,3 +1,11 @@
+---
+type: Plan
+title: SVG サニタイズ
+description: SVGから危険なscript等を除去する方針。
+tags: [median, plans, v0.6.0, svg]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # SVG サニタイズ
 
 - **状態**: 方針確定

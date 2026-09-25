@@ -1,3 +1,11 @@
+---
+type: Plan
+title: コア API（Store / Delete / Get）
+description: 公開API・入出力・Get/Delete の仕様詳細。
+tags: [median, plans, v0.2.0, api]
+timestamp: 2026-09-25T05:28:00Z
+---
+
 # コア API（Store / Delete / Get）
 
 - **状態**: 仕様詳細
@@ -21,11 +29,12 @@
 ### 返却
 
 ```text
-{ id?, path, mime, size, hash?, storageKey, variants? }
+{ id?, path, mime, size, width?, height?, hash?, storageKey, variants? }
 ```
 
 - DB 非使用時は `id` を持たない場合がある
-- `variants` は派生（サムネ等）を生成した場合のみ
+- `width` / `height` は寸法が分かるとき（画像等）。不明なら省略または null
+- `variants` は派生（サムネ等）を生成した場合のみ。各要素はサムネイル **key** で区別する（[v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)）
 - `storageKey` は実際に使用したストレージ key（必須で含める）
 
 ## Delete / Get の識別
