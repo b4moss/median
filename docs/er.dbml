@@ -13,6 +13,7 @@ Table media {
   size bigint [not null, note: 'バイトサイズ']
   hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
   original_id bigint [note: 'NULLならオリジナル。派生は親を参照。型は id に合わせる（デフォルト integer、UUID/ULID 時は text）']
+  variant_key varchar(64) [note: '派生プリセット key。オリジナルは NULL。サムネイル key 名']
   created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値。未指定時は default actor']
   owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値。未指定時は default actor']
   status text [not null, default: 'active', note: 'アプリ側の状態。median Delete は物理削除（論理削除は当面スコープ外）']
@@ -21,6 +22,7 @@ Table media {
   indexes {
     hash
     original_id
+    (original_id, variant_key) [unique, note: '同一親に対し同じ variant_key は一つ']
     (owned_by, status)
     created_at
   }

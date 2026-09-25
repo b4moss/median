@@ -25,7 +25,7 @@
 ```
 
 - DB 非使用時は `id` を持たない場合がある
-- `variants` は派生（サムネ等）を生成した場合のみ
+- `variants` は派生（サムネ等）を生成した場合のみ。各要素はサムネイル **key** で区別する（[v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)）
 - `storageKey` は実際に使用したストレージ key（必須で含める）
 
 ## Delete / Get の識別

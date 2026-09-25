@@ -38,6 +38,7 @@
 | `hash` | SHA-256（重複抑止） |
 | `created_at` | 作成日時 |
 | `original_id` | オリジナルへの自己参照。派生は子行 |
+| `variant_key` | 派生のプリセット key（オリジナルは NULL。サムネイル key 名） |
 | `created_by` | 作成者（Store 時は `owned_by` と同値） |
 | `owned_by` | 所有者（Store 時は `created_by` と同値） |
 | `status` | 状態（text。アプリ側定義。median の Delete では使わない） |

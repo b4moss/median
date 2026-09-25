@@ -8,6 +8,7 @@
 ## 受け入れ（短い）
 
 - 画像の圧縮・本体リサイズ・サムネイル生成がオプションとして動く
+- サムネイルは config の名前付きプリセット（key / 基準サイズ / fit / 圧縮率）と `defaultKeys` で制御できる
 - 対象フォーマット（JPEG/PNG/WebP/GIF・アニメ GIF/APNG）を扱える
 - TDD・CI（Go path）あり
 
