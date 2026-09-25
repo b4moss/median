@@ -1,0 +1,64 @@
+# DB・メディアメタデータ
+
+- **状態**: 仕様詳細
+- **マイルストーン**: `v0.2.0`
+- **関連**: [er.dbml](../../er.dbml) / [core-api.md](./core-api.md) / [storage.md](./storage.md)
+
+## crudian
+
+- DB 操作は **b4moss/crudian** を用いる（MySQL / Postgres / SQLite / libSQL）
+- 呼び出し側が CRUD / DB ハンドルを注入できる
+- 注入がなければ config から DB / crudian を内部生成してもよい
+
+## スキーマ方式
+
+1. 独自テーブルを `migrations/` でマイグレーション（正本はリポジトリ直下。Go は **goose**）
+2. 既存メディアテーブルへ、必須カラムをマッピング
+
+論理 ER の正本: [er.dbml](../../er.dbml)（実装スキーマは migrations が正）
+
+## 必須カラム（マッピングの正）
+
+| カラム | 役割 |
+| --- | --- |
+| `id` | 主キー（DB 使用時の正） |
+| `path` | ストレージルートからの相対パス（storage key は持たない） |
+| `mime` | MIME タイプ |
+| `size` | バイトサイズ |
+| `hash` | SHA-256（重複抑止） |
+| `created_at` | 作成日時 |
+| `original_id` | オリジナルへの自己参照。派生は子行 |
+| `created_by` | 作成者（Store 時は `owned_by` と同値） |
+| `owned_by` | 所有者（Store 時は `created_by` と同値） |
+| `status` | 状態（text。アプリ側定義。median の Delete では使わない） |
+
+## `id` 採番
+
+- 選択可: `auto increment` / `UUID v4` / `UUID v7` / `ULID`
+- **デフォルトは auto increment**
+- `original_id` の物理型は `id` に合わせる
+
+## actor（`created_by` / `owned_by`）
+
+- Store 時は両カラムに**同値**を挿入
+- 未指定時は config の default actor を使う
+- default actor も無ければエラー
+
+## SHA-256 重複
+
+- DB 使用時、同一 hash の再 Store はデフォルトで**既存レコード返却**（成功）
+- オプションで拒否に切替可
+
+## Delete
+
+- **物理削除**（行とストレージファイルを削除）
+- 親削除時、`original_id` 参照の子レコードと子ファイルもカスケード削除
+- 論理削除は当面スコープ外
+
+## DB とストレージの原子性
+
+- ライブラリが補償する（片方だけ成功した場合、可能な範囲で戻す）
+
+----
+
+以上

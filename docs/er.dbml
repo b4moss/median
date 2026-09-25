@@ -1,5 +1,5 @@
-// median default media table schema
-// Logical contract for DB-backed mode and existing-table column mapping.
+// median default media ER (logical)
+// docs/er.dbml — design ER; implementation migrations under /migrations are source of truth.
 // Physical id type depends on configured strategy (default: auto increment):
 // auto increment | UUID v4 | UUID v7 | ULID
 // Migration source of truth: /migrations (Go uses goose)
