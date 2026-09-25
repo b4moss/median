@@ -1,0 +1,24 @@
+codecov:
+  require_ci_to_pass: false
+
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+    patch:
+      default:
+        informational: true
+
+comment: false
+
+ignore:
+  - "packages/js/dist/**"
+  - "packages/js/coverage/**"
+  - "packages/php/vendor/**"
+  - "packages/php/coverage/**"
+  - "packages/php/.phpunit.cache/**"
+  - "**/*.test.ts"
+  - "**/*.test.js"
+  - "**/*.d.ts"
+  - "**/tests/**"
