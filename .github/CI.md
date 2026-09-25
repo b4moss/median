@@ -6,8 +6,8 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 
 | Workflow | Role |
 | --- | --- |
-| `ci.yml` | PR/push tests for `packages/{go,js,php}` with path filters (docs-only does not start CI) |
-| `codeql.yml` | CodeQL on main / develop / `dev-v*` |
+| `ci.yml` | PR/push tests for `packages/{go,js,php}` with path filters (docs-only does not start CI). Needs `pull-requests: read` for dorny/paths-filter on PRs |
+| `codeql.yml` | CodeQL on **PR → main only** (crudian と同型). Private + no GHAS → `upload: never`. Scaffold 段階は `actions` 言語のみ |
 | `scorecard.yml` | OpenSSF Scorecard on default branch |
 | `release-on-tag.yml` | GitHub Release for `v*`, `packages/go/v*`, `packages/php/v*` |
 | `publish-npm.yml` | Publish `@b4moss/median` from `release` when JS changed |
