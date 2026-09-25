@@ -1,8 +1,8 @@
 # ストレージ・パス・ファイル名
 
 - **状態**: 仕様詳細
-- **マイルストーン**: `v0.2.0`（Local FS）。S3 は unscheduled
-- **関連**: [core-api.md](./core-api.md)
+- **マイルストーン**: `v0.2.0`（Local FS）。S3 は `v0.5.0`
+- **関連**: [core-api.md](./core-api.md) / [v0.5.0/s3-adapter.md](../v0.5.0/s3-adapter.md)
 
 ## Adapter（v0.2.0）
 

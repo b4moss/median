@@ -2,7 +2,7 @@
 
 - **状態**: 仕様詳細
 - **マイルストーン**: `v0.2.0`
-- **関連**: [storage.md](./storage.md) / [db-media.md](./db-media.md) / [media-pipeline.md](./media-pipeline.md)
+- **関連**: [storage.md](./storage.md) / [v0.3.0/db-media.md](../v0.3.0/db-media.md) / [v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)
 
 ## 公開語彙
 

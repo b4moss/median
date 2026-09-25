@@ -1,8 +1,9 @@
 # DB・メディアメタデータ
 
 - **状態**: 仕様詳細
-- **マイルストーン**: `v0.2.0`
-- **関連**: [er.dbml](../../er.dbml) / [core-api.md](./core-api.md) / [storage.md](./storage.md)
+- **マイルストーン**: `v0.3.0`
+- **前提**: `v0.2.0`
+- **関連**: [er.dbml](../../er.dbml) / [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.2.0/storage.md](../v0.2.0/storage.md)
 
 ## crudian
 
