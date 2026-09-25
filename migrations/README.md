@@ -29,6 +29,7 @@ libSQL を使う場合は SQLite 系として扱う（crudian の libSQL アダ�
 | `size` bigint | `BIGINT` | `BIGINT` | `INTEGER` |
 | `hash` char(64) | `CHAR(64)` | `CHAR(64)` | `TEXT` |
 | `created_by` / `owned_by` | `VARCHAR(255)` | `VARCHAR(255)` | `TEXT` |
+| `variant_key` | `VARCHAR(64) NULL` | `VARCHAR(64) NULL` | `TEXT NULL` |
 | `status` text | `TEXT` | `TEXT` | `TEXT` |
 | `created_at` timestamptz | `DATETIME(6)` | `TIMESTAMPTZ` | `TEXT`（ISO-8601） |
 

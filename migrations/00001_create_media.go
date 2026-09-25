@@ -85,11 +85,13 @@ CREATE TABLE media (
   size BIGINT NOT NULL,
   hash CHAR(64) NULL,
   original_id BIGINT NULL,
+  variant_key VARCHAR(64) NULL,
   created_by VARCHAR(255) NULL,
   owned_by VARCHAR(255) NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   UNIQUE KEY media_path_unique (path),
+  UNIQUE KEY media_original_variant_unique (original_id, variant_key),
   KEY media_hash_idx (hash),
   KEY media_original_id_idx (original_id),
   KEY media_owned_by_status_idx (owned_by, status),
@@ -107,11 +109,13 @@ CREATE TABLE media (
   size BIGINT NOT NULL,
   hash CHAR(64) NULL,
   original_id VARCHAR(64) NULL,
+  variant_key VARCHAR(64) NULL,
   created_by VARCHAR(255) NULL,
   owned_by VARCHAR(255) NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   UNIQUE KEY media_path_unique (path),
+  UNIQUE KEY media_original_variant_unique (original_id, variant_key),
   KEY media_hash_idx (hash),
   KEY media_original_id_idx (original_id),
   KEY media_owned_by_status_idx (owned_by, status),
@@ -129,11 +133,13 @@ CREATE TABLE media (
   size BIGINT NOT NULL,
   hash CHAR(64) NULL,
   original_id BIGINT NULL REFERENCES media (id),
+  variant_key VARCHAR(64) NULL,
   created_by VARCHAR(255) NULL,
   owned_by VARCHAR(255) NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT media_path_unique UNIQUE (path)
+  CONSTRAINT media_path_unique UNIQUE (path),
+  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key)
 );
 CREATE INDEX media_hash_idx ON media (hash);
 CREATE INDEX media_original_id_idx ON media (original_id);
@@ -150,11 +156,13 @@ CREATE TABLE media (
   size BIGINT NOT NULL,
   hash CHAR(64) NULL,
   original_id VARCHAR(64) NULL REFERENCES media (id),
+  variant_key VARCHAR(64) NULL,
   created_by VARCHAR(255) NULL,
   owned_by VARCHAR(255) NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT media_path_unique UNIQUE (path)
+  CONSTRAINT media_path_unique UNIQUE (path),
+  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key)
 );
 CREATE INDEX media_hash_idx ON media (hash);
 CREATE INDEX media_original_id_idx ON media (original_id);
@@ -171,11 +179,13 @@ CREATE TABLE media (
   size INTEGER NOT NULL,
   hash TEXT NULL,
   original_id INTEGER NULL REFERENCES media (id),
+  variant_key TEXT NULL,
   created_by TEXT NULL,
   owned_by TEXT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  CONSTRAINT media_path_unique UNIQUE (path)
+  CONSTRAINT media_path_unique UNIQUE (path),
+  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key)
 );
 CREATE INDEX media_hash_idx ON media (hash);
 CREATE INDEX media_original_id_idx ON media (original_id);
@@ -192,11 +202,13 @@ CREATE TABLE media (
   size INTEGER NOT NULL,
   hash TEXT NULL,
   original_id TEXT NULL REFERENCES media (id),
+  variant_key TEXT NULL,
   created_by TEXT NULL,
   owned_by TEXT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  CONSTRAINT media_path_unique UNIQUE (path)
+  CONSTRAINT media_path_unique UNIQUE (path),
+  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key)
 );
 CREATE INDEX media_hash_idx ON media (hash);
 CREATE INDEX media_original_id_idx ON media (original_id);
