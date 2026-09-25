@@ -8,7 +8,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | --- | --- |
 | `v0.1.0` | Go スキャフォールドのみ。`packages/go` 配下にディレクトリを用意し、ファイルは `.gitkeep` のみ |
 | `v0.2.0` | 実行可能な Go 版の完成。第2弾 MVP 範囲（コア + Local FS + DB + 画像圧縮/リサイズ/サムネ）を TDD で実装し、テストおよび CI（Go path）を含む |
-| （以降） | SVG サニタイズ、PDF サムネ、S3 互換 Adapter、TS（`packages/js`）、PHP（`packages/php`）を順次 |
+| （以降） | SVG サニタイズ、PDF サムネ、S3 互換 Adapter（署名付き GET URL 含む）、TS（`packages/js`）、PHP（`packages/php`）を順次 |
 
 ## 開発順
 
