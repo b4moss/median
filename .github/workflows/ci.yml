@@ -1,0 +1,191 @@
+name: CI
+
+# Align with docs/charter/git-rule.md:
+# - PR → develop (from dev-v*): CI required
+# - PR → main (from develop): CI as a precaution
+# - PR → release: no CI (release merge is CD via publish workflows)
+# Badge / Codecov upload runs only on main push.
+# Docs-only changes do not start this workflow.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/js/**"
+      - "packages/go/**"
+      - "packages/php/**"
+      - ".github/workflows/ci.yml"
+      - "codecov.yml"
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "dev-v*"
+    paths:
+      - "packages/js/**"
+      - "packages/go/**"
+      - "packages/php/**"
+      - ".github/workflows/ci.yml"
+      - "codecov.yml"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    name: detect path changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      js: ${{ steps.filter.outputs.js }}
+      go: ${{ steps.filter.outputs.go }}
+      php: ${{ steps.filter.outputs.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Filter paths
+        id: filter
+        uses: dorny/paths-filter@0e4a8c6effa4802afeda77dc8d303f8176d7dfad # v3.0.4
+        with:
+          filters: |
+            # Only real package sources (not empty scaffold dirs).
+            js:
+              - 'packages/js/**/*.ts'
+              - 'packages/js/**/*.tsx'
+              - 'packages/js/**/*.js'
+              - 'packages/js/package.json'
+              - 'packages/js/package-lock.json'
+            go:
+              - 'packages/go/**/*.go'
+              - 'packages/go/go.mod'
+              - 'packages/go/go.sum'
+            php:
+              - 'packages/php/**/*.php'
+              - 'packages/php/composer.json'
+              - 'packages/php/composer.lock'
+
+  js:
+    name: packages/js
+    needs: changes
+    if: needs.changes.outputs.js == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/js
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        if: github.event_name == 'pull_request'
+        run: npm test
+
+      - name: Test with coverage
+        if: github.event_name == 'push'
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: packages/js/coverage/lcov.info
+          disable_search: true
+          fail_ci_if_error: false
+
+      - name: Verify production build config
+        run: npx tsc -p tsconfig.build.json --noEmit
+
+  go:
+    name: packages/go
+    needs: changes
+    if: needs.changes.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/go
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Setup Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: "1.26.x"
+          cache-dependency-path: packages/go/go.sum
+
+      - name: Test
+        if: github.event_name == 'pull_request'
+        run: go test ./...
+
+      - name: Test with coverage
+        if: github.event_name == 'push'
+        run: go test ./... -coverprofile=coverage.out
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: packages/go/coverage.out
+          disable_search: true
+          fail_ci_if_error: false
+
+  php:
+    name: packages/php
+    needs: changes
+    if: needs.changes.outputs.php == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/php
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # 2.35.5
+        with:
+          php-version: "8.2"
+          extensions: mbstring
+          coverage: pcov
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Test
+        if: github.event_name == 'pull_request'
+        run: vendor/bin/phpunit
+
+      - name: Test with coverage
+        if: github.event_name == 'push'
+        run: vendor/bin/phpunit --coverage-clover coverage/clover.xml
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: packages/php/coverage/clover.xml
+          disable_search: true
+          fail_ci_if_error: false
