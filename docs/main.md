@@ -18,7 +18,7 @@
 - 画像に対する圧縮をするかしないか
   - オリジナルをそのままアップロード
   - 圧縮する場合、ファイルフォーマットと圧縮率を指定可能
-    - この場合、アップロード先にはオリジナルを保存しないことになる
+    - この場合、アップロード先にはオリジナルを保存しないことになる（デフォルト。フラグで上書き可能）
 - サムネイル生成機能
   - サイズ指定(長辺 or 短辺基準を選択可能。または双方絶対指定)
     - アスペクト比変更時の処理指定(cover / contain / squeeze)
@@ -58,6 +58,89 @@ Adapter化し、選択できるようにする
     - その場合、APIが必要とするカラムを持っていて、それとマッピング出来ることが前提となる
   - DBは、MySQL/Postgres/SQLite/libSQLに対応する(Adapter化、b4moss/crudianを使用)
 
+## 契約（決定事項）
+
+### 1. Upload の入出力
+
+- **入力**: `bytes | stream` に加え、コアで `multipart` / `base64` も受け付ける。オプションで mime / filename 等を付与可能
+- **返却**: `{ id?, path, mime, size, hash? }` および `variants`（サムネ等の派生一覧）
+  - DB非使用時は `id` を持たない場合がある
+  - `variants` は派生を生成した場合のみ含まれる
+
+### 2. Delete / Get のキー
+
+- **DB非使用時**: `path` が正。削除・取得は path で行う
+- **DB使用時**: `id` が正。path は派生情報として保持・返却する
+  - メタデータ条件検索はスコープ外（CRUD client の責務）
+  - id 指定の get / delete は median の責務に含む
+
+### 3. 加工パイプラインとオリジナル保存
+
+- 圧縮とサムネイル生成は**独立したオプション**
+- 圧縮 ON 時のデフォルトは、アップロード先にオリジナルを保存しない
+  - 「オリジナル保存」フラグで上書き可能
+- 画像**本体**に対して長辺（または短辺・絶対サイズ）の制約を付けた場合は、実装者がオリジナル保存を**明示的に否定した**とみなす
+  - その場合、制約適用後のバイナリが保存対象となる（原寸ファイルは書かない）
+- 推奨処理順（実装の目安）:
+  1. 入力解釈（multipart / base64 / bytes / stream）
+  2. MIME 検査・サイズ上限
+  3. SVG サニタイズ（対象時）
+  4. 本体のリサイズ制約（指定時）
+  5. 圧縮（指定時）
+  6. サムネイル生成（指定時）
+  7. ストレージ保存 +（DB使用時）メタデータ記録
+
+### 4. DB 最小カラム（既存テーブルマッピングの正）
+
+median が必須とするカラム集合は次のとおり。既存テーブル利用時も、これらとマッピングできることが前提となる。
+
+| カラム | 役割 |
+| --- | --- |
+| `id` | 主キー（DB使用時の正） |
+| `path` | ストレージ上のパス |
+| `mime` | MIMEタイプ |
+| `size` | バイトサイズ |
+| `hash` | SHA-256（重複抑止に使用） |
+| `created_at` | 作成日時 |
+| `original_id` | オリジナルへの自己参照。派生（サムネ等）は子行 |
+| `created_by` | 作成者 |
+| `owned_by` | 所有者 |
+| `status` | 状態（text） |
+
+## デフォルトテーブルスキーマ（DBML）
+
+独自スキーマでマイグレーションする場合のデフォルト定義。実体は `docs/default-schema.dbml` を正とする。
+
+```dbml
+Table media {
+  id uuid [pk, note: 'DB使用時の正キー']
+  path varchar(2048) [not null, unique, note: 'ストレージ上のパス']
+  mime varchar(255) [not null]
+  size bigint [not null, note: 'バイトサイズ']
+  hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
+  original_id uuid [note: 'NULLならオリジナル。派生は親を参照']
+  created_by varchar(255) [note: '作成者識別子']
+  owned_by varchar(255) [note: '所有者識別子']
+  status text [not null, default: 'active', note: '例: active / archived / deleted。制約はアプリ側']
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    hash
+    original_id
+    (owned_by, status)
+    created_at
+  }
+}
+
+Ref: media.original_id > media.id
+```
+
+補足:
+
+- `status` は仕様上 **text**（DB Enum にはしない）。値の意味はアプリ側で定義する
+- サムネイル等の派生は同一テーブルの子行とし、`original_id` で親（オリジナル）を指す
+- 既存テーブルマッピング時は、上表の論理カラムを物理カラム名へ対応づけられればよい
+
 ## スコープ外
 
 - DBテーブルからメタデータによる検索(CRUD clientの責務とする)
@@ -75,4 +158,4 @@ Adapter化し、選択できるようにする
 
 -----
 
-以上  
+以上
