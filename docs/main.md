@@ -122,10 +122,30 @@ median が必須とするカラム集合は次のとおり。既存テーブル�
 | 4 | MIME 判定 | 呼び出し側の宣言 MIME のみ。allow/deny は config の配列で設定 |
 | 5 | multipart / base64 入力境界 | 抽出済み part bytes/stream と base64（または data URL）を主とする。HTTP Request 丸ごとの multipart パースは薄いヘルパとして任意提供 |
 | 6 | path / shardian | 元ファイル名をサニタイズして使用。shardian の幅・深さ等パラメータは config 必須 |
-| 7 | `id` 採番 | `auto increment` / `UUID v4` / `UUID v7` / `ULID` を config で選択可能 |
-| 8 | `created_by` / `owned_by` | Store 時に同値で挿入する |
-| 9 | Delete カスケード | 親削除時に子レコード（`original_id` 参照）と子ファイルもすべて削除 |
+| 7 | `id` 採番 | `auto increment` / `UUID v4` / `UUID v7` / `ULID` を config で選択可能。**デフォルトは auto increment**（第3弾） |
+| 8 | `created_by` / `owned_by` | Store 時に同値で挿入する。未指定時は config の default actor、なければエラー（第3弾） |
+| 9 | Delete カスケード | 親削除時に子レコード（`original_id` 参照）と子ファイルもすべて削除。**物理削除**（論理削除は当面スコープ外・第3弾） |
 | 10 | Get の返却範囲 | デフォルトはメタデータのみ。オプションでバイナリ（bytes / stream）同梱可 |
+
+### 第3弾（残り決定事項）
+
+実装前の一問一答で固定した事項。
+
+| # | 項目 | 決定 |
+|---|------|------|
+| 1 | DB＋ストレージの原子性 | ライブラリが補償する（片方成功時は可能な範囲で戻す） |
+| 2 | `status` と削除 | `Delete` は物理削除（行＋ファイル）。論理削除はこのライブラリの責務外（当面） |
+| 3 | 画像フォーマット（初回） | JPEG / PNG / WebP / GIF。アニメ GIF・APNG も対象 |
+| 4 | マイグレーション配置 | リポジトリ直下 `migrations/` を正とする。Go は **goose**。他言語はそれぞれ適切なマイグレーションツールを用いる |
+| 5 | 初回ロードマップ版切り | `v0.1.0` = Go スキャフォールドのみ（ディレクトリ＋`.gitkeep`）。`v0.2.0` = 実行可能な Go 完成（TDD・テスト＋CI） |
+| 6 | Adapter / bucket 指定 | 各 `Store` / `Delete` / `Get` 呼び出しで Adapter または bucket を明示可能。未指定時はデフォルト |
+| 7 | SVG サニタイズ | script / event handler / external 参照を除去。基本図形・style は許可。npm **svgo** のサニタイズ周りを参考（TS はそのまま利用可） |
+| 8 | TS パッケージ配置 | `packages/js` |
+| 9 | `id` デフォルト戦略 | **auto increment** |
+| 10 | actor 未指定時 | config の default actor があればそれを使い、なければエラー |
+| 11 | ファイル名サニタイズ | Unicode は残す。危険文字（`/\\..\0` 等）と先頭末尾の `.` / 空白のみ除去 |
+
+ロードマップの正本は `docs/roadmap.md`。
 
 ## デフォルトテーブルスキーマ（DBML）
 
@@ -133,15 +153,15 @@ median が必須とするカラム集合は次のとおり。既存テーブル�
 
 ```dbml
 Table media {
-  id varchar(64) [pk, note: 'DB使用時の正キー。型は採番方式に依存: serial/bigserial または UUID/ULID 文字列']
-  path varchar(2048) [not null, unique, note: 'ストレージ上のパス']
+  id varchar(64) [pk, note: 'DB使用時の正キー。型は採番方式に依存: serial/bigserial または UUID/ULID 文字列。デフォルトは auto increment']
+  path varchar(2048) [not null, unique, note: 'ストレージ上のパス。ファイル名は Unicode 可、危険文字と端の . / 空白を除去']
   mime varchar(255) [not null]
   size bigint [not null, note: 'バイトサイズ']
   hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
   original_id varchar(64) [note: 'NULLならオリジナル。派生は親を参照。型は id に合わせる']
-  created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値']
-  owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値']
-  status text [not null, default: 'active', note: '例: active / archived / deleted。制約はアプリ側']
+  created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値。未指定時は default actor']
+  owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値。未指定時は default actor']
+  status text [not null, default: 'active', note: 'アプリ側の状態。median Delete は物理削除（論理削除は当面スコープ外）']
   created_at timestamptz [not null, default: `now()`]
 
   indexes {
@@ -157,8 +177,9 @@ Ref: media.original_id > media.id
 
 補足:
 
-- `id` / `original_id` の物理型は採番方式（auto increment / UUID v4 / UUID v7 / ULID）に合わせてマイグレーション側で切り替える。上の DBML は論理表現
-- `status` は仕様上 **text**（DB Enum にはしない）。値の意味はアプリ側で定義する
+- `id` / `original_id` の物理型は採番方式（デフォルト auto increment / UUID v4 / UUID v7 / ULID）に合わせてマイグレーション側で切り替える。上の DBML は論理表現
+- マイグレーション SQL 等の正本はリポジトリ直下 `migrations/`（Go は goose）
+- `status` は仕様上 **text**（DB Enum にはしない）。値の意味はアプリ側で定義する。median の `Delete` は物理削除であり、論理削除は当面行わない
 - サムネイル等の派生は同一テーブルの子行とし、`original_id` で親（オリジナル）を指す
 - 親 Delete 時は子レコードおよび子ファイルもカスケード削除する
 - 既存テーブルマッピング時は、上表の論理カラムを物理カラム名へ対応づけられればよい
@@ -166,11 +187,19 @@ Ref: media.original_id > media.id
 ## スコープ外
 
 - DBテーブルからメタデータによる検索(CRUD clientの責務とする)
+- 論理削除（`status` 更新による削除。当面。`Delete` は物理削除）
 - 動画、音声ファイルの変換・圧縮・リサイズ
   - アップロード・削除以外の責務は負わない
 - マルウェア・ウイルス検知
   - 必要であれば別のソリューションを組み合わせてもらう
   - そうでなければ、危険なバイナリはMIMEタイプで弾く
+
+## パッケージ配置
+
+- `packages/go` — Go（開発順: 1番目）
+- `packages/js` — TypeScript / bun・Node.js（開発順: 2番目）
+- `packages/php` — PHP（開発順: 3番目）
+- `migrations/` — スキーママイグレーション正本（言語横断）
 
 ## ランタイム
 

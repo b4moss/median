@@ -1,18 +1,19 @@
 // median default media table schema
 // Logical contract for DB-backed mode and existing-table column mapping.
-// Physical id type depends on configured strategy:
+// Physical id type depends on configured strategy (default: auto increment):
 // auto increment | UUID v4 | UUID v7 | ULID
+// Migration source of truth: /migrations (Go uses goose)
 
 Table media {
-  id varchar(64) [pk, note: 'DB使用時の正キー。型は採番方式に依存: serial/bigserial または UUID/ULID 文字列']
-  path varchar(2048) [not null, unique, note: 'ストレージ上のパス']
+  id varchar(64) [pk, note: 'DB使用時の正キー。型は採番方式に依存: serial/bigserial または UUID/ULID 文字列。デフォルトは auto increment']
+  path varchar(2048) [not null, unique, note: 'ストレージ上のパス。ファイル名は Unicode 可、危険文字と端の . / 空白を除去']
   mime varchar(255) [not null]
   size bigint [not null, note: 'バイトサイズ']
   hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
   original_id varchar(64) [note: 'NULLならオリジナル。派生は親を参照。型は id に合わせる']
-  created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値']
-  owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値']
-  status text [not null, default: 'active', note: '例: active / archived / deleted。制約はアプリ側']
+  created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値。未指定時は default actor']
+  owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値。未指定時は default actor']
+  status text [not null, default: 'active', note: 'アプリ側の状態。median Delete は物理削除（論理削除は当面スコープ外）']
   created_at timestamptz [not null, default: `now()`]
 
   indexes {
