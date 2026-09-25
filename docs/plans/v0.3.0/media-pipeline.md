@@ -2,24 +2,24 @@
 type: Plan
 title: メディア加工パイプライン
 description: 圧縮・リサイズ・サムネイルプリセットの仕様詳細。
-tags: [median, plans, v0.4.0, media]
-timestamp: 2026-09-25T05:28:00Z
+tags: [median, plans, v0.3.0, media]
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # メディア加工パイプライン
 
 - **状態**: 仕様詳細
-- **マイルストーン**: `v0.4.0`
-- **前提**: `v0.2.0`（必須）。DB 連携サムネ自己参照は `v0.3.0` 前提
-- **関連**: [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.3.0/db-media.md](../v0.3.0/db-media.md)
+- **マイルストーン**: `v0.3.0`
+- **前提**: `v0.2.0`（必須）。DB 連携サムネ自己参照は同版の [db-media.md](./db-media.md) と併用
+- **関連**: [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [db-media.md](./db-media.md)
 
-## 範囲（v0.4.0）
+## 範囲（v0.3.0）
 
 - 画像の圧縮（する / しない）
 - 本体のリサイズ制約（長辺 / 短辺 / 絶対指定）
 - サムネイル生成（名前付きプリセット、複数 key、個別圧縮率）
 
-**含めない**: SVG サニタイズ（`v0.6.0`）、PDF 先頭ページサムネ（`v0.7.0`）
+**含めない**: SVG サニタイズ（`v0.4.0`）、PDF 先頭ページサムネ（`v0.4.0`）
 
 ## 画像フォーマット（初回）
 
@@ -86,13 +86,13 @@ thumbnails: {
 
 - Store 返却の `variants` は、生成したサムネを **key 付き**で列挙する
 - 本体・派生いずれも、寸法が分かる場合は **`width` / `height`（px）** をメタに載せる（不明なら NULL）
-- DB 使用時、派生は同一テーブルの子行（`original_id` → 親）。区別用に **`variant_key`**（text、オリジナルは NULL）を持つ（[er.dbml](../../er.dbml) / [db-media.md](../v0.3.0/db-media.md)）
+- DB 使用時、派生は同一テーブルの子行（`original_id` → 親）。区別用に **`variant_key`**（text、オリジナルは NULL）を持つ（[er.dbml](../../er.dbml) / [db-media.md](./db-media.md)）
 
 ## 推奨処理順
 
 1. 入力解釈（multipart / base64 / bytes / stream）
 2. MIME 検査・サイズ上限
-3. SVG サニタイズ（対象時・`v0.6.0`）
+3. SVG サニタイズ（対象時・`v0.4.0`）
 4. 本体のリサイズ制約（指定時）
 5. 圧縮（指定時）
 6. サムネイル生成（`defaultKeys` または呼び出し上書きの key 群）

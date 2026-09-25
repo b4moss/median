@@ -3,7 +3,7 @@ type: Plan
 title: DB・メディアメタデータ
 description: crudian・カラム・削除・原子性・採番の仕様詳細。
 tags: [median, plans, v0.3.0, db]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # DB・メディアメタデータ
@@ -11,7 +11,7 @@ timestamp: 2026-09-25T05:28:00Z
 - **状態**: 仕様詳細
 - **マイルストーン**: `v0.3.0`
 - **前提**: `v0.2.0`
-- **関連**: [er.dbml](../../er.dbml) / [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.2.0/storage.md](../v0.2.0/storage.md)
+- **関連**: [er.dbml](../../er.dbml) / [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.2.0/storage.md](../v0.2.0/storage.md) / [media-pipeline.md](./media-pipeline.md)
 
 ## crudian
 

@@ -3,14 +3,14 @@ type: Plan
 title: コア API（Store / Delete / Get）
 description: 公開API・入出力・Get/Delete の仕様詳細。
 tags: [median, plans, v0.2.0, api]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-25T06:30:00Z
 ---
 
 # コア API（Store / Delete / Get）
 
 - **状態**: 仕様詳細
 - **マイルストーン**: `v0.2.0`
-- **関連**: [storage.md](./storage.md) / [v0.3.0/db-media.md](../v0.3.0/db-media.md) / [v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)
+- **関連**: [storage.md](./storage.md) / [v0.3.0/db-media.md](../v0.3.0/db-media.md) / [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md)
 
 ## 公開語彙
 
@@ -34,7 +34,7 @@ timestamp: 2026-09-25T05:28:00Z
 
 - DB 非使用時は `id` を持たない場合がある
 - `width` / `height` は寸法が分かるとき（画像等）。不明なら省略または null
-- `variants` は派生（サムネ等）を生成した場合のみ。各要素はサムネイル **key** で区別する（[v0.4.0/media-pipeline.md](../v0.4.0/media-pipeline.md)）
+- `variants` は派生（サムネ等）を生成した場合のみ。各要素はサムネイル **key** で区別する（[v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md)）
 - `storageKey` は実際に使用したストレージ key（必須で含める）
 
 ## Delete / Get の識別
