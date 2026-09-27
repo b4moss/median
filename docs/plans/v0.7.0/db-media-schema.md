@@ -2,22 +2,22 @@
 type: Plan
 title: DB メディアスキーマ（パス列・テーブル名）
 description: file_path / file_name / original_file_name への再編とテーブル名設定可能化の方針。
-tags: [median, plans, unscheduled, db, schema]
-timestamp: 2026-09-27T03:04:17Z
+tags: [median, plans, v0.7.0, db, schema]
+timestamp: 2026-09-27T03:07:27Z
 ---
 
 # DB メディアスキーマ（パス列・テーブル名）
 
-- **状態**: 方針確定（マイグレーション連携は後日詳細）
-- **マイルストーン**: `unscheduled`
+- **状態**: 方針確定（マイグレーション連携は後日詳細・本マイルストーン外）
+- **マイルストーン**: `v0.7.0`
 - **前提**: 現行 [specs/v0.3.0/db-media.md](../../specs/v0.3.0/db-media.md) / [er.dbml](../../er.dbml)
-- **関連**: [roadmap.md](../../roadmap.md) / [migrations/README.md](../../../migrations/README.md)
+- **関連**: [README.md](./README.md) / [roadmap.md](../../roadmap.md) / [migrations/README.md](../../../migrations/README.md)
 
 ## 目的
 
 メディア行のパス・ファイル名表現を明確にし、組み込み先でテーブル名を変えられるようにする。
 
-## 採用する方針
+## 採用する方針（v0.7.0 スコープ）
 
 ### 1. パス／ファイル名カラムの再編
 
@@ -42,21 +42,22 @@ timestamp: 2026-09-27T03:04:17Z
 - Repo・DDL 生成・Down は指定名を使う
 - 仕様上ある「既存メディアテーブルへ必須カラムをマッピング」を実装側で満たすため、**カラム名マッピングも併せて許容する**（最低限パス系のリネームに耐える）
 
-## やらぬこと（本計画の範囲外）
+## やらぬこと（本マイルストーンの範囲外）
 
 - 必須メタデータ列（mime / size / 派生・actor 等）の削除や大幅削減
 - `hash` のグローバル UNIQUE 化
+- マイグレーションコマンドとホスト連携（下記「後日詳細」）
 
 ## 後日詳細（未採択・検討延期）
 
 ### 2. マイグレーションコマンドとホスト連携
 
-他プロダクトのマイグレーションシステムへどう載せるか（DDL 出力・goose embed・ホスト任せ等）は **後日検討**。実装マイルストーン割当時に別節または別 plans で詳細化する。
+他プロダクトのマイグレーションシステムへどう載せるか（DDL 出力・goose embed・ホスト任せ等）は **後日検討**。`v0.7.0` スコープ外。必要なら別マイルストーンまたは `unscheduled` で詳細化する。
 
-## 実装時に触る正本（版割当後）
+## 実装時に触る正本
 
 - `docs/er.dbml`
-- `docs/specs/` の DB メディア仕様（現行は v0.3.0）
+- `docs/specs/` の DB メディア仕様（現行は v0.3.0。完了後は本版の specs へ）
 - `migrations/` および Go / JS の schema・repo
 - 必要なら `docs/tests/`
 

@@ -12,7 +12,7 @@ okf_version: "0.1"
 * [main.md](main.md) - プロダクト目的・スコープ・技術方針のハブ
 * [roadmap.md](roadmap.md) - マイルストーン一覧
 * [er.dbml](er.dbml) - デフォルト media テーブルの論理 ER
-* [plans](plans/) - これからやる内容（unscheduled）
+* [plans](plans/) - これからやる内容（`v0.7.0` / unscheduled）
 * [specs](specs/) - 現行バージョンに存在する機能の仕様正本（v0.1〜v0.6）
 * [tests](tests/) - テスト仕様
 * [e2e](../e2e/) - E2E ハーネス（v0.6.0）
