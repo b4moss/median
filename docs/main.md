@@ -3,7 +3,7 @@ type: Hub
 title: median
 description: ファイル操作を抽象化するDDD向けライブラリの目的・スコープ・技術方針ハブ。
 tags: [median, hub]
-timestamp: 2026-09-27T01:40:00Z
+timestamp: 2026-09-27T02:55:00Z
 ---
 
 # median

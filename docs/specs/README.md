@@ -3,7 +3,7 @@ type: Index
 title: specs
 description: 現行バージョンに存在する機能の仕様正本の置き場。
 tags: [median, specs, index]
-timestamp: 2026-09-27T02:40:00Z
+timestamp: 2026-09-27T02:55:00Z
 ---
 
 # specs
