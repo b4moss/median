@@ -11,7 +11,7 @@ timestamp: 2026-09-27T01:45:00Z
 - **状態**: 意図スタブ
 - **マイルストーン**: `unscheduled`（旧 `v0.6.0` 候補。PHP は版未割当）
 - **前提**: Go / JS の契約語彙が先行していること
-- **関連**: [main.md](../../main.md) / [specs/v0.5.0/](../../specs/v0.5.0/) / [specs/v0.6.0/](../../specs/v0.6.0/)（E2E 出荷済） / [roadmap.md](../../roadmap.md)
+- **関連**: [README.md](../../README.md) / [specs/packages-js/](../../specs/packages-js/) / [specs/e2e/](../../specs/e2e/)（E2E 出荷済） / [roadmap.md](../../roadmap.md)
 
 ## 目的
 

@@ -37,7 +37,7 @@ npm run build
 ```
 
 API: [`packages/js/README.md`](./packages/js/README.md)  
-受け入れテスト: [`docs/tests/v0.9.0.md`](./docs/tests/v0.9.0.md) / 仕様: [`docs/specs/v0.9.0/`](./docs/specs/v0.9.0/)
+受け入れテスト: [`docs/tests/ddl-cli/ddl-cli.md`](./docs/tests/ddl-cli/ddl-cli.md) / 仕様: [`docs/specs/ddl-cli/`](./docs/specs/ddl-cli/)
 
 **リリース:** ルートタグ `vX.Y.Z` は `package.json` の `version` と一致させる。そのツリーを `release` に push すると、registry と内容が異なるときだけ npm publish（[`.github/CI.md`](./.github/CI.md)）。GitHub Actions の Trusted Publishing を利用。
 
@@ -70,7 +70,7 @@ go test ./...
 | `github.com/b4moss/median/packages/go/cmd/median` | CLI（`migrate dump`） |
 
 利用: [`packages/go/README.md`](./packages/go/README.md)  
-仕様: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)〜[`v0.4.0/`](./docs/specs/v0.4.0/) / テスト: [`docs/tests/`](./docs/tests/)
+仕様: [`docs/specs/core-api/`](./docs/specs/core-api/)〜[`docs/specs/svg-sanitize/`](./docs/specs/svg-sanitize/) / テスト: [`docs/tests/`](./docs/tests/)
 
 **リリース:** `VERSION` に合わせたタグ `packages/go/vX.Y.Z`。ルートタグ `vX.Y.Z` だけでは Go は公開されない。
 
@@ -80,15 +80,15 @@ go test ./...
 
 ## E2E
 
-出荷済マイルストーン **`v0.6.0`**: RustFS + POSIX LocalFS、CRUD+DB メタ、サムネ（Go/JS）。通常 CI には含めない — 手元では `./e2e/run.sh`（版上げ前に推奨）、Actions は [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) の `workflow_dispatch`。仕様: [`docs/specs/v0.6.0/`](./docs/specs/v0.6.0/)
+出荷済マイルストーン **`v0.6.0`**: RustFS + POSIX LocalFS、CRUD+DB メタ、サムネ（Go/JS）。通常 CI には含めない — 手元では `./e2e/run.sh`（版上げ前に推奨）、Actions は [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) の `workflow_dispatch`。仕様: [`docs/specs/e2e/`](./docs/specs/e2e/)
 
 ## ドキュメント
 
 | 文書 | 内容 |
 |-----|----------|
-| [`docs/main.md`](./docs/main.md) | プロダクトハブ（目的・スコープ・技術方針） |
+| [`docs/README.md`](./docs/README.md) | プロダクト pillar（目的・スコープ・技術方針） |
 | [`docs/roadmap.md`](./docs/roadmap.md) | マイルストーン |
-| [`docs/specs/`](./docs/specs/) | 出荷済仕様（v0.1〜v0.6） |
+| [`docs/specs/`](./docs/specs/) | 現行仕様（ドメイン切り） |
 | [`docs/plans/`](./docs/plans/) | 今後の計画（PHP は unscheduled） |
 | [`docs/tests/`](./docs/tests/) | TDD 受け入れ仕様 |
 | [`docs/charter/`](./docs/charter/) | 憲章（Git / SemVer / TDD など） |

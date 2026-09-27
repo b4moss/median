@@ -56,7 +56,7 @@ UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、�
 | `MEDIAN_TABLE_NAME` | 識別子（デフォルト `media`） | テーブル名（goose 正本） |
 
 - Go / JS の DDL 生成は同内容に同期
-- **ホストへの適用**: [`median migrate dump`](../docs/specs/v0.9.0/ddl-cli.md) で SQL を出し、ホストの migrate に載せる（公式）
+- **ホストへの適用**: [`median migrate dump`](../docs/specs/ddl-cli/ddl-cli.md) で SQL を出し、ホストの migrate に載せる（公式）
 - ルートでの `goose -dir migrations ...` 直叩きは参考（開発・検証用）。ライブラリ配布物には goose 正本は含まれない
 - ランタイムの `MigrateUp` / `migrateUp` はテスト・使い捨て DB 向け
 

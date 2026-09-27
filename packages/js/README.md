@@ -20,7 +20,7 @@ npm install @b4moss/median
 npx @b4moss/median migrate dump --dialect postgres --id-strategy auto_increment --table media
 ```
 
-SQL goes to stdout. See [docs/specs/v0.9.0/](../../docs/specs/v0.9.0/).
+SQL goes to stdout. See [docs/specs/ddl-cli/](../../docs/specs/ddl-cli/).
 
 ## Develop
 
@@ -44,8 +44,8 @@ npm run build
 
 ## Docs
 
-- Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/), [v0.7.0/](../../docs/specs/v0.7.0/), [v0.9.0/](../../docs/specs/v0.9.0/)
-- Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md), [v0.7.0.md](../../docs/tests/v0.7.0.md), [v0.9.0.md](../../docs/tests/v0.9.0.md)
-- E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
+- Specs: [docs/specs/packages-js/](../../docs/specs/packages-js/), [db-media](../../docs/specs/db-media/), [ddl-cli](../../docs/specs/ddl-cli/)
+- Acceptance tests: [docs/tests/packages-js/packages-js.md](../../docs/tests/packages-js/packages-js.md), [db-media](../../docs/tests/db-media/), [ddl-cli](../../docs/tests/ddl-cli/)
+- E2E (shared): [e2e/](../../e2e/) / [docs/specs/e2e/](../../docs/specs/e2e/)
 - CI / publish: [.github/CI.md](../../.github/CI.md) (`release` + Trusted Publisher)
 - Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)

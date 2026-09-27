@@ -11,7 +11,7 @@ go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
   migrate dump --dialect postgres --id-strategy auto_increment --table media
 ```
 
-SQL goes to stdout (redirect into the host app's migrations). See [docs/specs/v0.9.0/](../../docs/specs/v0.9.0/).
+SQL goes to stdout (redirect into the host app's migrations). See [docs/specs/ddl-cli/](../../docs/specs/ddl-cli/).
 
 ## Features
 
@@ -39,8 +39,8 @@ SQL goes to stdout (redirect into the host app's migrations). See [docs/specs/v0
 go test ./...
 ```
 
-Specs: [docs/specs/v0.2.0/](../../docs/specs/v0.2.0/)–[v0.4.0/](../../docs/specs/v0.4.0/), [v0.7.0/](../../docs/specs/v0.7.0/)–[v0.9.0/](../../docs/specs/v0.9.0/)  
-Acceptance tests: [docs/tests/v0.2.0.md](../../docs/tests/v0.2.0.md)–[v0.4.0.md](../../docs/tests/v0.4.0.md), [v0.7.0.md](../../docs/tests/v0.7.0.md)–[v0.9.0.md](../../docs/tests/v0.9.0.md)  
-E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
+Specs: [core-api](../../docs/specs/core-api/)–[svg-sanitize](../../docs/specs/svg-sanitize/) / [pdf-thumbnail](../../docs/specs/pdf-thumbnail/), [db-media](../../docs/specs/db-media/), [go-module-path](../../docs/specs/go-module-path/), [ddl-cli](../../docs/specs/ddl-cli/)  
+Acceptance tests: [core-api](../../docs/tests/core-api/) / [storage](../../docs/tests/storage/) / … / [db-media](../../docs/tests/db-media/), [go-module-path](../../docs/tests/go-module-path/), [ddl-cli](../../docs/tests/ddl-cli/)  
+E2E (shared): [e2e/](../../e2e/) / [docs/specs/e2e/](../../docs/specs/e2e/)
 
 Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)
