@@ -24,6 +24,7 @@ TDD の入力となるテスト仕様を置く。書き方・氷山パターン�
 | [packages-js/](./packages-js/) | TypeScript / `packages/js` |
 | [e2e/](./e2e/) | E2E（L1/S1・CRUD+DB・サムネ） |
 | [go-module-path/](./go-module-path/) | Go モジュールパス整合 |
+| [ddl-cli/](./ddl-cli/) | DDL 生成 CLI（`median migrate dump`） |
 
 版ごとの歴史資料は [`_archived/history/`](../_archived/history/) を参照。
 

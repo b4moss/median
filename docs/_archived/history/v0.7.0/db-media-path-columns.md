@@ -52,12 +52,12 @@ timestamp: 2026-09-27T03:23:29Z
 
 - 物理正本は `migrations/`（`00001` を置き換え。ALTER `00002` は出さない）
 - Go / JS の DDL 生成は同内容に同期
-- ホスト migrate 連携（DDL 出力 CLI・goose embed 等）は**本版スコープ外**
+- ホスト migrate 連携の現行正本は [`specs/ddl-cli/ddl-cli.md`](../../../specs/ddl-cli/ddl-cli.md)（`median migrate dump`）。本版時点ではスコープ外だった
 
 ## パッケージ版
 
-- Go: `0.7.0`（タグ `packages/go/v0.7.0`）
-- npm `@b4moss/median`: `0.7.0`（ルートタグ `v0.7.0`）
+- Go: `0.7.0`（タグ `packages/go/v0.7.0`）— 現行 Go は `0.9.0` を参照
+- npm `@b4moss/median`: `0.7.0`（ルートタグ `v0.7.0`）— 現行 npm は `0.9.0` を参照
 
 ----
 

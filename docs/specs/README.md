@@ -23,6 +23,7 @@ timestamp: 2026-09-27T05:00:00Z
 | [packages-js/](./packages-js/) | TypeScript（`packages/js`） |
 | [e2e/](./e2e/) | E2E（RustFS + POSIX、Go/JS） |
 | [go-module-path/](./go-module-path/) | Go モジュールパス整合 |
+| [ddl-cli/](./ddl-cli/) | DDL 生成 CLI（`median migrate dump`） |
 
 未実装は [plans/](../plans/)（現在は [unscheduled/](../plans/unscheduled/) のみ）。  
 完了マイルストーンの版索引は [`_archived/history/`](../_archived/history/) を参照。

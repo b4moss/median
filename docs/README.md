@@ -36,7 +36,7 @@ OKF の版索引は [`index.md`](./index.md)（`okf_version: "0.1"`）。本文�
 ## 技術方針
 
 - 他の `-an` 系（shardian / crudian）と同様の開発方針を主軸とする
-- 開発順は **Go → TypeScript（`packages/js`）→ E2E → DB スキーマ →（未割当）PHP**
+- 開発順は **Go → TypeScript（`packages/js`）→ E2E → DB スキーマ（`v0.7.0`）→ Go module path（`v0.8.0`）→ DDL CLI（`v0.9.0`）→（未割当）PHP**
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
 - **現行仕様**は `docs/specs/`（ドメイン切り）、これからやる内容は `docs/plans/`（未割当は `plans/unscheduled/`）
@@ -46,8 +46,8 @@ OKF の版索引は [`index.md`](./index.md)（`okf_version: "0.1"`）。本文�
 
 | パス | 内容 | 現状 |
 |------|------|------|
-| `packages/go` | Go（開発順 1） | 出荷済 `v0.8.0`（モジュールパス `github.com/b4moss/median/packages/go`） |
-| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.7.0`（npm `@b4moss/median`） |
+| `packages/go` | Go（開発順 1） | 出荷済 `v0.9.0`（DDL CLI。モジュール `github.com/b4moss/median/packages/go`） |
+| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.9.0`（DDL CLI / npm `@b4moss/median`） |
 | `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |
 
