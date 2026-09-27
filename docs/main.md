@@ -34,11 +34,11 @@ timestamp: 2026-09-27T01:40:00Z
 ## 技術方針
 
 - 他の `-an` 系（shardian / crudian）と同様の開発方針を主軸とする
-- 開発順は **Go → TypeScript（`packages/js`）→ PHP**
+- 開発順は **Go → TypeScript（`packages/js`）→ E2E →（未割当）PHP**
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
-- **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`
-- テスト仕様は `docs/tests/`（TDD）
+- **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`（未割当は `plans/unscheduled/`）
+- テスト仕様は `docs/tests/`（TDD）。E2E は `v0.6.0` で追加予定
 
 ## パッケージ配置
 
@@ -46,7 +46,7 @@ timestamp: 2026-09-27T01:40:00Z
 |------|------|------|
 | `packages/go` | Go（開発順 1） | 出荷済 `v0.4.0`（タグ `packages/go/v0.4.0`） |
 | `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.5.0`（npm `@b4moss/median`） |
-| `packages/php` | PHP（開発順 3） | 未着手（`v0.6.0`） |
+| `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |
 
 ## ランタイム
@@ -62,7 +62,7 @@ timestamp: 2026-09-27T01:40:00Z
 | [roadmap.md](./roadmap.md) | マイルストーン |
 | [er.dbml](./er.dbml) | デフォルト media テーブルの論理 ER |
 | [specs/](./specs/) | 現行仕様（v0.1〜v0.5） |
-| [plans/](./plans/) | 未実装計画（v0.6） |
+| [plans/](./plans/) | 未実装計画（v0.6 E2E / unscheduled） |
 | [tests/](./tests/) | テスト仕様 |
 | [charter/](./charter/) | 憲章 |
 | [override-charter.md](./override-charter.md) | 憲章オーバーライド（現状なし） |
