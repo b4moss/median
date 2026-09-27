@@ -357,15 +357,11 @@ v0.6.0 のシナリオ ID（L1/S1・C-L/C-S・T-L/T-S）は維持する。変更
 
 ## 版外（本ファイルで検証しない）
 
-- マイグレーションコマンド / ホスト migrate 連携（DDL 出力 CLI・goose embed 等）
+- ホスト migrate 向け DDL CLI（`median migrate dump`）→ 受け入れは [`../ddl-cli/ddl-cli.md`](../ddl-cli/ddl-cli.md)
+- goose embed / ホストへの自動 migrate プラグイン（非採用）
 - `hash` の UNIQUE 化・部分 UNIQUE
 - 公開 API フィールド名 `path` のリネーム
 - 既存 DB からの自動 ALTER アップグレード
-
-----
-
-以上
-
 
 ----
 

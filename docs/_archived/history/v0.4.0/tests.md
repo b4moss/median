@@ -11,7 +11,7 @@ timestamp: 2026-09-25T11:40:00Z
 対象マイルストーン: `v0.4.0`（Go SVG サニタイズ・PDF 先頭ページサムネ）  
 製品: [`../main.md`](../../../README.md)  
 仕様: [`../specs/svg-sanitize/`](../specs/svg-sanitize/)（[svg-sanitize.md](../specs/svg-sanitize/svg-sanitize.md) / [pdf-thumbnail.md](../specs/pdf-thumbnail/pdf-thumbnail.md)）  
-前提: [`./v0.2.0.md`](../../../tests/core-api/core-api.md) / [`./v0.3.0.md`](../../../specs/db-media/db-media.md)  
+前提: [`core-api`](../../../tests/core-api/core-api.md) / [`db-media`](../../../specs/db-media/db-media.md)  
 ロードマップ: [`../roadmap.md`](../roadmap.md)  
 書き方: charter [`tdd.md`](../../../charter/tdd.md)（氷山パターン）
 

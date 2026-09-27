@@ -30,6 +30,8 @@ go install github.com/b4moss/median/packages/go/cmd/median@v0.9.0
 
 ## Step-by-step (Go host)
 
+Shared host workflow (all languages): [root README](../../README.md).
+
 ### 1. Add the module
 
 ```bash

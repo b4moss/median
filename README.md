@@ -23,40 +23,55 @@ Versions are **independent per language**. Check the current line in each port�
 
 ## Choose a language port
 
-| Port | Package | Language hub |
-|------|---------|----------------|
+| Port | Package | Language hub (install, Config, CLI details) |
+|------|---------|-----------------------------------------------|
 | **Go** | `github.com/b4moss/median/packages/go` | [`packages/go/README.md`](./packages/go/README.md) |
 | **TypeScript** | `@b4moss/median` | [`packages/js/README.md`](./packages/js/README.md) |
 | **PHP** | — | Not scheduled — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md) |
 
-Install commands, import paths, Config examples, and CLI flags live in the **language hub**. This root README is the shared host workflow.
+This root README is the **shared host workflow**. Port-specific install commands, import paths, `New` / `createMedian` examples, and full CLI flags live only in the language hubs above.
+
+---
+
+## Prerequisites
+
+| | Go host | JS / Node host |
+|--|---------|----------------|
+| Runtime | Go **1.26+** | Node.js **24+** |
+| Package | `github.com/b4moss/median/packages/go@v0.9.0` | `@b4moss/median@0.9.0` |
+| DB (optional) | GORM-backed dialect via crudian | better-sqlite3 at runtime; DDL dump still supports mysql / postgres / sqlite3 |
+| Storage | Local path and/or S3-compatible endpoint | Same |
+
+You do **not** need this monorepo cloned to use published packages. Clone only for contributing or running E2E.
 
 ---
 
 ## Host usage (step by step)
 
-This is the recommended production path for a new app that owns its own migrations.
+Recommended production path when **your app owns migrations**.
 
 ### Step 1 — Pick a port and install
 
-- Go: see [`packages/go/README.md`](./packages/go/README.md) (`go get …/packages/go@v0.9.0`)
-- JS: see [`packages/js/README.md`](./packages/js/README.md) (`npm install @b4moss/median`)
+- Go → [`packages/go/README.md`](./packages/go/README.md)  
+  `go get github.com/b4moss/median/packages/go@v0.9.0`
+- JS → [`packages/js/README.md`](./packages/js/README.md)  
+  `npm install @b4moss/median`
 
-### Step 2 — Decide table name and ID strategy
+### Step 2 — Decide table name, ID strategy, dialect
 
-Defaults:
+Use the **same values** for the DDL dump and for runtime config.
 
-| Setting | Default |
-|---------|---------|
-| Table | `media` |
-| ID strategy | `auto_increment` (`uuid_v4` / `uuid_v7` / `ulid` also supported) |
-| Dialect | one of `mysql` \| `postgres` \| `sqlite3` |
+| Setting | Default | Alternatives |
+|---------|---------|--------------|
+| Table | `media` | any identifier accepted by `NormalizeTableName` |
+| ID strategy | `auto_increment` | `uuid_v4` · `uuid_v7` · `ulid` |
+| Dialect | — (required for dump) | `mysql` \| `postgres` \| `sqlite3` |
 
-You will use the **same values** for the DDL dump and for runtime config.
+Skip this step only if you run **without DB** (storage-only) — see [Without a media DB](#without-a-media-db) below.
 
 ### Step 3 — Dump DDL into *your* migrations
 
-median does **not** run your production migrate for you. Generate SQL and commit it to the host app’s migrate tool (goose, Prisma, Flyway, knex, …).
+median does **not** run production migrate for you. Generate SQL and commit it to the host migrate tool (goose, Prisma, Flyway, knex, …).
 
 ```bash
 # Go
@@ -70,9 +85,14 @@ npx @b4moss/median migrate dump \
   > migrations/XXXX_median_media.sql
 ```
 
-- **stdout** = SQL only (safe to redirect)
-- **stderr** = errors / usage
+| Stream | Content |
+|--------|---------|
+| **stdout** | SQL only (safe to redirect into a migration file) |
+| **stderr** | errors / usage |
+| Exit code | `0` on success, non-zero on bad flags |
+
 - Spec: [`docs/specs/ddl-cli/`](./docs/specs/ddl-cli/)
+- Schema reference: [`migrations/README.md`](./migrations/README.md)
 
 Then run your usual `migrate up` in CI / deploy.
 
@@ -118,6 +138,25 @@ Configure pipeline and storages in the language Config. Details and constraints 
 
 ---
 
+## Without a media DB
+
+Omit DB config entirely. median still Store / Get / Delete against Local FS or S3; there is no metadata row and no `migrate dump` step. Wiring examples: language hubs (leave `DB` / `db` unset).
+
+---
+
+## Common pitfalls
+
+| Pitfall | Fix |
+|---------|-----|
+| Dump flags ≠ runtime Config | Match `--table` / `--id-strategy` / dialect with `TableName` / `IDStrategy` |
+| Expecting median to `migrate up` in prod | Use host migrate + `migrate dump`; `MigrateUp` / `migrateUp` are for tests / throwaway DBs |
+| Redirecting stderr into the SQL file | Capture **stdout only**; check stderr separately |
+| Go `go get` 404 from proxy | Module path is `…/packages/go`; tag is `packages/go/vX.Y.Z` — see [`go-module-path`](./docs/specs/go-module-path/) |
+| Confusing public `path` with DB column | API field stays `path`; physical column is `file_path` |
+| PDF thumbs with no renderer | Inject a renderer in Config; median does not ship a PDF engine |
+
+---
+
 ## Quick CLI cheat sheet
 
 ```text
@@ -127,6 +166,7 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 | | Go | JS |
 |--|----|----|
 | Run | `go run …/cmd/median@v0.9.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
+| Install binary | `go install …/cmd/median@v0.9.0` | `npm i -g @b4moss/median` (or local `npx`) |
 | Library twin | `db.CreateMediaSQL` | `createMediaSQL` |
 
 Full flags and examples: language hubs · [`migrations/README.md`](./migrations/README.md).
@@ -146,6 +186,8 @@ Full flags and examples: language hubs · [`migrations/README.md`](./migrations/
 | [`migrations/`](./migrations/) | Schema reference (goose-oriented source of truth) |
 | [`e2e/`](./e2e/) | E2E harness |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD / publish tags |
+| [`packages/go/README.md`](./packages/go/README.md) | Go language hub |
+| [`packages/js/README.md`](./packages/js/README.md) | JS language hub |
 
 ## License
 

@@ -34,6 +34,8 @@ npx @b4moss/median migrate dump --dialect postgres --table media
 
 ## Step-by-step (Node host)
 
+Shared host workflow (all languages): [root README](../../README.md).
+
 ### 1. Install
 
 ```bash

@@ -23,13 +23,26 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 
 ## 言語ポートを選ぶ
 
-| ポート | パッケージ | 言語ハブ（詳細はここ） |
-|--------|------------|------------------------|
+| ポート | パッケージ | 言語ハブ（install・Config・CLI 詳細） |
+|--------|------------|----------------------------------------|
 | **Go** | `github.com/b4moss/median/packages/go` | [`packages/go/README.md`](./packages/go/README.md) |
 | **TypeScript** | `@b4moss/median` | [`packages/js/README.md`](./packages/js/README.md) |
 | **PHP** | — | 未割当 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md) |
 
-インストール・import・Config 例・CLI フラグの詳細は **言語ハブ** に委譲。このルート README は共通のホスト組み込み手順。
+このルート README は **共通のホスト組み込み手順**。インストール・import・`New` / `createMedian` 例・CLI フラグの詳細は上の言語ハブのみに置く。
+
+---
+
+## 前提
+
+| | Go ホスト | JS / Node ホスト |
+|--|-----------|------------------|
+| ランタイム | Go **1.26+** | Node.js **24+** |
+| パッケージ | `github.com/b4moss/median/packages/go@v0.9.0` | `@b4moss/median@0.9.0` |
+| DB（任意） | GORM + crudian | ランタイムは better-sqlite3。DDL dump は mysql / postgres / sqlite3 対応 |
+| ストレージ | Local パスおよび／または S3 互換 | 同上 |
+
+公開パッケージを使うだけなら、この monorepo の clone は不要。貢献や E2E 実行時のみ clone する。
 
 ---
 
@@ -39,18 +52,22 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 
 ### ステップ 1 — ポートを選んでインストール
 
-- Go: [`packages/go/README.md`](./packages/go/README.md)（`go get …/packages/go@v0.9.0`）
-- JS: [`packages/js/README.md`](./packages/js/README.md)（`npm install @b4moss/median`）
+- Go → [`packages/go/README.md`](./packages/go/README.md)  
+  `go get github.com/b4moss/median/packages/go@v0.9.0`
+- JS → [`packages/js/README.md`](./packages/js/README.md)  
+  `npm install @b4moss/median`
 
-### ステップ 2 — テーブル名と ID 戦略を決める
+### ステップ 2 — テーブル名・ID 戦略・方言を決める
 
-| 項目 | デフォルト |
-|------|------------|
-| テーブル | `media` |
-| ID 戦略 | `auto_increment`（`uuid_v4` / `uuid_v7` / `ulid` 可） |
-| 方言 | `mysql` \| `postgres` \| `sqlite3` のいずれか |
+DDL dump と実行時 Config で **同じ値**を使う。
 
-DDL dump と実行時 Config で **同じ値**を使います。
+| 項目 | デフォルト | 選択肢 |
+|------|------------|--------|
+| テーブル | `media` | `NormalizeTableName` が許す識別子 |
+| ID 戦略 | `auto_increment` | `uuid_v4` · `uuid_v7` · `ulid` |
+| 方言 | —（dump 時は必須） | `mysql` \| `postgres` \| `sqlite3` |
+
+**DB なし**で使う場合はこのステップを飛ばす → [メディア DB なし](#メディア-db-なし)。
 
 ### ステップ 3 — DDL をホストの migrations に出す
 
@@ -68,9 +85,14 @@ npx @b4moss/median migrate dump \
   > migrations/XXXX_median_media.sql
 ```
 
-- **stdout** = SQL のみ（リダイレクト向き）
-- **stderr** = エラー / usage
+| ストリーム | 内容 |
+|------------|------|
+| **stdout** | SQL のみ（マイグレーションファイルへのリダイレクト向き） |
+| **stderr** | エラー / usage |
+| 終了コード | 成功 `0`、不正フラグは非ゼロ |
+
 - 仕様: [`docs/specs/ddl-cli/`](./docs/specs/ddl-cli/)
+- スキーマ説明: [`migrations/README.md`](./migrations/README.md)
 
 その後、いつもどおり `migrate up`。
 
@@ -113,6 +135,25 @@ Delete(path) → オブジェクト削除（設定により DB・派生も）
 
 ---
 
+## メディア DB なし
+
+DB 設定を省略すれば、Local FS / S3 だけで Store / Get / Delete できる。メタ行はなく、`migrate dump` も不要。配線例は言語ハブ（`DB` / `db` を設定しない）。
+
+---
+
+## よくある落とし穴
+
+| 落とし穴 | 対処 |
+|----------|------|
+| dump のフラグ ≠ 実行時 Config | `--table` / `--id-strategy` / 方言を `TableName` / `IDStrategy` と一致させる |
+| 本番で median に `migrate up` を期待する | ホスト migrate + `migrate dump`。`MigrateUp` / `migrateUp` はテスト・使い捨て DB 向け |
+| stderr まで SQL ファイルに混ぜる | **stdout だけ**をリダイレクト。stderr は別途確認 |
+| Go `go get` が proxy で 404 | モジュールは `…/packages/go`、タグは `packages/go/vX.Y.Z` — [`go-module-path`](./docs/specs/go-module-path/) |
+| 公開 `path` と DB 列の混同 | API フィールドは `path`、物理列は `file_path` |
+| PDF サムネなのにレンダラ未注入 | Config でレンダラを渡す。median は PDF エンジンを同梱しない |
+
+---
+
 ## CLI 早見表
 
 ```text
@@ -122,6 +163,7 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 | | Go | JS |
 |--|----|----|
 | 実行 | `go run …/cmd/median@v0.9.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
+| バイナリ | `go install …/cmd/median@v0.9.0` | `npm i -g @b4moss/median`（またはローカル `npx`） |
 | ライブラリ同等 | `db.CreateMediaSQL` | `createMediaSQL` |
 
 詳細は言語ハブ · [`migrations/README.md`](./migrations/README.md)。
@@ -141,6 +183,8 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 | [`migrations/`](./migrations/) | スキーマ正本の説明 |
 | [`e2e/`](./e2e/) | E2E ハーネス |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD・公開タグ |
+| [`packages/go/README.md`](./packages/go/README.md) | Go 言語ハブ |
+| [`packages/js/README.md`](./packages/js/README.md) | JS 言語ハブ |
 
 ## License
 
