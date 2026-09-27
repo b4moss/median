@@ -68,7 +68,7 @@ go test ./...
 
 マイルストーン未割当（`unscheduled`）。`packages/php` 予定 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md)
 
-次のマイルストーンは **E2E テスト**（`v0.6.0`）— [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/)
+次のマイルストーンは **E2E テスト**（`v0.6.0`: Docker 上 S3 互換 + POSIX LocalFS。通常 CI 外）— [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/)
 
 ## ドキュメント
 
