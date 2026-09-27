@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { extname } from "node:path";
+import { basename, extname } from "node:path";
 import Database from "better-sqlite3";
 import { checkMIME } from "../internal/mime.js";
 import { resolveFilename, type NameMode, DEFAULT_RANDOM_HEX_LEN } from "../internal/filename.js";
@@ -121,7 +121,7 @@ async function readInput(
 function mediaToStoreResult(row: Media, storageKey: string, defaultKey: string): StoreResult {
   return {
     id: row.id,
-    path: row.path,
+    path: row.filePath,
     mime: row.mime,
     size: row.size,
     hash: row.hash,
@@ -252,7 +252,11 @@ export async function createMedian(cfg: Config): Promise<Median> {
       }
       sqlite = new Database(cfg.db.dsn);
     }
-    repo = createMediaRepo(sqlite, cfg.db.idStrategy);
+    repo = createMediaRepo(sqlite, {
+      idStrategy: cfg.db.idStrategy,
+      tableName: cfg.db.tableName,
+      columns: cfg.db.columns,
+    });
     dbEnabled = true;
   }
 
@@ -418,7 +422,9 @@ export async function createMedian(cfg: Config): Promise<Median> {
       if (dbEnabled && repo) {
         try {
           const created = repo.create({
-            path: relPath,
+            filePath: relPath,
+            fileName: baseName,
+            originalFileName: opt.filename ?? "",
             mime: opt.mime,
             size: out.size,
             hash,
@@ -431,7 +437,9 @@ export async function createMedian(cfg: Config): Promise<Median> {
           for (let i = 0; i < varResults.length; i++) {
             const vr = varResults[i]!;
             const child = repo.create({
-              path: vr.path,
+              filePath: vr.path,
+              fileName: basename(vr.path),
+              originalFileName: "",
               mime: vr.mime,
               size: vr.size,
               hash: vr.hash,
@@ -474,13 +482,13 @@ export async function createMedian(cfg: Config): Promise<Median> {
       let firstErr: unknown;
       for (const ch of children) {
         try {
-          await ad.delete(ch.path);
+          await ad.delete(ch.filePath);
         } catch (err) {
           if (!isStorageNotFound(err) && !firstErr) firstErr = err;
         }
       }
       try {
-        await ad.delete(parent.path);
+        await ad.delete(parent.filePath);
       } catch (err) {
         if (!isStorageNotFound(err) && !firstErr) firstErr = err;
       }
@@ -504,7 +512,7 @@ export async function createMedian(cfg: Config): Promise<Median> {
       const { key, adapter: ad } = resolveKey(opt.storageKey);
       const out: GetResult = {
         id: row.id,
-        path: row.path,
+        path: row.filePath,
         mime: row.mime,
         size: row.size,
         hash: row.hash,
@@ -513,7 +521,7 @@ export async function createMedian(cfg: Config): Promise<Median> {
         height: row.height,
       };
       if (opt.withBody) {
-        const { body } = await ad.get(row.path);
+        const { body } = await ad.get(row.filePath);
         out.body = body;
       }
       return out;

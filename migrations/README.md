@@ -3,7 +3,7 @@ type: Reference
 title: migrations
 description: 方言解釈型gooseマイグレーションの正本説明。
 tags: [median, migrations, goose]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-27T03:23:29Z
 ---
 
 # migrations
@@ -32,7 +32,9 @@ libSQL を使う場合は SQLite 系として扱う（crudian の libSQL アダ�
 | --- | --- | --- | --- |
 | `id` bigint PK AI | `BIGINT AUTO_INCREMENT` | `BIGSERIAL` | `INTEGER PRIMARY KEY AUTOINCREMENT` |
 | `original_id` | `BIGINT NULL` | `BIGINT NULL` | `INTEGER NULL` |
-| `path` varchar(2048) | `VARCHAR(2048)` | `VARCHAR(2048)` | `TEXT` |
+| `file_path` varchar(2048) | `VARCHAR(2048)` | `VARCHAR(2048)` | `TEXT` |
+| `file_name` varchar(512) | `VARCHAR(512)` | `VARCHAR(512)` | `TEXT` |
+| `original_file_name` varchar(512) | `VARCHAR(512) NULL` | `VARCHAR(512) NULL` | `TEXT NULL` |
 | `mime` varchar(255) | `VARCHAR(255)` | `VARCHAR(255)` | `TEXT` |
 | `size` bigint | `BIGINT` | `BIGINT` | `INTEGER` |
 | `width` / `height` | `INT NULL` | `INT NULL` | `INTEGER NULL` |
@@ -42,22 +44,24 @@ libSQL を使う場合は SQLite 系として扱う（crudian の libSQL アダ�
 | `status` text | `TEXT` | `TEXT` | `TEXT` |
 | `created_at` timestamptz | `DATETIME(6)` | `TIMESTAMPTZ` | `TEXT`（ISO-8601） |
 
+制約: `file_path` は UNIQUE。`hash` は INDEX のみ（UNIQUE にしない）。
+
 UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、同じ `00001` 定義内の条件分岐で `id` / `original_id` を **TEXT** にする（方言共通）。
 
-実行時は環境変数 `MEDIAN_ID_STRATEGY` で切替（未指定 = `auto_increment`）:
+実行時は環境変数で切替:
 
-| 値 | PK 型 |
-| --- | --- |
-| `auto_increment`（デフォルト） | integer / bigint AI |
-| `uuid_v4` / `uuid_v7` / `ulid` | text |
+| 変数 | 値 | 意味 |
+| --- | --- | --- |
+| `MEDIAN_ID_STRATEGY` | `auto_increment`（デフォルト） / `uuid_v4` / `uuid_v7` / `ulid` | PK 型 |
+| `MEDIAN_TABLE_NAME` | 識別子（デフォルト `media`） | テーブル名（goose 正本） |
 
-`v0.3.0` で `packages/go` から embed / Provider で読み込む（現行ファイルは配線前のため `//go:build ignore`）。
+`packages/go` / `packages/js` の `CreateMediaSQL` / `MigrateUp` も同内容（テーブル名引数あり）。
 
 ## ファイル
 
 | ファイル | 内容 |
 | --- | --- |
-| [`00001_create_media.go`](./00001_create_media.go) | media テーブル作成（dialect × id strategy の同一定義内分岐） |
+| [`00001_create_media.go`](./00001_create_media.go) | media テーブル作成（dialect × id strategy × table name） |
 
 ## 実行（実装後）
 

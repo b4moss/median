@@ -1,6 +1,6 @@
 # @b4moss/median
 
-TypeScript implementation (`packages/js`). npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (current **0.5.0**, git tag `v0.5.0`).
+TypeScript implementation (`packages/js`). npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (current **0.7.0**, git tag `v0.7.0`).
 
 Same contract vocabulary as the Go package (`packages/go`): Store / Delete / Get / PresignGet, Local and S3, optional DB, image pipeline, SVG (svgo), and PDF first-page thumbnails (`PDFRenderer` injection).
 
@@ -35,8 +35,8 @@ npm run build
 
 ## Docs
 
-- Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/)
-- Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md)
+- Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/), [v0.7.0/](../../docs/specs/v0.7.0/)
+- Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md), [v0.7.0.md](../../docs/tests/v0.7.0.md)
 - E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
 - CI / publish: [.github/CI.md](../../.github/CI.md) (`release` + Trusted Publisher)
 - Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)

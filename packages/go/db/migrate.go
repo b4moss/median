@@ -8,11 +8,12 @@ import (
 )
 
 // MigrateUp applies the media schema for dialect (mysql|postgres|sqlite3).
-func MigrateUp(ctx context.Context, db *sql.DB, dialect, idStrategy string) error {
+// Empty tableName defaults to DefaultTableName.
+func MigrateUp(ctx context.Context, db *sql.DB, dialect, idStrategy, tableName string) error {
 	if idStrategy == "" {
 		idStrategy = IDStrategyFromEnv()
 	}
-	q, err := CreateMediaSQL(dialect, idStrategy)
+	q, err := CreateMediaSQL(dialect, idStrategy, tableName)
 	if err != nil {
 		return err
 	}
@@ -24,9 +25,13 @@ func MigrateUp(ctx context.Context, db *sql.DB, dialect, idStrategy string) erro
 	return nil
 }
 
-// MigrateDown drops the media table.
-func MigrateDown(ctx context.Context, db *sql.DB) error {
-	_, err := db.ExecContext(ctx, `DROP TABLE IF EXISTS media`)
+// MigrateDown drops the media table. Empty tableName defaults to DefaultTableName.
+func MigrateDown(ctx context.Context, db *sql.DB, tableName string) error {
+	table, err := NormalizeTableName(tableName)
+	if err != nil {
+		return err
+	}
+	_, err = db.ExecContext(ctx, fmt.Sprintf(`DROP TABLE IF EXISTS %s`, table))
 	return err
 }
 

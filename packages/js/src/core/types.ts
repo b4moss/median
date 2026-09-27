@@ -22,6 +22,9 @@ export type DBConfig = {
   /** SQLite DSN / file path (used when db not provided) */
   dsn?: string;
   idStrategy?: string;
+  /** Default media */
+  tableName?: string;
+  columns?: import("../db/columns.js").ColumnMap;
 };
 
 export type Config = {

@@ -90,7 +90,9 @@ function findRow(db: Database.Database, id: string | number) {
   return db.prepare("SELECT * FROM media WHERE id = ?").get(id) as
     | {
         id: number;
-        path: string;
+        file_path: string;
+        file_name: string;
+        original_file_name: string | null;
         mime: string;
         size: number;
         hash: string;
@@ -107,7 +109,7 @@ function listChildren(db: Database.Database, parentId: string | number) {
     .prepare("SELECT * FROM media WHERE original_id = ?")
     .all(parentId) as Array<{
     id: number;
-    path: string;
+    file_path: string;
     hash: string;
     size: number;
     variant_key: string | null;
@@ -224,7 +226,7 @@ async function runCRUD(cfgBase: Record<string, unknown>, withPresign: boolean) {
   assert.ok(res.id !== undefined);
   const row = findRow(sqlite, res.id!);
   assert.ok(row);
-  assert.equal(row.path, res.path);
+  assert.equal(row.file_path, res.path);
   assert.equal(row.hash, res.hash);
   assert.equal(row.size, res.size);
   assert.equal(row.created_by, "e2e-actor");
@@ -243,7 +245,7 @@ async function runCRUD(cfgBase: Record<string, unknown>, withPresign: boolean) {
   const row2 = findRow(sqlite, res.id!);
   assert.ok(row2);
   assert.equal(row2.hash, res.hash);
-  assert.equal(row2.path, res.path);
+  assert.equal(row2.file_path, res.path);
 
   await m.delete("", { id: res.id });
   assert.equal(findRow(sqlite, res.id!), undefined);
@@ -314,7 +316,7 @@ async function runThumb(cfgBase: Record<string, unknown>) {
   const children = listChildren(sqlite, res.id!);
   assert.equal(children.length, 1);
   assert.equal(children[0]!.variant_key, "sm");
-  assert.equal(children[0]!.path, v.path);
+  assert.equal(children[0]!.file_path, v.path);
   assert.equal(children[0]!.hash, v.hash);
 
   await m.delete("", { id: res.id });

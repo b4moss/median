@@ -6,7 +6,9 @@ import {
   ID_ULID,
   ID_UUID_V4,
   ID_UUID_V7,
+  normalizeTableName,
 } from "./schema.js";
+import { withColumnDefaults, type ColumnMap, type ResolvedColumnMap } from "./columns.js";
 
 export class DBError extends Error {
   constructor(message: string) {
@@ -20,7 +22,9 @@ export const ErrInvalidInput = new DBError("db: invalid input");
 
 export type Media = {
   id?: string | number;
-  path: string;
+  filePath: string;
+  fileName: string;
+  originalFileName?: string | null;
   mime: string;
   size: number;
   width?: number | null;
@@ -34,57 +38,74 @@ export type Media = {
   createdAt?: string;
 };
 
-type Row = {
-  id: string | number;
-  path: string;
-  mime: string;
-  size: number;
-  width: number | null;
-  height: number | null;
-  hash: string;
-  original_id: string | number | null;
-  variant_key: string | null;
-  created_by: string;
-  owned_by: string;
-  status: string;
-  created_at: string;
+export type RepoOptions = {
+  idStrategy?: string;
+  tableName?: string;
+  columns?: ColumnMap;
 };
 
-function rowToMedia(row: Row): Media {
+type Row = Record<string, unknown>;
+
+function asString(v: unknown): string {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  if (Buffer.isBuffer(v)) return v.toString();
+  return String(v);
+}
+
+function asNumber(v: unknown): number {
+  if (typeof v === "number") return v;
+  if (typeof v === "bigint") return Number(v);
+  if (typeof v === "string") return Number(v);
+  return 0;
+}
+
+function rowToMedia(row: Row, c: ResolvedColumnMap): Media {
   return {
-    id: row.id,
-    path: row.path,
-    mime: row.mime,
-    size: Number(row.size),
-    width: row.width ?? null,
-    height: row.height ?? null,
-    hash: row.hash,
-    originalId: row.original_id ?? null,
-    variantKey: row.variant_key ?? null,
-    createdBy: row.created_by,
-    ownedBy: row.owned_by,
-    status: row.status,
-    createdAt: row.created_at,
+    id: row[c.id] as string | number,
+    filePath: asString(row[c.filePath]),
+    fileName: asString(row[c.fileName]),
+    originalFileName: row[c.originalFileName] == null ? null : asString(row[c.originalFileName]),
+    mime: asString(row[c.mime]),
+    size: asNumber(row[c.size]),
+    width: row[c.width] == null ? null : asNumber(row[c.width]),
+    height: row[c.height] == null ? null : asNumber(row[c.height]),
+    hash: asString(row[c.hash]),
+    originalId: (row[c.originalId] as string | number | null) ?? null,
+    variantKey: row[c.variantKey] == null ? null : asString(row[c.variantKey]),
+    createdBy: asString(row[c.createdBy]),
+    ownedBy: asString(row[c.ownedBy]),
+    status: asString(row[c.status]),
+    createdAt: asString(row[c.createdAt]),
   };
 }
 
 export class MediaRepo {
+  private readonly table: string;
+  private readonly cols: ResolvedColumnMap;
+  private readonly idStrategy: string;
+
   constructor(
     private readonly db: Database.Database,
-    private readonly idStrategy: string = ID_AUTO_INCREMENT,
-  ) {}
+    options: RepoOptions = {},
+  ) {
+    this.idStrategy = options.idStrategy || ID_AUTO_INCREMENT;
+    this.table = normalizeTableName(options.tableName);
+    this.cols = withColumnDefaults(options.columns);
+  }
 
   create(m: Media): Media {
     if (!m) {
       throw new DBError("db: invalid input");
     }
-    if (!m.path || !m.mime || !m.hash) {
-      throw new DBError("db: invalid input: path/mime/hash required");
+    if (!m.filePath || !m.fileName || !m.mime || !m.hash) {
+      throw new DBError("db: invalid input: file_path/file_name/mime/hash required");
     }
     if (!m.createdBy || !m.ownedBy) {
       throw new DBError("db: invalid input: actor required");
     }
     const status = m.status || "active";
+    const c = this.cols;
     let id: string | number | undefined;
 
     switch (this.idStrategy) {
@@ -92,8 +113,6 @@ export class MediaRepo {
         id = randomUUID();
         break;
       case ID_UUID_V7:
-        id = uuidv7();
-        break;
       case ID_ULID:
         id = uuidv7();
         break;
@@ -103,47 +122,53 @@ export class MediaRepo {
         throw new DBError(`unsupported id strategy: ${this.idStrategy}`);
     }
 
+    const cols = [
+      c.filePath,
+      c.fileName,
+      c.originalFileName,
+      c.mime,
+      c.size,
+      c.width,
+      c.height,
+      c.hash,
+      c.originalId,
+      c.variantKey,
+      c.createdBy,
+      c.ownedBy,
+      c.status,
+    ];
+    const values = [
+      m.filePath,
+      m.fileName,
+      m.originalFileName ?? null,
+      m.mime,
+      m.size,
+      m.width ?? null,
+      m.height ?? null,
+      m.hash,
+      m.originalId ?? null,
+      m.variantKey ?? null,
+      m.createdBy,
+      m.ownedBy,
+      status,
+    ];
+
     if (id !== undefined) {
       this.db
         .prepare(
-          `INSERT INTO media (id, path, mime, size, width, height, hash, original_id, variant_key, created_by, owned_by, status)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT INTO ${this.table} (${c.id}, ${cols.join(", ")})
+           VALUES (?, ${cols.map(() => "?").join(", ")})`,
         )
-        .run(
-          id,
-          m.path,
-          m.mime,
-          m.size,
-          m.width ?? null,
-          m.height ?? null,
-          m.hash,
-          m.originalId ?? null,
-          m.variantKey ?? null,
-          m.createdBy,
-          m.ownedBy,
-          status,
-        );
+        .run(id, ...values);
       return this.findById(id);
     }
 
     const info = this.db
       .prepare(
-        `INSERT INTO media (path, mime, size, width, height, hash, original_id, variant_key, created_by, owned_by, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO ${this.table} (${cols.join(", ")})
+         VALUES (${cols.map(() => "?").join(", ")})`,
       )
-      .run(
-        m.path,
-        m.mime,
-        m.size,
-        m.width ?? null,
-        m.height ?? null,
-        m.hash,
-        m.originalId ?? null,
-        m.variantKey ?? null,
-        m.createdBy,
-        m.ownedBy,
-        status,
-      );
+      .run(...values);
     return this.findById(Number(info.lastInsertRowid));
   }
 
@@ -151,36 +176,41 @@ export class MediaRepo {
     if (id === undefined || id === null || id === "") {
       throw new DBError("db: invalid input: empty id");
     }
-    const row = this.db.prepare("SELECT * FROM media WHERE id = ?").get(id) as Row | undefined;
+    const row = this.db
+      .prepare(`SELECT * FROM ${this.table} WHERE ${this.cols.id} = ?`)
+      .get(id) as Row | undefined;
     if (!row) {
       throw new DBError("db: media not found");
     }
-    return rowToMedia(row);
+    return rowToMedia(row, this.cols);
   }
 
   findByHash(hash: string): Media {
     if (!hash) {
       throw new DBError("db: invalid input: empty hash");
     }
+    const c = this.cols;
     let row = this.db
-      .prepare("SELECT * FROM media WHERE hash = ? AND variant_key IS NULL LIMIT 1")
+      .prepare(
+        `SELECT * FROM ${this.table} WHERE ${c.hash} = ? AND ${c.variantKey} IS NULL LIMIT 1`,
+      )
       .get(hash) as Row | undefined;
     if (!row) {
       row = this.db
-        .prepare("SELECT * FROM media WHERE hash = ? LIMIT 1")
+        .prepare(`SELECT * FROM ${this.table} WHERE ${c.hash} = ? LIMIT 1`)
         .get(hash) as Row | undefined;
     }
     if (!row) {
       throw new DBError("db: media not found");
     }
-    return rowToMedia(row);
+    return rowToMedia(row, this.cols);
   }
 
   listChildren(parentId: string | number): Media[] {
     const rows = this.db
-      .prepare("SELECT * FROM media WHERE original_id = ?")
+      .prepare(`SELECT * FROM ${this.table} WHERE ${this.cols.originalId} = ?`)
       .all(parentId) as Row[];
-    return rows.map(rowToMedia);
+    return rows.map((row) => rowToMedia(row, this.cols));
   }
 
   deleteById(id: string | number): void {
@@ -188,7 +218,7 @@ export class MediaRepo {
       throw new DBError("db: invalid input: empty id");
     }
     const children = this.listChildren(id);
-    const del = this.db.prepare("DELETE FROM media WHERE id = ?");
+    const del = this.db.prepare(`DELETE FROM ${this.table} WHERE ${this.cols.id} = ?`);
     for (const ch of children) {
       del.run(ch.id!);
     }
@@ -199,8 +229,11 @@ export class MediaRepo {
   }
 }
 
-export function createMediaRepo(db: Database.Database, idStrategy?: string): MediaRepo {
-  return new MediaRepo(db, idStrategy || ID_AUTO_INCREMENT);
+export function createMediaRepo(db: Database.Database, options?: RepoOptions | string): MediaRepo {
+  if (typeof options === "string") {
+    return new MediaRepo(db, { idStrategy: options });
+  }
+  return new MediaRepo(db, options || {});
 }
 
 export function isNotFound(err: unknown): boolean {
