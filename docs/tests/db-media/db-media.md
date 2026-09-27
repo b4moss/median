@@ -58,7 +58,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 #### テスト：正常系
 
 - SQLite に Up すると `media` が存在し、必須カラム（id/path/mime/size/width/height/hash/created_at/original_id/variant_key/created_by/owned_by/status）が揃う  
-  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`./v0.7.0.md`](../db-media/db-media.md)**
+  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`db-media`](../db-media/db-media.md)**
 - Down すると `media` が消える
 - `auto_increment` 戦略で整数系 PK になる
 - `uuid_v4`（または text 系戦略）で text PK の DDL が選ばれる（生成 SQL または適用結果で確認）
@@ -82,7 +82,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 
 #### テスト: 異常系
 
-- path 欠落など必須欠落は拒否する（**v0.7.0 以降は `file_path` / `file_name` / `hash` 等。[`./v0.7.0.md`](../db-media/db-media.md)**）
+- path 欠落など必須欠落は拒否する（**v0.7.0 以降は `file_path` / `file_name` / `hash` 等。[`db-media`](../db-media/db-media.md)**）
 - actor 未指定かつ DefaultActor なしは拒否する（Store 経路）
 - 一意制約（path、または original_id+variant_key）違反はエラーになる（**v0.7.0 以降の UNIQUE は `file_path`**）
 
@@ -192,7 +192,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 | 対象 | Go `packages/go`（`db` / `core`）と JS `packages/js`（`src/db` / `src/core`）の**両方** |
 | テスト DB | **SQLite**（Go: gorm + 既存系、JS: better-sqlite3）。他 dialect は DDL 生成の単体確認まで |
 | 入口 | Go: `core.New` → `Store` / `Delete` / `Get`。JS: `createMedian` → `store` / `delete` / `get` |
-| パッケージ SemVer | Go **`0.7.0`**（タグ `packages/go/v0.7.0`）/ npm **`0.7.0`**（ルートタグ `v0.7.0`） |
+| パッケージ SemVer（パス列導入時） | Go / npm **`0.7.0`**。現行ラインは **`0.9.0`** |
 | 破壊的変更 | 物理列 `path` を廃止。既存 DB への ALTER マイグレーションは提供しない（`00001` 置き換え） |
 
 ### 実装固定デフォルト

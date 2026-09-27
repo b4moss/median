@@ -8,7 +8,7 @@ timestamp: 2026-09-27T00:40:00Z
 
 # テスト仕様 — packages-js
 
-対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.7.0`）  
+対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.9.0`）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/packages-js/`](../../specs/packages-js/)（[packages-js.md](../../specs/packages-js/packages-js.md)）  
 Go 契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../svg-sanitize/`](../svg-sanitize/) / [`../pdf-thumbnail/`](../pdf-thumbnail/)  
@@ -161,7 +161,7 @@ Store 返却: `{ id?, path, mime, size, hash, storageKey, width?, height?, varia
 #### テスト：正常系
 
 - SQLite Up で `media` と必須カラムが揃う。Down で消える  
-  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`./v0.7.0.md`](../db-media/db-media.md)**
+  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`db-media`](../db-media/db-media.md)**
 - `auto_increment` で整数 PK、text 系戦略で text PK
 - Create / FindByID / FindByHash / ListChildren / DeleteByID（親削除で子行も消える）
 

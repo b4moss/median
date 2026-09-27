@@ -8,8 +8,8 @@ timestamp: 2026-09-27T04:15:00Z
 
 # Go module path alignment（v0.8.0）
 
-- **状態**: 出荷済（`VERSION` `0.8.0`、タグ `packages/go/v0.8.0`、module path 整合済み）
-- **関連**: [tests/go-module-path/](../../tests/go-module-path/)
+- **状態**: 出荷済（module path 整合済み。導入タグ `packages/go/v0.8.0`。現行パッケージ版は `packages/go/VERSION` を参照）
+- **関連**: [tests/go-module-path/](../../tests/go-module-path/) / [../ddl-cli/ddl-cli.md](../ddl-cli/ddl-cli.md)
 
 ## 背景
 
@@ -23,7 +23,7 @@ Go のネストモジュール規約ではパス末尾・ディレクトリ・�
 | Module path | `github.com/b4moss/median/packages/go` |
 | ソース | `packages/go/`（変更なし） |
 | タグ | `packages/go/v0.8.0`（変更なしの規約） |
-| SemVer | Go **`0.8.0`**（npm は据え置き `0.7.0`） |
+| SemVer（導入時） | Go **`0.8.0`**（npm は当時据え置き `0.7.0`）。現行は Go / npm とも `0.9.0` 以降 |
 | 破壊的変更 | import パスが変わる（旧パスは proxy 未解決のため実害は限定的） |
 
 ## 非目標

@@ -22,7 +22,7 @@ DB 列の現行契約: [`../db-media/`](../db-media/)（E2E の DB メタ照合�
 1. **実装テスト** — Compose・ランナー・Workflow などハーネス自体の検証（ロジック単位の正常系 / 異常系）
 2. **E2E シナリオ** — 利用者視点のクリティカル経路（別枠。ステップ列で記述）
 
-本マイルストーン導入時のパッケージ SemVer（当時 Go `0.4.0` / npm `0.5.0`）は据え置きだった。現行パッケージ版は Go `0.8.0` / npm `0.7.0`（roadmap 参照）。
+本マイルストーン導入時のパッケージ SemVer（当時 Go `0.4.0` / npm `0.5.0`）は据え置きだった。現行パッケージ版は Go / npm とも **`0.9.0`**（roadmap 参照）。
 
 ## 共通前提
 
@@ -210,7 +210,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 
 1. **C（Create）** フィクスチャ A を `Store`。返却 `id` / `path` / `hash` / `size` を記録
 2. DB で `id` の行を読む（`path` / `mime` / `size` / `hash` / `created_by` / `owned_by`）  
-   - **v0.7.0 以降**: ストレージキー列は `file_path`（必要なら `file_name` / `original_file_name` も確認可）。公開返却の `path` フィールド名は維持。[`./v0.7.0.md`](../db-media/db-media.md)
+   - **v0.7.0 以降**: ストレージキー列は `file_path`（必要なら `file_name` / `original_file_name` も確認可）。公開返却の `path` フィールド名は維持。[`db-media`](../db-media/db-media.md)
 3. **R（Read）** `Get`（id、body 付き）で本文・メタ一致
 4. **U-a（同一 hash 再 Store）** 同じバイトを再度 `Store` → **同じ `id`** が返る。DB の当該行が壊れない（hash/path 維持）
 5. **U-b（内容置換）** `Delete`(id A) のあと、異なるフィクスチャ B を `Store` → **新しい `id`**。旧 id は DB not-found、新 id のファイルと DB が B と一致

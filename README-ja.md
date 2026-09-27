@@ -7,94 +7,141 @@
 [![License](https://img.shields.io/github/license/b4moss/median)](https://github.com/b4moss/median/blob/main/LICENSE)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/b4moss/median/badge)](https://scorecard.dev/viewer/?uri=github.com/b4moss/median)
 
-DDD 向けメディアストア。バイト列をストレージへ出し入れする契約を、言語横断で共通化する。
+DDD 向けメディアストア。バイト列をストレージへ出し入れする契約を、**言語横断でひとつ**に揃える。
 
 - [English README](./README.md)
 
-中心は **Store / Delete / Get**（対応時は **PresignGet**）。Local FS・S3 Adapter、任意のメディア DB、画像パイプライン（圧縮・リサイズ・サムネ、SVG サニタイズ、PDF 先頭ページサムネ）を提供する。
+## できること
 
-版番号は **言語ごとに独立**。計画マイルストーン名と各パッケージの SemVer は一致しなくてよい（例: 過去の Go `0.4.0` と npm `0.5.0`）。現行 DDL CLI 版では Go / npm とも **`0.9.0`**。
+中心は **Store / Delete / Get**（対応時は **PresignGet**）。あわせて:
 
-## TypeScript / JavaScript
+- **Local FS** / **S3 互換** Adapter
+- 任意の **メディア DB**（テーブル名・カラムマップ）
+- 画像パイプライン（圧縮・リサイズ・サムネ）、**SVG サニタイズ**、**PDF** 先頭ページサムネ（レンダラ注入）
 
-npm パッケージ: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)**（`packages/js`）
+版番号は **言語ごとに独立**。現行ラインは各ポートの README / `VERSION` / `package.json` を見る。いま Go / npm とも **`0.9.0`**（DDL CLI）。
 
-現行: `packages/js/package.json`（現在 **`0.9.0`**）。**Node.js 24+** が必要。
+## 言語ポートを選ぶ
+
+| ポート | パッケージ | 言語ハブ（詳細はここ） |
+|--------|------------|------------------------|
+| **Go** | `github.com/b4moss/median/packages/go` | [`packages/go/README.md`](./packages/go/README.md) |
+| **TypeScript** | `@b4moss/median` | [`packages/js/README.md`](./packages/js/README.md) |
+| **PHP** | — | 未割当 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md) |
+
+インストール・import・Config 例・CLI フラグの詳細は **言語ハブ** に委譲。このルート README は共通のホスト組み込み手順。
+
+---
+
+## ホストでの使い方（ステップバイステップ）
+
+本番で「ホストが migrate を持つ」場合の推奨手順です。
+
+### ステップ 1 — ポートを選んでインストール
+
+- Go: [`packages/go/README.md`](./packages/go/README.md)（`go get …/packages/go@v0.9.0`）
+- JS: [`packages/js/README.md`](./packages/js/README.md)（`npm install @b4moss/median`）
+
+### ステップ 2 — テーブル名と ID 戦略を決める
+
+| 項目 | デフォルト |
+|------|------------|
+| テーブル | `media` |
+| ID 戦略 | `auto_increment`（`uuid_v4` / `uuid_v7` / `ulid` 可） |
+| 方言 | `mysql` \| `postgres` \| `sqlite3` のいずれか |
+
+DDL dump と実行時 Config で **同じ値**を使います。
+
+### ステップ 3 — DDL をホストの migrations に出す
+
+median は本番の migrate を代行しません。SQL を生成し、ホスト側の migrate（goose / Prisma / Flyway / knex 等）にコミットします。
 
 ```bash
-npm install @b4moss/median
-```
-
-```bash
-npx @b4moss/median migrate dump --dialect postgres --table media
-```
-
-```bash
-cd packages/js
-npm ci
-npm test
-npm run build
-```
-
-API: [`packages/js/README.md`](./packages/js/README.md)  
-受け入れテスト: [`docs/tests/ddl-cli/ddl-cli.md`](./docs/tests/ddl-cli/ddl-cli.md) / 仕様: [`docs/specs/ddl-cli/`](./docs/specs/ddl-cli/)
-
-**リリース:** ルートタグ `vX.Y.Z` は `package.json` の `version` と一致させる。そのツリーを `release` に push すると、registry と内容が異なるときだけ npm publish（[`.github/CI.md`](./.github/CI.md)）。GitHub Actions の Trusted Publishing を利用。
-
-## Go
-
-Go モジュール: **[github.com/b4moss/median/packages/go](./packages/go)**（`packages/go`）
-
-現行: `packages/go/VERSION` → **`0.9.0`**、タグ **`packages/go/v0.9.0`**。
-
-```bash
-go get github.com/b4moss/median/packages/go@v0.9.0
-```
-
-```bash
+# Go
 go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
-  migrate dump --dialect postgres --table media
+  migrate dump --dialect postgres --id-strategy auto_increment --table media \
+  > migrations/XXXX_median_media.sql
+
+# JS
+npx @b4moss/median migrate dump \
+  --dialect postgres --id-strategy auto_increment --table media \
+  > migrations/XXXX_median_media.sql
 ```
 
-```bash
-cd packages/go
-go test ./...
+- **stdout** = SQL のみ（リダイレクト向き）
+- **stderr** = エラー / usage
+- 仕様: [`docs/specs/ddl-cli/`](./docs/specs/ddl-cli/)
+
+その後、いつもどおり `migrate up`。
+
+**既存テーブル**で列名が違う場合は dump せず、Config のカラムマップを使う（[`docs/specs/db-media/`](./docs/specs/db-media/)）。
+
+### ステップ 4 — migrate 適用後にアプリを起動
+
+順番:
+
+1. ホスト migrate が media テーブルを作る  
+2. アプリが同じ `table` / `id-strategy` で median を初期化  
+3. Store / Get / Delete を呼ぶ  
+
+`New` / `createMedian` の配線は各言語ハブへ。
+
+### ステップ 5 — Store → Get → Delete
+
+概念（疑似）:
+
+```text
+Store(bytes, size, { mime, filename, … })
+  → ストレージへ書き込み
+  → 必要なら media 行を挿入（file_path / file_name / …）
+  → { path, hash, id?, variants?, … } を返す
+
+Get(path) → オブジェクト取得（DB 連携時は補強あり）
+Delete(path) → オブジェクト削除（設定により DB・派生も）
 ```
 
-| Import path | 役割 |
-|-------------|------|
-| `github.com/b4moss/median/packages/go/core` | `New` / Store / Delete / Get / PresignGet |
-| `github.com/b4moss/median/packages/go/storage/...` | Local / S3 Adapter |
-| `github.com/b4moss/median/packages/go/db` | マイグレーション補助 + MediaRepo |
-| `github.com/b4moss/median/packages/go/pipeline` | 画像 / SVG / PDF パイプライン |
-| `github.com/b4moss/median/packages/go/cmd/median` | CLI（`migrate dump`） |
+公開 API のフィールド名 `path` はストレージ相対キーのまま。DB 物理列は `file_path`（v0.7+）。
 
-利用: [`packages/go/README.md`](./packages/go/README.md)  
-仕様: [`docs/specs/core-api/`](./docs/specs/core-api/)〜[`docs/specs/svg-sanitize/`](./docs/specs/svg-sanitize/) / テスト: [`docs/tests/`](./docs/tests/)
+### ステップ 6 — 任意: サムネ / SVG / PDF / S3
 
-**リリース:** `VERSION` に合わせたタグ `packages/go/vX.Y.Z`。ルートタグ `vX.Y.Z` だけでは Go は公開されない。
+パイプラインとストレージは言語側 Config で設定。制約（例: PDF レンダラは注入必須）は言語ハブと [`docs/specs/`](./docs/specs/) を参照。
 
-## PHP
+### ステップ 7 — リリース前の確認
 
-マイルストーン未割当（`unscheduled`）。`packages/php` 予定 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md)
+- 単体: `packages/go` → `go test ./…` · `packages/js` → `npm test`
+- E2E（RustFS + LocalFS、Go+JS）: `./e2e/run.sh` または Actions [`e2e.yml`](./.github/workflows/e2e.yml) の `workflow_dispatch` — [`docs/specs/e2e/`](./docs/specs/e2e/)
 
-## E2E
+---
 
-出荷済マイルストーン **`v0.6.0`**: RustFS + POSIX LocalFS、CRUD+DB メタ、サムネ（Go/JS）。通常 CI には含めない — 手元では `./e2e/run.sh`（版上げ前に推奨）、Actions は [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) の `workflow_dispatch`。仕様: [`docs/specs/e2e/`](./docs/specs/e2e/)
+## CLI 早見表
 
-## ドキュメント
+```text
+median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--table …]
+```
+
+| | Go | JS |
+|--|----|----|
+| 実行 | `go run …/cmd/median@v0.9.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
+| ライブラリ同等 | `db.CreateMediaSQL` | `createMediaSQL` |
+
+詳細は言語ハブ · [`migrations/README.md`](./migrations/README.md)。
+
+---
+
+## ドキュメント地図
 
 | 文書 | 内容 |
-|-----|----------|
-| [`docs/README.md`](./docs/README.md) | プロダクト pillar（目的・スコープ・技術方針） |
+|------|------|
+| [`docs/README.md`](./docs/README.md) | 製品 pillar（目的・スコープ・技術方針） |
 | [`docs/roadmap.md`](./docs/roadmap.md) | マイルストーン |
 | [`docs/specs/`](./docs/specs/) | 現行仕様（ドメイン切り） |
-| [`docs/plans/`](./docs/plans/) | 今後の計画（PHP は unscheduled） |
-| [`docs/tests/`](./docs/tests/) | TDD 受け入れ仕様 |
-| [`docs/charter/`](./docs/charter/) | 憲章（Git / SemVer / TDD など） |
-| [`e2e/`](./e2e/) | E2E ハーネス（RustFS + LocalFS） |
-| [`.github/CI.md`](./.github/CI.md) | CI/CD 方針 |
+| [`docs/plans/`](./docs/plans/) | 未実装計画（PHP unscheduled） |
+| [`docs/tests/`](./docs/tests/) | TDD 受け入れ |
+| [`docs/charter/`](./docs/charter/) | 憲章・OKF |
+| [`migrations/`](./migrations/) | スキーマ正本の説明 |
+| [`e2e/`](./e2e/) | E2E ハーネス |
+| [`.github/CI.md`](./.github/CI.md) | CI/CD・公開タグ |
 
-## ライセンス
+## License
 
-MIT © Bicycle for Mind LLC. — [`LICENSE`](./LICENSE) を参照。
+MIT © Bicycle for Mind LLC. — [`LICENSE`](./LICENSE)

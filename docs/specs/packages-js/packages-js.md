@@ -9,9 +9,9 @@ timestamp: 2026-09-27T05:30:00Z
 # packages/js（TypeScript）
 
 - **状態**: 出荷済（現行仕様）
-- **導入**: `v0.5.0`（以降 DB スキーマは `v0.7.0` で追随。npm **`0.7.0`**）
-- **前提**: Go 契約語彙（[core-api](../core-api/)〜[pdf-thumbnail](../pdf-thumbnail/)）
-- **関連**: [README.md](../../README.md) / [tests/packages-js/](../../tests/packages-js/) / [db-media](../db-media/)
+- **導入**: `v0.5.0`（DB スキーマは `v0.7.0`、DDL CLI は `v0.9.0` で追随。現行 npm **`0.9.0`**）
+- **前提**: Go 契約語彙（[core-api](../core-api/)〜[pdf-thumbnail](../pdf-thumbnail/) / [ddl-cli](../ddl-cli/)）
+- **関連**: [README.md](../../README.md) / [tests/packages-js/](../../tests/packages-js/) / [db-media](../db-media/) / [ddl-cli](../ddl-cli/)
 
 ## 目的
 
@@ -29,13 +29,14 @@ Go で固めた契約語彙を TypeScript（Node.js 24+ / bun）へ移植し、`
 | テスト | `npm test` / `npm run test:coverage`、入力は [tests/packages-js/](../../tests/packages-js/) |
 | SVG | **svgo** |
 | PDF | `pdfRenderer` 注入必須（サムネ時）。CI は偽レンダラ |
-| 現行版 | `package.json` **`0.7.0`**（ルートタグ `v0.7.0`。Go の `packages/go/v*` とは独立） |
+| 現行版 | `package.json` **`0.9.0`**（ルートタグ `v0.9.0`。Go の `packages/go/v*` とは独立） |
 
 ## レイアウト
 
 - `src/core` — createMedian / store / delete / get / presignGet / config / helpers
 - `src/storage` + `local` + `s3`
 - `src/db` — MediaRepo / migrate / schema
+- `src/cli.ts` — CLI（`bin`: `median` → `migrate dump`）
 - `src/pipeline` — process / sanitizeSvg / PDF thumbs
 - `src/internal` — MIME / filename / shardian path
 
