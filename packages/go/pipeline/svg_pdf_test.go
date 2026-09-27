@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/b4moss/median/go/pipeline"
+	"github.com/b4moss/median/packages/go/pipeline"
 )
 
 func TestSanitizeSVGKeepsShapesAndStyle(t *testing.T) {

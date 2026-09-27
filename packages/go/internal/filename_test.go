@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/b4moss/median/go/internal"
+	"github.com/b4moss/median/packages/go/internal"
 )
 
 func TestSanitizePreserve(t *testing.T) {
