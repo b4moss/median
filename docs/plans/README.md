@@ -3,7 +3,7 @@ type: Index
 title: plans 索引
 description: 未実装計画の版フォルダ索引。
 tags: [median, plans, index]
-timestamp: 2026-09-27T02:40:00Z
+timestamp: 2026-09-27T02:55:00Z
 ---
 
 # plans 索引

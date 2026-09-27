@@ -3,7 +3,7 @@ type: Hub
 title: median roadmap
 description: SemVerマイルストーン一覧と短い受け入れのハブ。
 tags: [median, roadmap]
-timestamp: 2026-09-27T01:45:00Z
+timestamp: 2026-09-27T02:55:00Z
 ---
 
 # median roadmap
@@ -23,7 +23,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | `v0.3.0` | 出荷済 | Go DB・画像パイプライン・S3 互換 Adapter（署名付き GET） | [specs/v0.3.0/](./specs/v0.3.0/) |
 | `v0.4.0` | 出荷済 | Go SVG サニタイズ + PDF 先頭ページサムネ（タグ `packages/go/v0.4.0`） | [specs/v0.4.0/](./specs/v0.4.0/) |
 | `v0.5.0` | 出荷済 | TypeScript（`packages/js` / npm `@b4moss/median`、タグ `v0.5.0`） | [specs/v0.5.0/](./specs/v0.5.0/) |
-| `v0.6.0` | 出荷済 | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS。通常 CI 外・手動 Workflow） | [specs/v0.6.0/](./specs/v0.6.0/) |
+| `v0.6.0` | 出荷済 | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS。タグ `v0.6.0`。通常 CI 外・手動 Workflow） | [specs/v0.6.0/](./specs/v0.6.0/) |
 
 ## 未割当（unscheduled）
 

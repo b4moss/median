@@ -37,5 +37,6 @@ npm run build
 
 - Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/)
 - Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md)
+- E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
 - CI / publish: [.github/CI.md](../../.github/CI.md) (`release` + Trusted Publisher)
 - Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)
