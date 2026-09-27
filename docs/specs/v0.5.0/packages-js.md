@@ -8,7 +8,7 @@ timestamp: 2026-09-27T00:40:00Z
 
 # packages/js（TypeScript）
 
-- **状態**: 方針確定
+- **状態**: 出荷済（現行仕様）
 - **マイルストーン**: `v0.5.0`
 - **前提**: Go `v0.2.0`〜`v0.4.0` 出荷済（契約の正本は Go テスト仕様）
 - **関連**: [main.md](../../main.md) / [tests/v0.5.0.md](../../tests/v0.5.0.md) / [v0.2.0/](../v0.2.0/)〜[v0.4.0/](../v0.4.0/)
@@ -40,7 +40,7 @@ Go で固めた契約語彙を TypeScript（Node.js 24+ / bun）へ移植し、`
 ## やらぬこと（当面）
 
 - exports 条件の過剰な最適化
-- PHP 移植（`v0.6.0`）
+- PHP 移植（[unscheduled](../../plans/unscheduled/packages-php.md)）
 - 署名付き PUT/DELETE、ストレージ間移行
 
 ----

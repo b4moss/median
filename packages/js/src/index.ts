@@ -90,7 +90,12 @@ export {
   ID_UUID_V7,
   ID_ULID,
   idStrategyFromEnv,
+  DEFAULT_TABLE_NAME,
+  defaultColumnMap,
+  withColumnDefaults,
   ErrNotFound as DBErrNotFound,
   ErrInvalidInput as DBErrInvalidInput,
   type Media,
+  type ColumnMap,
+  type RepoOptions,
 } from "./db/index.js";

@@ -252,7 +252,8 @@ func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOp
 
 	if m.dbEnabled {
 		row := &db.Media{
-			Path: relPath, MIME: opt.MIME, Size: out.Size, Hash: hash,
+			FilePath: relPath, FileName: baseName, OriginalFileName: opt.Filename,
+			MIME: opt.MIME, Size: out.Size, Hash: hash,
 			Width: width, Height: height, CreatedBy: actor, OwnedBy: actor,
 		}
 		created, err := m.repo.Create(ctx, row)
@@ -264,8 +265,10 @@ func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOp
 		for i := range varResults {
 			vk := varResults[i].Key
 			w, h := varResults[i].Width, varResults[i].Height
+			childName := path.Base(varResults[i].Path)
 			child, err := m.repo.Create(ctx, &db.Media{
-				Path: varResults[i].Path, MIME: varResults[i].MIME, Size: varResults[i].Size,
+				FilePath: varResults[i].Path, FileName: childName, OriginalFileName: "",
+				MIME: varResults[i].MIME, Size: varResults[i].Size,
 				Hash: varResults[i].Hash, Width: &w, Height: &h,
 				OriginalID: created.ID, VariantKey: &vk,
 				CreatedBy: actor, OwnedBy: actor,
@@ -302,11 +305,11 @@ func (m *Median) Delete(ctx context.Context, objectPath string, opt DeleteOption
 		}
 		var firstErr error
 		for _, ch := range children {
-			if err := ad.Delete(ctx, ch.Path); err != nil && !errors.Is(err, storage.ErrNotFound) && firstErr == nil {
+			if err := ad.Delete(ctx, ch.FilePath); err != nil && !errors.Is(err, storage.ErrNotFound) && firstErr == nil {
 				firstErr = err
 			}
 		}
-		if err := ad.Delete(ctx, parent.Path); err != nil && !errors.Is(err, storage.ErrNotFound) && firstErr == nil {
+		if err := ad.Delete(ctx, parent.FilePath); err != nil && !errors.Is(err, storage.ErrNotFound) && firstErr == nil {
 			firstErr = err
 		}
 		if err := m.repo.DeleteByID(ctx, opt.ID); err != nil {
@@ -338,11 +341,11 @@ func (m *Median) Get(ctx context.Context, objectPath string, opt GetOptions) (*G
 			return nil, err
 		}
 		out := &GetResult{
-			ID: row.ID, Path: row.Path, MIME: row.MIME, Size: row.Size, Hash: row.Hash,
+			ID: row.ID, Path: row.FilePath, MIME: row.MIME, Size: row.Size, Hash: row.Hash,
 			StorageKey: key, Width: row.Width, Height: row.Height,
 		}
 		if opt.WithBody {
-			rc, _, err := ad.Get(ctx, row.Path)
+			rc, _, err := ad.Get(ctx, row.FilePath)
 			if err != nil {
 				return nil, err
 			}
@@ -472,7 +475,7 @@ func mediaToStoreResult(row *db.Media, storageKey, defaultKey string) *StoreResu
 		key = defaultKey
 	}
 	return &StoreResult{
-		ID: row.ID, Path: row.Path, MIME: row.MIME, Size: row.Size, Hash: row.Hash,
+		ID: row.ID, Path: row.FilePath, MIME: row.MIME, Size: row.Size, Hash: row.Hash,
 		StorageKey: key, Width: row.Width, Height: row.Height,
 	}
 }

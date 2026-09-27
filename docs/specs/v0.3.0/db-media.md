@@ -8,10 +8,10 @@ timestamp: 2026-09-25T06:30:00Z
 
 # DB・メディアメタデータ
 
-- **状態**: 仕様詳細
+- **状態**: 出荷済（**パス列・テーブル設定の現行正本は [v0.7.0/db-media.md](../v0.7.0/db-media.md)**。本ファイルは v0.3.0 時点の契約）
 - **マイルストーン**: `v0.3.0`
 - **前提**: `v0.2.0`
-- **関連**: [er.dbml](../../er.dbml) / [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.2.0/storage.md](../v0.2.0/storage.md) / [media-pipeline.md](./media-pipeline.md)
+- **関連**: [er.dbml](../../er.dbml) / [v0.2.0/core-api.md](../v0.2.0/core-api.md) / [v0.2.0/storage.md](../v0.2.0/storage.md) / [media-pipeline.md](./media-pipeline.md) / [v0.7.0/db-media.md](../v0.7.0/db-media.md)
 
 ## crudian
 

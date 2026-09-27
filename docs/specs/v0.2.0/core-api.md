@@ -8,7 +8,7 @@ timestamp: 2026-09-25T06:30:00Z
 
 # コア API（Store / Delete / Get）
 
-- **状態**: 仕様詳細
+- **状態**: 出荷済（現行仕様）
 - **マイルストーン**: `v0.2.0`
 - **関連**: [storage.md](./storage.md) / [v0.3.0/db-media.md](../v0.3.0/db-media.md) / [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md)
 

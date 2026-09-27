@@ -1,10 +1,42 @@
 # @b4moss/median
 
-TypeScript media store (`packages/js`): Store / Delete / Get / PresignGet with local & S3 adapters, optional DB, image pipeline, SVG sanitize (svgo), and PDF first-page thumbnails.
+TypeScript implementation (`packages/js`). npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (current **0.7.0**, git tag `v0.7.0`).
 
-See `docs/tests/v0.5.0.md` for acceptance tests and `docs/plans/v0.5.0/` for the milestone plan.
+Same contract vocabulary as the Go package (`packages/go`): Store / Delete / Get / PresignGet, Local and S3, optional DB, image pipeline, SVG (svgo), and PDF first-page thumbnails (`PDFRenderer` injection).
+
+## Requirements
+
+- Node.js **24+**
+
+## Install
 
 ```bash
+npm install @b4moss/median
+```
+
+## Develop
+
+```bash
+npm ci
 npm test
+npm run test:coverage
 npm run build
 ```
+
+## Layout
+
+| Path | Role |
+| --- | --- |
+| `src/core` | `createMedian` / store / delete / get / presignGet |
+| `src/storage` | local / s3 |
+| `src/db` | migrate / MediaRepo |
+| `src/pipeline` | process / sanitizeSvg / PDF thumbs |
+| `src/internal` | MIME / filename / shardian path |
+
+## Docs
+
+- Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/), [v0.7.0/](../../docs/specs/v0.7.0/)
+- Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md), [v0.7.0.md](../../docs/tests/v0.7.0.md)
+- E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
+- CI / publish: [.github/CI.md](../../.github/CI.md) (`release` + Trusted Publisher)
+- Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)

@@ -3,12 +3,25 @@ export const ID_UUID_V4 = "uuid_v4";
 export const ID_UUID_V7 = "uuid_v7";
 export const ID_ULID = "ulid";
 
+export const DEFAULT_TABLE_NAME = "media";
+
+const TABLE_NAME_RE = /^[A-Za-z_][A-Za-z0-9_]*$/;
+
 export function idStrategyFromEnv(): string {
   const s = (process.env.MEDIAN_ID_STRATEGY ?? "").toLowerCase().trim();
   return s || ID_AUTO_INCREMENT;
 }
 
-export function createMediaSQL(dialect: string, idStrategy: string): string {
+export function normalizeTableName(tableName?: string): string {
+  const name = (tableName ?? "").trim() || DEFAULT_TABLE_NAME;
+  if (!TABLE_NAME_RE.test(name)) {
+    throw new Error(`invalid table name "${name}"`);
+  }
+  return name;
+}
+
+export function createMediaSQL(dialect: string, idStrategy: string, tableName?: string): string {
+  const table = normalizeTableName(tableName);
   const textID =
     idStrategy === ID_UUID_V4 || idStrategy === ID_UUID_V7 || idStrategy === ID_ULID;
   if (!textID && idStrategy !== ID_AUTO_INCREMENT) {
@@ -18,21 +31,23 @@ export function createMediaSQL(dialect: string, idStrategy: string): string {
   }
   switch (dialect) {
     case "sqlite3":
-      return textID ? sqliteMediaTextID() : sqliteMediaAutoInc();
+      return textID ? sqliteMediaTextID(table) : sqliteMediaAutoInc(table);
     case "mysql":
-      return textID ? mysqlMediaTextID() : mysqlMediaAutoInc();
+      return textID ? mysqlMediaTextID(table) : mysqlMediaAutoInc(table);
     case "postgres":
-      return textID ? postgresMediaTextID() : postgresMediaAutoInc();
+      return textID ? postgresMediaTextID(table) : postgresMediaAutoInc(table);
     default:
       throw new Error(`unsupported goose dialect "${dialect}" (want mysql|postgres|sqlite3)`);
   }
 }
 
-function sqliteMediaAutoInc(): string {
+function sqliteMediaAutoInc(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  path TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  file_name TEXT NOT NULL,
+  original_file_name TEXT NULL,
   mime TEXT NOT NULL,
   size INTEGER NOT NULL,
   width INTEGER NULL,
@@ -44,22 +59,24 @@ CREATE TABLE media (
   owned_by TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  CONSTRAINT media_path_unique UNIQUE (path),
-  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key),
-  FOREIGN KEY (original_id) REFERENCES media (id)
+  CONSTRAINT ${t}_file_path_unique UNIQUE (file_path),
+  CONSTRAINT ${t}_original_variant_unique UNIQUE (original_id, variant_key),
+  FOREIGN KEY (original_id) REFERENCES ${t} (id)
 );
-CREATE INDEX media_hash_idx ON media (hash);
-CREATE INDEX media_original_id_idx ON media (original_id);
-CREATE INDEX media_owned_by_status_idx ON media (owned_by, status);
-CREATE INDEX media_created_at_idx ON media (created_at);
+CREATE INDEX ${t}_hash_idx ON ${t} (hash);
+CREATE INDEX ${t}_original_id_idx ON ${t} (original_id);
+CREATE INDEX ${t}_owned_by_status_idx ON ${t} (owned_by, status);
+CREATE INDEX ${t}_created_at_idx ON ${t} (created_at);
 `;
 }
 
-function sqliteMediaTextID(): string {
+function sqliteMediaTextID(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id TEXT PRIMARY KEY,
-  path TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  file_name TEXT NOT NULL,
+  original_file_name TEXT NULL,
   mime TEXT NOT NULL,
   size INTEGER NOT NULL,
   width INTEGER NULL,
@@ -71,22 +88,24 @@ CREATE TABLE media (
   owned_by TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  CONSTRAINT media_path_unique UNIQUE (path),
-  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key),
-  FOREIGN KEY (original_id) REFERENCES media (id)
+  CONSTRAINT ${t}_file_path_unique UNIQUE (file_path),
+  CONSTRAINT ${t}_original_variant_unique UNIQUE (original_id, variant_key),
+  FOREIGN KEY (original_id) REFERENCES ${t} (id)
 );
-CREATE INDEX media_hash_idx ON media (hash);
-CREATE INDEX media_original_id_idx ON media (original_id);
-CREATE INDEX media_owned_by_status_idx ON media (owned_by, status);
-CREATE INDEX media_created_at_idx ON media (created_at);
+CREATE INDEX ${t}_hash_idx ON ${t} (hash);
+CREATE INDEX ${t}_original_id_idx ON ${t} (original_id);
+CREATE INDEX ${t}_owned_by_status_idx ON ${t} (owned_by, status);
+CREATE INDEX ${t}_created_at_idx ON ${t} (created_at);
 `;
 }
 
-function mysqlMediaAutoInc(): string {
+function mysqlMediaAutoInc(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  path VARCHAR(2048) NOT NULL,
+  file_path VARCHAR(2048) NOT NULL,
+  file_name VARCHAR(512) NOT NULL,
+  original_file_name VARCHAR(512) NULL,
   mime VARCHAR(255) NOT NULL,
   size BIGINT NOT NULL,
   width INT NULL,
@@ -98,21 +117,23 @@ CREATE TABLE media (
   owned_by VARCHAR(255) NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  UNIQUE KEY media_path_unique (path),
-  UNIQUE KEY media_original_variant_unique (original_id, variant_key),
-  KEY media_hash_idx (hash),
-  KEY media_original_id_idx (original_id),
-  KEY media_owned_by_status_idx (owned_by, status),
-  KEY media_created_at_idx (created_at),
-  CONSTRAINT media_original_id_fk FOREIGN KEY (original_id) REFERENCES media (id)
+  UNIQUE KEY ${t}_file_path_unique (file_path),
+  UNIQUE KEY ${t}_original_variant_unique (original_id, variant_key),
+  KEY ${t}_hash_idx (hash),
+  KEY ${t}_original_id_idx (original_id),
+  KEY ${t}_owned_by_status_idx (owned_by, status),
+  KEY ${t}_created_at_idx (created_at),
+  CONSTRAINT ${t}_original_id_fk FOREIGN KEY (original_id) REFERENCES ${t} (id)
 )`;
 }
 
-function mysqlMediaTextID(): string {
+function mysqlMediaTextID(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id VARCHAR(64) NOT NULL PRIMARY KEY,
-  path VARCHAR(2048) NOT NULL,
+  file_path VARCHAR(2048) NOT NULL,
+  file_name VARCHAR(512) NOT NULL,
+  original_file_name VARCHAR(512) NULL,
   mime VARCHAR(255) NOT NULL,
   size BIGINT NOT NULL,
   width INT NULL,
@@ -124,21 +145,23 @@ CREATE TABLE media (
   owned_by VARCHAR(255) NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  UNIQUE KEY media_path_unique (path),
-  UNIQUE KEY media_original_variant_unique (original_id, variant_key),
-  KEY media_hash_idx (hash),
-  KEY media_original_id_idx (original_id),
-  KEY media_owned_by_status_idx (owned_by, status),
-  KEY media_created_at_idx (created_at),
-  CONSTRAINT media_original_id_fk FOREIGN KEY (original_id) REFERENCES media (id)
+  UNIQUE KEY ${t}_file_path_unique (file_path),
+  UNIQUE KEY ${t}_original_variant_unique (original_id, variant_key),
+  KEY ${t}_hash_idx (hash),
+  KEY ${t}_original_id_idx (original_id),
+  KEY ${t}_owned_by_status_idx (owned_by, status),
+  KEY ${t}_created_at_idx (created_at),
+  CONSTRAINT ${t}_original_id_fk FOREIGN KEY (original_id) REFERENCES ${t} (id)
 )`;
 }
 
-function postgresMediaAutoInc(): string {
+function postgresMediaAutoInc(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id BIGSERIAL PRIMARY KEY,
-  path VARCHAR(2048) NOT NULL,
+  file_path VARCHAR(2048) NOT NULL,
+  file_name VARCHAR(512) NOT NULL,
+  original_file_name VARCHAR(512) NULL,
   mime VARCHAR(255) NOT NULL,
   size BIGINT NOT NULL,
   width INT NULL,
@@ -150,22 +173,24 @@ CREATE TABLE media (
   owned_by VARCHAR(255) NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT media_path_unique UNIQUE (path),
-  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key),
-  CONSTRAINT media_original_id_fk FOREIGN KEY (original_id) REFERENCES media (id)
+  CONSTRAINT ${t}_file_path_unique UNIQUE (file_path),
+  CONSTRAINT ${t}_original_variant_unique UNIQUE (original_id, variant_key),
+  CONSTRAINT ${t}_original_id_fk FOREIGN KEY (original_id) REFERENCES ${t} (id)
 );
-CREATE INDEX media_hash_idx ON media (hash);
-CREATE INDEX media_original_id_idx ON media (original_id);
-CREATE INDEX media_owned_by_status_idx ON media (owned_by, status);
-CREATE INDEX media_created_at_idx ON media (created_at);
+CREATE INDEX ${t}_hash_idx ON ${t} (hash);
+CREATE INDEX ${t}_original_id_idx ON ${t} (original_id);
+CREATE INDEX ${t}_owned_by_status_idx ON ${t} (owned_by, status);
+CREATE INDEX ${t}_created_at_idx ON ${t} (created_at);
 `;
 }
 
-function postgresMediaTextID(): string {
+function postgresMediaTextID(t: string): string {
   return `
-CREATE TABLE media (
+CREATE TABLE ${t} (
   id VARCHAR(64) PRIMARY KEY,
-  path VARCHAR(2048) NOT NULL,
+  file_path VARCHAR(2048) NOT NULL,
+  file_name VARCHAR(512) NOT NULL,
+  original_file_name VARCHAR(512) NULL,
   mime VARCHAR(255) NOT NULL,
   size BIGINT NOT NULL,
   width INT NULL,
@@ -177,13 +202,13 @@ CREATE TABLE media (
   owned_by VARCHAR(255) NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT media_path_unique UNIQUE (path),
-  CONSTRAINT media_original_variant_unique UNIQUE (original_id, variant_key),
-  CONSTRAINT media_original_id_fk FOREIGN KEY (original_id) REFERENCES media (id)
+  CONSTRAINT ${t}_file_path_unique UNIQUE (file_path),
+  CONSTRAINT ${t}_original_variant_unique UNIQUE (original_id, variant_key),
+  CONSTRAINT ${t}_original_id_fk FOREIGN KEY (original_id) REFERENCES ${t} (id)
 );
-CREATE INDEX media_hash_idx ON media (hash);
-CREATE INDEX media_original_id_idx ON media (original_id);
-CREATE INDEX media_owned_by_status_idx ON media (owned_by, status);
-CREATE INDEX media_created_at_idx ON media (created_at);
+CREATE INDEX ${t}_hash_idx ON ${t} (hash);
+CREATE INDEX ${t}_original_id_idx ON ${t} (original_id);
+CREATE INDEX ${t}_owned_by_status_idx ON ${t} (owned_by, status);
+CREATE INDEX ${t}_created_at_idx ON ${t} (created_at);
 `;
 }
