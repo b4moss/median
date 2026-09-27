@@ -1,20 +1,20 @@
 # @b4moss/median
 
-TypeScript 実装（`packages/js`）。npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)**（現行 **0.5.0**、Git タグ `v0.5.0`）。
+TypeScript implementation (`packages/js`). npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (current **0.5.0**, git tag `v0.5.0`).
 
-Go 版（`packages/go`）と同じ契約語彙で Store / Delete / Get / PresignGet、Local・S3、任意 DB、画像パイプライン、SVG（svgo）、PDF 先頭ページサムネ（`PDFRenderer` 注入）を提供する。
+Same contract vocabulary as the Go package (`packages/go`): Store / Delete / Get / PresignGet, Local and S3, optional DB, image pipeline, SVG (svgo), and PDF first-page thumbnails (`PDFRenderer` injection).
 
-## 要件
+## Requirements
 
 - Node.js **24+**
 
-## インストール
+## Install
 
 ```bash
 npm install @b4moss/median
 ```
 
-## 開発
+## Develop
 
 ```bash
 npm ci
@@ -23,9 +23,9 @@ npm run test:coverage
 npm run build
 ```
 
-## レイアウト
+## Layout
 
-| パス | 役割 |
+| Path | Role |
 | --- | --- |
 | `src/core` | `createMedian` / store / delete / get / presignGet |
 | `src/storage` | local / s3 |
@@ -33,8 +33,9 @@ npm run build
 | `src/pipeline` | process / sanitizeSvg / PDF thumbs |
 | `src/internal` | MIME / filename / shardian path |
 
-## ドキュメント
+## Docs
 
-- 仕様: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/)
-- テスト仕様: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md)
-- CI / 公開: [.github/CI.md](../../.github/CI.md)（`release` + Trusted Publisher）
+- Specs: [docs/specs/v0.5.0/](../../docs/specs/v0.5.0/)
+- Acceptance tests: [docs/tests/v0.5.0.md](../../docs/tests/v0.5.0.md)
+- CI / publish: [.github/CI.md](../../.github/CI.md) (`release` + Trusted Publisher)
+- Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)

@@ -1,31 +1,33 @@
 # packages/go
 
-Go module **`github.com/b4moss/median/go`**（現行 `packages/go/VERSION` = **0.4.0**、タグ `packages/go/v0.4.0`）。
+Go module **`github.com/b4moss/median/go`** (current `packages/go/VERSION` = **0.4.0**, tag `packages/go/v0.4.0`).
 
-## できること
+## Features
 
 - `Store` / `Delete` / `Get` / `PresignGet`
-- Local FS・S3 Adapter
-- 任意 DB（crudian）と media 行・variants
-- 画像パイプライン（resize / compress / thumbnails）
-- SVG サニタイズ、PDF 先頭ページサムネ（`PDFRenderer` 注入、本番は go-fitz / CGO）
+- Local FS and S3 adapters
+- Optional DB (crudian) with media rows and variants
+- Image pipeline (resize / compress / thumbnails)
+- SVG sanitize; PDF first-page thumbnails (`PDFRenderer` injection; production default go-fitz / CGO)
 
-## レイアウト
+## Layout
 
-| パス | 役割 |
+| Path | Role |
 | --- | --- |
-| `core` | Median API・Config |
-| `storage` / `local` / `s3` | Adapter |
-| `db` | migrate・MediaRepo |
-| `pipeline` | 画像・SVG・PDF |
-| `internal` | MIME・ファイル名・shardian path |
-| `third_party/crudian` | vendored crudian（`go.mod` の `replace`） |
+| `core` | Median API and Config |
+| `storage` / `local` / `s3` | Adapters |
+| `db` | migrate helpers and MediaRepo |
+| `pipeline` | Image / SVG / PDF |
+| `internal` | MIME, filename, shardian path |
+| `third_party/crudian` | Vendored crudian (`replace` in `go.mod`) |
 
-## テスト
+## Test
 
 ```bash
 go test ./...
 ```
 
-仕様: [docs/specs/v0.2.0/](../../docs/specs/v0.2.0/)〜[v0.4.0/](../../docs/specs/v0.4.0/)  
-テスト仕様: [docs/tests/v0.2.0.md](../../docs/tests/v0.2.0.md)〜[v0.4.0.md](../../docs/tests/v0.4.0.md)
+Specs: [docs/specs/v0.2.0/](../../docs/specs/v0.2.0/)–[v0.4.0/](../../docs/specs/v0.4.0/)  
+Acceptance tests: [docs/tests/v0.2.0.md](../../docs/tests/v0.2.0.md)–[v0.4.0.md](../../docs/tests/v0.4.0.md)
+
+Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)
