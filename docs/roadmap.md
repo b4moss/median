@@ -3,7 +3,7 @@ type: Hub
 title: median roadmap
 description: SemVerマイルストーン一覧と短い受け入れのハブ。
 tags: [median, roadmap]
-timestamp: 2026-09-27T02:55:00Z
+timestamp: 2026-09-27T03:04:17Z
 ---
 
 # median roadmap
@@ -29,6 +29,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 
 | 項目 | 状態 | 詳細 |
 | --- | --- | --- |
+| DB メディアスキーマ（パス列・テーブル名） | 方針確定 | [plans/unscheduled/db-media-schema.md](./plans/unscheduled/db-media-schema.md) |
 | PHP（`packages/php`）移植 | 意図スタブ | [plans/unscheduled/packages-php.md](./plans/unscheduled/packages-php.md) |
 
 ## 開発順
@@ -36,7 +37,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 1. Go（`packages/go`）… `v0.1.0`〜`v0.4.0`（完了）
 2. TypeScript（`packages/js`）… `v0.5.0`（完了）
 3. E2E テスト… `v0.6.0`（完了）
-4. PHP（`packages/php`）… マイルストーン未割当
+4. （未割当）DB メディアスキーマ / PHP（`packages/php`）
 
 CI/CD は他の `-an` 系（shardian / crudian）と同じ振る舞いとし、docs のみの変更で冗長な CI を起動しない。
 
