@@ -87,7 +87,7 @@ run_compare() {
   (
     cd "$SHARDIAN_COMPARE_TMP"
     npm pack "@b4moss/median@${published}" --silent >/dev/null
-    tar -xzf "b4moss-shardian-${published}.tgz" -C "$SHARDIAN_COMPARE_TMP/pub"
+    tar -xzf "b4moss-median-${published}.tgz" -C "$SHARDIAN_COMPARE_TMP/pub"
   )
 
   local_tgz="$(
