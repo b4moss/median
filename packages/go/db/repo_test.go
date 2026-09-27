@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/b4moss/median/go/db"
+	"github.com/b4moss/median/packages/go/db"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )

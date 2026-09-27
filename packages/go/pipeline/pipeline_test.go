@@ -7,7 +7,7 @@ import (
 	"image/png"
 	"testing"
 
-	"github.com/b4moss/median/go/pipeline"
+	"github.com/b4moss/median/packages/go/pipeline"
 )
 
 func makePNG(t *testing.T, w, h int, c color.Color) []byte {

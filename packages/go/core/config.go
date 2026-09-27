@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/b4moss/median/go/db"
-	"github.com/b4moss/median/go/internal"
-	"github.com/b4moss/median/go/pipeline"
-	"github.com/b4moss/median/go/storage"
-	"github.com/b4moss/median/go/storage/local"
-	s3store "github.com/b4moss/median/go/storage/s3"
+	"github.com/b4moss/median/packages/go/db"
+	"github.com/b4moss/median/packages/go/internal"
+	"github.com/b4moss/median/packages/go/pipeline"
+	"github.com/b4moss/median/packages/go/storage"
+	"github.com/b4moss/median/packages/go/storage/local"
+	s3store "github.com/b4moss/median/packages/go/storage/s3"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )

@@ -39,12 +39,12 @@ API: [`packages/js/README.md`](./packages/js/README.md)
 
 ## Go
 
-Go モジュール: **[github.com/b4moss/median/go](./packages/go)**（`packages/go`）
+Go モジュール: **[github.com/b4moss/median/packages/go](./packages/go)**（`packages/go`）
 
-現行: `packages/go/VERSION` → **`0.7.0`**、タグ **`packages/go/v0.7.0`**。
+現行: `packages/go/VERSION` → **`0.8.0`**、タグ **`packages/go/v0.8.0`**。
 
 ```bash
-go get github.com/b4moss/median/go@v0.7.0
+go get github.com/b4moss/median/packages/go@v0.8.0
 ```
 
 ```bash
@@ -54,10 +54,10 @@ go test ./...
 
 | Import path | 役割 |
 |-------------|------|
-| `github.com/b4moss/median/go/core` | `New` / Store / Delete / Get / PresignGet |
-| `github.com/b4moss/median/go/storage/...` | Local / S3 Adapter |
-| `github.com/b4moss/median/go/db` | マイグレーション補助 + MediaRepo |
-| `github.com/b4moss/median/go/pipeline` | 画像 / SVG / PDF パイプライン |
+| `github.com/b4moss/median/packages/go/core` | `New` / Store / Delete / Get / PresignGet |
+| `github.com/b4moss/median/packages/go/storage/...` | Local / S3 Adapter |
+| `github.com/b4moss/median/packages/go/db` | マイグレーション補助 + MediaRepo |
+| `github.com/b4moss/median/packages/go/pipeline` | 画像 / SVG / PDF パイプライン |
 
 利用: [`packages/go/README.md`](./packages/go/README.md)  
 仕様: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)〜[`v0.4.0/`](./docs/specs/v0.4.0/) / テスト: [`docs/tests/`](./docs/tests/)

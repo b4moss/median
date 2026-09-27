@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.47.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.20.6
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.113.4
-	github.com/b4moss/median/go v0.0.0
+	github.com/b4moss/median/packages/go v0.0.0
 	github.com/glebarez/sqlite v1.11.0
 	gorm.io/gorm v1.31.2
 )
@@ -43,6 +43,6 @@ require (
 	modernc.org/sqlite v1.34.5 // indirect
 )
 
-replace github.com/b4moss/median/go => ../../packages/go
+replace github.com/b4moss/median/packages/go => ../../packages/go
 
 replace github.com/b4moss/crudian/go => ../../packages/go/third_party/crudian

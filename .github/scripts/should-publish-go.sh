@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Decide whether the Go module should be "published" from the current HEAD.
 # Nested module tag convention: packages/go/vX.Y.Z
-# (module path: github.com/b4moss/median/go)
+# (module path: github.com/b4moss/median/packages/go)
 #
 # Outputs (GITHUB_OUTPUT when set):
 #   skip=true|false
@@ -57,12 +57,8 @@ fi
 
 echo "Using tag ${TAG} at ${TAG_COMMIT} (HEAD=${HEAD_COMMIT})."
 
-# If a GitHub Release already exists for this tag, treat as already published.
-if command -v gh >/dev/null 2>&1; then
-  if gh release view "$TAG" >/dev/null 2>&1; then
-    skip "GitHub Release ${TAG} already exists; skip Go publish."
-  fi
-fi
+# Do not skip when a GitHub Release already exists (release-on-tag may race).
+# Create Release is idempotent; Ping must still run so proxy.golang.org indexes the module.
 
 echo "Will publish Go module at ${TAG}."
 emit "skip" "false"
