@@ -3,7 +3,7 @@ type: Index
 title: tests
 description: TDD入力となるテスト仕様の置き場。
 tags: [median, tests, index]
-timestamp: 2026-09-27T02:55:00Z
+timestamp: 2026-09-27T03:15:07Z
 ---
 
 # tests
@@ -16,10 +16,11 @@ TDD の入力となるテスト仕様を置く。書き方・氷山パターン�
 | --- | --- |
 | `v0.1.0` | スキャフォールドのみのため原則不要 |
 | `v0.2.0` | [v0.2.0.md](./v0.2.0.md)（Go コア + Local FS） |
-| `v0.3.0` | [v0.3.0.md](./v0.3.0.md)（Go DB・画像・S3） |
+| `v0.3.0` | [v0.3.0.md](./v0.3.0.md)（Go DB・画像・S3。DB 列の現行契約は v0.7.0） |
 | `v0.4.0` | [v0.4.0.md](./v0.4.0.md)（Go SVG・PDF） |
-| `v0.5.0` | [v0.5.0.md](./v0.5.0.md)（TypeScript / `packages/js`） |
+| `v0.5.0` | [v0.5.0.md](./v0.5.0.md)（TypeScript / `packages/js`。DB 列の現行契約は v0.7.0） |
 | `v0.6.0` | [v0.6.0.md](./v0.6.0.md)（E2E: L1/S1・CRUD+DB・サムネ T-L/T-S） |
+| `v0.7.0` | [v0.7.0.md](./v0.7.0.md)（DB パス列再編・テーブル名／カラムマップ。Go / JS） |
 
 ----
 

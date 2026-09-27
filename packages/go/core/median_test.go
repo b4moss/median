@@ -101,7 +101,7 @@ func TestStoreWithDBAndCascade(t *testing.T) {
 		t.Fatal(err)
 	}
 	sqlDB, _ := gdb.DB()
-	if err := db.MigrateUp(context.Background(), sqlDB, "sqlite3", db.IDAutoIncrement); err != nil {
+	if err := db.MigrateUp(context.Background(), sqlDB, "sqlite3", db.IDAutoIncrement, ""); err != nil {
 		t.Fatal(err)
 	}
 	cfg := testConfig(t, root)

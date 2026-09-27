@@ -4,20 +4,23 @@
 // UUID v4 / UUID v7 / ULID 選択時は id / original_id を text にする。
 // Dialects (crudian-aligned): MySQL, MariaDB, Postgres, SQLite.
 // Migration source of truth: /migrations (Go uses goose; one definition, dialect interprets).
-// DB ops via b4moss/crudian. path is relative to storage root only (no storage key).
+// DB ops via b4moss/crudian. file_path is relative to storage root only (no storage key).
+// Default table name is media; runtime may override table name and column names.
 
 Table media {
   id bigint [pk, increment, note: 'DB使用時の正キー。デフォルト採番 auto increment 時は integer/bigint。UUID v4/v7/ULID 時は text']
-  path varchar(2048) [not null, unique, note: 'ストレージルートからの相対パス。storage key は持たない。preserve時は危険文字と端の . / 空白を除去']
+  file_path varchar(2048) [not null, unique, note: 'ストレージルートからの相対パス。Adapter キー。storage key は持たない']
+  file_name varchar(512) [not null, note: '最終 basename（ResolveFilename 後）。path.Base(file_path) と一致']
+  original_file_name varchar(512) [note: 'アップロード時の元ファイル名。空可。派生行は NULL または空']
   mime varchar(255) [not null]
   size bigint [not null, note: 'バイトサイズ']
   width integer [note: 'px。画像等で寸法が分かるとき。不明なら NULL']
   height integer [note: 'px。画像等で寸法が分かるとき。不明なら NULL']
-  hash char(64) [note: 'SHA-256 hex。重複抑止に使用']
+  hash char(64) [not null, note: 'SHA-256 hex。重複抑止に使用。UNIQUE にはしない（INDEX のみ）']
   original_id bigint [note: 'NULLならオリジナル。派生は親を参照。型は id に合わせる（デフォルト integer、UUID/ULID 時は text）']
   variant_key varchar(64) [note: '派生プリセット key。オリジナルは NULL。サムネイル key 名']
-  created_by varchar(255) [note: '作成者識別子。Store時は owned_by と同値。未指定時は default actor']
-  owned_by varchar(255) [note: '所有者識別子。Store時は created_by と同値。未指定時は default actor']
+  created_by varchar(255) [not null, note: '作成者識別子。Store時は owned_by と同値。未指定時は default actor']
+  owned_by varchar(255) [not null, note: '所有者識別子。Store時は created_by と同値。未指定時は default actor']
   status text [not null, default: 'active', note: 'アプリ側の状態。median Delete は物理削除（論理削除は当面スコープ外）']
   created_at timestamptz [not null, default: `now()`]
 
