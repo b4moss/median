@@ -13,13 +13,13 @@ DDD-oriented media store: put bytes in storage and get them back under one contr
 
 Core operations are **Store / Delete / Get** (plus **PresignGet** where supported), with Local FS and S3 adapters, optional media DB metadata, and an image pipeline (compress / resize / thumbnails, SVG sanitize, PDF first-page thumbnails).
 
-Versions are **independent per language**. A planning milestone name does not force every package to share that number (for example Go may sit on `0.4.0` while npm is `0.5.0`).
+Versions are **independent per language**. A planning milestone name does not force every package to share that number (for example historically Go `0.4.0` vs npm `0.5.0`). The current DB schema line ships Go and npm both at **`0.7.0`**.
 
 ## TypeScript / JavaScript
 
 npm package: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (`packages/js`)
 
-Current line: see `packages/js/package.json` (currently **`0.5.0`**). Requires **Node.js 24+**.
+Current line: see `packages/js/package.json` (currently **`0.7.0`**). Requires **Node.js 24+**.
 
 ```bash
 npm install @b4moss/median
@@ -33,7 +33,7 @@ npm run build
 ```
 
 API notes: [`packages/js/README.md`](./packages/js/README.md).  
-Acceptance tests: [`docs/tests/v0.5.0.md`](./docs/tests/v0.5.0.md). Specs: [`docs/specs/v0.5.0/`](./docs/specs/v0.5.0/).
+Acceptance tests: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md). Specs: [`docs/specs/v0.7.0/`](./docs/specs/v0.7.0/).
 
 **Release:** root git tag `vX.Y.Z` must match `package.json` `version`. Pushing that tree to `release` publishes to npm when packed content differs from the registry ([`.github/CI.md`](./.github/CI.md)). Trusted Publishing is configured for GitHub Actions.
 
@@ -41,10 +41,10 @@ Acceptance tests: [`docs/tests/v0.5.0.md`](./docs/tests/v0.5.0.md). Specs: [`doc
 
 Go module: **[github.com/b4moss/median/go](./packages/go)** (`packages/go`)
 
-Current line: `packages/go/VERSION` → **`0.4.0`**, git tag **`packages/go/v0.4.0`**.
+Current line: `packages/go/VERSION` → **`0.7.0`**, git tag **`packages/go/v0.7.0`**.
 
 ```bash
-go get github.com/b4moss/median/go@v0.4.0
+go get github.com/b4moss/median/go@v0.7.0
 ```
 
 ```bash

@@ -44,8 +44,8 @@ timestamp: 2026-09-27T03:07:27Z
 
 | パス | 内容 | 現状 |
 |------|------|------|
-| `packages/go` | Go（開発順 1） | 出荷済 `v0.4.0`（タグ `packages/go/v0.4.0`） |
-| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.5.0`（npm `@b4moss/median`） |
+| `packages/go` | Go（開発順 1） | 出荷済 `v0.7.0`（タグ `packages/go/v0.7.0`） |
+| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.7.0`（npm `@b4moss/median`） |
 | `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |
 
@@ -61,8 +61,8 @@ timestamp: 2026-09-27T03:07:27Z
 |------|------|
 | [roadmap.md](./roadmap.md) | マイルストーン |
 | [er.dbml](./er.dbml) | デフォルト media テーブルの論理 ER |
-| [specs/](./specs/) | 現行仕様（v0.1〜v0.6） |
-| [plans/](./plans/) | 未実装計画（`v0.7.0` / unscheduled） |
+| [specs/](./specs/) | 現行仕様（v0.1〜v0.7） |
+| [plans/](./plans/) | 未実装計画（unscheduled） |
 | [tests/](./tests/) | テスト仕様 |
 | [charter/](./charter/) | 憲章 |
 | [override-charter.md](./override-charter.md) | 憲章オーバーライド（現状なし） |

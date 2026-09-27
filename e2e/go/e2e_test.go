@@ -122,10 +122,10 @@ func openMemDB(t *testing.T) (*gorm.DB, *db.MediaRepo) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := db.MigrateUp(context.Background(), sqlDB, "sqlite3", db.IDAutoIncrement); err != nil {
+	if err := db.MigrateUp(context.Background(), sqlDB, "sqlite3", db.IDAutoIncrement, ""); err != nil {
 		t.Fatal(err)
 	}
-	repo, err := db.NewMediaRepo(gdb, db.IDAutoIncrement)
+	repo, err := db.NewMediaRepo(gdb, db.RepoOptions{IDStrategy: db.IDAutoIncrement})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -295,7 +295,7 @@ func runCRUD(t *testing.T, cfg core.Config, withPresign bool) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if row.Path != res.Path || row.Hash != res.Hash || row.Size != res.Size {
+	if row.FilePath != res.Path || row.Hash != res.Hash || row.Size != res.Size {
 		t.Fatalf("db row mismatch: %+v vs %+v", row, res)
 	}
 	if row.CreatedBy != "e2e-actor" || row.OwnedBy != "e2e-actor" {
@@ -327,7 +327,7 @@ func runCRUD(t *testing.T, cfg core.Config, withPresign bool) {
 		t.Fatalf("duplicate hash should return same id: %v vs %v", res2.ID, res.ID)
 	}
 	row2, err := repo.FindByID(ctx, res.ID)
-	if err != nil || row2.Hash != res.Hash || row2.Path != res.Path {
+	if err != nil || row2.Hash != res.Hash || row2.FilePath != res.Path {
 		t.Fatalf("meta corrupted after re-store: %v %+v", err, row2)
 	}
 
@@ -427,7 +427,7 @@ func runThumb(t *testing.T, cfg core.Config) {
 		t.Fatalf("children: %v %d", err, len(children))
 	}
 	ch := children[0]
-	if ch.VariantKey == nil || *ch.VariantKey != "sm" || ch.Path != v.Path || ch.Hash != v.Hash {
+	if ch.VariantKey == nil || *ch.VariantKey != "sm" || ch.FilePath != v.Path || ch.Hash != v.Hash {
 		t.Fatalf("child row: %+v vs %+v", ch, v)
 	}
 

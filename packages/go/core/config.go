@@ -51,6 +51,8 @@ type DBConfig struct {
 	Gorm       *gorm.DB
 	DSN        string
 	IDStrategy string
+	TableName  string
+	Columns    db.ColumnMap
 }
 
 type Config struct {
@@ -199,7 +201,11 @@ func New(cfg Config) (*Median, error) {
 		if strategy == "" {
 			strategy = db.IDAutoIncrement
 		}
-		repo, err := db.NewMediaRepo(gdb, strategy)
+		repo, err := db.NewMediaRepo(gdb, db.RepoOptions{
+			IDStrategy: strategy,
+			TableName:  cfg.DB.TableName,
+			Columns:    cfg.DB.Columns,
+		})
 		if err != nil {
 			return nil, err
 		}

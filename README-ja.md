@@ -13,13 +13,13 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 
 中心は **Store / Delete / Get**（対応時は **PresignGet**）。Local FS・S3 Adapter、任意のメディア DB、画像パイプライン（圧縮・リサイズ・サムネ、SVG サニタイズ、PDF 先頭ページサムネ）を提供する。
 
-版番号は **言語ごとに独立**。計画マイルストーン名と各パッケージの SemVer は一致しなくてよい（例: Go `0.4.0` と npm `0.5.0`）。
+版番号は **言語ごとに独立**。計画マイルストーン名と各パッケージの SemVer は一致しなくてよい（例: 過去の Go `0.4.0` と npm `0.5.0`）。現行 DB スキーマ版では Go / npm とも **`0.7.0`**。
 
 ## TypeScript / JavaScript
 
 npm パッケージ: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)**（`packages/js`）
 
-現行: `packages/js/package.json`（現在 **`0.5.0`**）。**Node.js 24+** が必要。
+現行: `packages/js/package.json`（現在 **`0.7.0`**）。**Node.js 24+** が必要。
 
 ```bash
 npm install @b4moss/median
@@ -33,7 +33,7 @@ npm run build
 ```
 
 API: [`packages/js/README.md`](./packages/js/README.md)  
-受け入れテスト: [`docs/tests/v0.5.0.md`](./docs/tests/v0.5.0.md) / 仕様: [`docs/specs/v0.5.0/`](./docs/specs/v0.5.0/)
+受け入れテスト: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md) / 仕様: [`docs/specs/v0.7.0/`](./docs/specs/v0.7.0/)
 
 **リリース:** ルートタグ `vX.Y.Z` は `package.json` の `version` と一致させる。そのツリーを `release` に push すると、registry と内容が異なるときだけ npm publish（[`.github/CI.md`](./.github/CI.md)）。GitHub Actions の Trusted Publishing を利用。
 
@@ -41,10 +41,10 @@ API: [`packages/js/README.md`](./packages/js/README.md)
 
 Go モジュール: **[github.com/b4moss/median/go](./packages/go)**（`packages/go`）
 
-現行: `packages/go/VERSION` → **`0.4.0`**、タグ **`packages/go/v0.4.0`**。
+現行: `packages/go/VERSION` → **`0.7.0`**、タグ **`packages/go/v0.7.0`**。
 
 ```bash
-go get github.com/b4moss/median/go@v0.4.0
+go get github.com/b4moss/median/go@v0.7.0
 ```
 
 ```bash
