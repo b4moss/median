@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/b4moss/median/go/storage"
+	"github.com/b4moss/median/packages/go/storage"
 )
 
 func TestPutGetRoundTrip(t *testing.T) {

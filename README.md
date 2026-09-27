@@ -39,12 +39,12 @@ Acceptance tests: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md). Specs: [`doc
 
 ## Go
 
-Go module: **[github.com/b4moss/median/go](./packages/go)** (`packages/go`)
+Go module: **[github.com/b4moss/median/packages/go](./packages/go)** (`packages/go`)
 
-Current line: `packages/go/VERSION` → **`0.7.0`**, git tag **`packages/go/v0.7.0`**.
+Current line: `packages/go/VERSION` → **`0.8.0`**, git tag **`packages/go/v0.8.0`**.
 
 ```bash
-go get github.com/b4moss/median/go@v0.7.0
+go get github.com/b4moss/median/packages/go@v0.8.0
 ```
 
 ```bash
@@ -54,10 +54,10 @@ go test ./...
 
 | Import path | Role |
 |-------------|------|
-| `github.com/b4moss/median/go/core` | `New` / Store / Delete / Get / PresignGet |
-| `github.com/b4moss/median/go/storage/...` | Local / S3 adapters |
-| `github.com/b4moss/median/go/db` | Migrations helpers + MediaRepo |
-| `github.com/b4moss/median/go/pipeline` | Image / SVG / PDF pipeline |
+| `github.com/b4moss/median/packages/go/core` | `New` / Store / Delete / Get / PresignGet |
+| `github.com/b4moss/median/packages/go/storage/...` | Local / S3 adapters |
+| `github.com/b4moss/median/packages/go/db` | Migrations helpers + MediaRepo |
+| `github.com/b4moss/median/packages/go/pipeline` | Image / SVG / PDF pipeline |
 
 Usage: [`packages/go/README.md`](./packages/go/README.md).  
 Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v0.4.0/). Tests: [`docs/tests/`](./docs/tests/).

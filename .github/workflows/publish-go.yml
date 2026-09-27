@@ -1,6 +1,6 @@
 name: Publish Go
 
-# Makes github.com/b4moss/median/go discoverable when packages/go version is tagged.
+# Makes github.com/b4moss/median/packages/go discoverable when packages/go version is tagged.
 # Tag form: packages/go/vX.Y.Z (must match packages/go/VERSION).
 on:
   push:
@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   publish:
-    name: publish github.com/b4moss/median/go
+    name: publish github.com/b4moss/median/packages/go
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -67,7 +67,7 @@ jobs:
           fi
           if ! out="$(gh release create "$TAG" \
             --title "Go module v${VERSION}" \
-            --notes "Go module \`github.com/b4moss/median/go\` v${VERSION}." \
+            --notes "Go module \`github.com/b4moss/median/packages/go\` v${VERSION}." \
             --verify-tag 2>&1)"; then
             echo "$out"
             if echo "$out" | grep -qi 'already exists'; then
@@ -77,11 +77,23 @@ jobs:
             exit 1
           fi
 
+      # Always ping when we decided to publish — even if the Release already existed
+      # (release-on-tag race). Proxy indexing is the main publish outcome for Go.
       - name: Ping Go module proxy
         if: steps.decide.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.decide.outputs.version }}
         run: |
           set -euo pipefail
-          curl -fsSL "https://proxy.golang.org/github.com/b4moss/median/go/@v/v${VERSION}.info" || \
-            echo "proxy ping returned non-zero (tag may need a moment); release was created."
+          url="https://proxy.golang.org/github.com/b4moss/median/packages/go/@v/v${VERSION}.info"
+          for i in 1 2 3 4 5; do
+            if curl -fsSL "$url"; then
+              echo
+              echo "proxy indexed v${VERSION}"
+              exit 0
+            fi
+            echo "proxy ping attempt ${i} failed; retrying in $((i * 5))s..."
+            sleep $((i * 5))
+          done
+          echo "proxy ping still failing after retries (tag may need a moment); release path completed."
+          exit 0

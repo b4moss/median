@@ -13,10 +13,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/b4moss/median/go/core"
-	"github.com/b4moss/median/go/db"
-	"github.com/b4moss/median/go/pipeline"
-	"github.com/b4moss/median/go/storage"
+	"github.com/b4moss/median/packages/go/core"
+	"github.com/b4moss/median/packages/go/db"
+	"github.com/b4moss/median/packages/go/pipeline"
+	"github.com/b4moss/median/packages/go/storage"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )

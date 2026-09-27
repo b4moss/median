@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/b4moss/median/go/storage"
+	"github.com/b4moss/median/packages/go/storage"
 )
 
 // FS stores objects on the local filesystem under Root.
