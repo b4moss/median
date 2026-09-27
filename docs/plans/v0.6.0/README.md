@@ -12,7 +12,7 @@ timestamp: 2026-09-27T02:00:00Z
 - **マイルストーン**: `v0.6.0`
 - **文書**: [e2e.md](./e2e.md)
 - **テスト仕様**: [tests/v0.6.0.md](../../tests/v0.6.0.md)
-- **受け入れ（短い）**: Docker 上の RustFS + POSIX LocalFS で Go/JS 双方の実 I/O E2E。通常 CI 外・手動 Workflow あり
+- **受け入れ（短い）**: RustFS + POSIX LocalFS。L1/S1・CRUD+DB（C-L/C-S）・サムネ（T-L/T-S）。Go/JS 両方。通常 CI 外・手動 Workflow
 - **Issue**: [#40](https://github.com/b4moss/median/issues/40)
 - **GitHub Milestone**: [v0.6.0](https://github.com/b4moss/median/milestone/1)
 
