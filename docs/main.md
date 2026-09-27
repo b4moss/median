@@ -38,7 +38,7 @@ timestamp: 2026-09-27T01:40:00Z
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
 - **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`（未割当は `plans/unscheduled/`）
-- テスト仕様は `docs/tests/`（TDD）。E2E は `v0.6.0` で追加予定
+- テスト仕様は `docs/tests/`（TDD）。E2E は `v0.6.0`（[`e2e/`](../e2e/)、通常 CI 外）
 
 ## パッケージ配置
 
@@ -61,11 +61,12 @@ timestamp: 2026-09-27T01:40:00Z
 |------|------|
 | [roadmap.md](./roadmap.md) | マイルストーン |
 | [er.dbml](./er.dbml) | デフォルト media テーブルの論理 ER |
-| [specs/](./specs/) | 現行仕様（v0.1〜v0.5） |
-| [plans/](./plans/) | 未実装計画（v0.6 E2E / unscheduled） |
+| [specs/](./specs/) | 現行仕様（v0.1〜v0.6） |
+| [plans/](./plans/) | 未実装計画（unscheduled） |
 | [tests/](./tests/) | テスト仕様 |
 | [charter/](./charter/) | 憲章 |
 | [override-charter.md](./override-charter.md) | 憲章オーバーライド（現状なし） |
+| [`e2e/`](../e2e/) | E2E ハーネス（v0.6.0） |
 
 ----
 

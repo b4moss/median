@@ -23,7 +23,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | `v0.3.0` | 出荷済 | Go DB・画像パイプライン・S3 互換 Adapter（署名付き GET） | [specs/v0.3.0/](./specs/v0.3.0/) |
 | `v0.4.0` | 出荷済 | Go SVG サニタイズ + PDF 先頭ページサムネ（タグ `packages/go/v0.4.0`） | [specs/v0.4.0/](./specs/v0.4.0/) |
 | `v0.5.0` | 出荷済 | TypeScript（`packages/js` / npm `@b4moss/median`、タグ `v0.5.0`） | [specs/v0.5.0/](./specs/v0.5.0/) |
-| `v0.6.0` | 計画中 | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS。通常 CI 外・手動 Workflow） | [plans/v0.6.0/](./plans/v0.6.0/) |
+| `v0.6.0` | 出荷済 | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS。通常 CI 外・手動 Workflow） | [specs/v0.6.0/](./specs/v0.6.0/) |
 
 ## 未割当（unscheduled）
 
@@ -35,7 +35,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 
 1. Go（`packages/go`）… `v0.1.0`〜`v0.4.0`（完了）
 2. TypeScript（`packages/js`）… `v0.5.0`（完了）
-3. E2E テスト… `v0.6.0`（次）
+3. E2E テスト… `v0.6.0`（完了）
 4. PHP（`packages/php`）… マイルストーン未割当
 
 CI/CD は他の `-an` 系（shardian / crudian）と同じ振る舞いとし、docs のみの変更で冗長な CI を起動しない。
