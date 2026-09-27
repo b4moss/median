@@ -9,11 +9,11 @@ timestamp: 2026-09-27T04:40:00Z
 # テスト仕様 — DDL 生成 CLI
 
 対象マイルストーン: `v0.9.0`（DDL 生成 CLI）  
-製品: [`../README.md`](../README.md)  
-仕様: [`../specs/ddl-cli/`](../specs/ddl-cli/)（[ddl-cli.md](../specs/ddl-cli/ddl-cli.md)）  
-前提（出荷契約）: [`./db-media/db-media.md`](./db-media/db-media.md)（スキーマ・`CreateMediaSQL` / `MigrateUp`）/ [`./go-module-path/go-module-path.md`](./go-module-path/go-module-path.md)  
-ロードマップ: [`../roadmap.md`](../roadmap.md)  
-書き方: charter [`tdd.md`](../charter/tdd.md)（氷山パターン）
+製品: [`../../README.md`](../../README.md)（pillar）  
+仕様: [`../../specs/ddl-cli/`](../../specs/ddl-cli/)（[ddl-cli.md](../../specs/ddl-cli/ddl-cli.md)）  
+前提（出荷契約）: [`../db-media/db-media.md`](../db-media/db-media.md)（スキーマ・`CreateMediaSQL` / `MigrateUp`）/ [`../go-module-path/go-module-path.md`](../go-module-path/go-module-path.md)  
+ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
+書き方: charter [`../../charter/tdd.md`](../../charter/tdd.md)（氷山パターン）
 
 ## 共通前提
 

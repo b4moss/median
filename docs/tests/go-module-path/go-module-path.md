@@ -19,9 +19,9 @@ timestamp: 2026-09-27T04:15:00Z
 | 項目 | 値 |
 | --- | --- |
 | 対象 | Go `packages/go`（全パッケージ）と `e2e/go` の replace |
-| パッケージ SemVer | Go **`0.8.0`**（タグ `packages/go/v0.8.0`）。npm 変更なし |
-| Module path | `github.com/b4moss/median/packages/go` |
-| 状態 | 出荷済（ソース・VERSION・タグ済み） |
+| パッケージ SemVer（導入時） | Go **`0.8.0`**（タグ `packages/go/v0.8.0`）。npm は当時変更なし |
+| Module path | `github.com/b4moss/median/packages/go`（現行も同じ） |
+| 状態 | 出荷済（パス契約は継続。現行 `VERSION` はパッケージラインを参照） |
 
 ## 受け入れケース
 
@@ -29,7 +29,7 @@ timestamp: 2026-09-27T04:15:00Z
 
 - **Given** `packages/go/go.mod`
 - **Then** 先頭行が `module github.com/b4moss/median/packages/go`
-- **And** `VERSION` が `0.8.0`
+- **And** `VERSION` が SemVer として存在し、module path 契約を破らない（導入時は `0.8.0`。現行は `0.9.0` 以降可）
 
 ### M2 — 内部 import
 

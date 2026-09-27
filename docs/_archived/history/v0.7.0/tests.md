@@ -11,8 +11,8 @@ timestamp: 2026-09-27T03:15:07Z
 対象マイルストーン: `v0.7.0`（DB メディアスキーマ）  
 製品: [`../main.md`](../../../README.md)  
 仕様: [`../specs/db-media/`](../../../specs/db-media/)（[db-media.md](../../../specs/db-media/db-media.md)）  
-前提（出荷契約）: [`./v0.3.0.md`](../../../specs/db-media/db-media.md) / [`./v0.5.0.md`](../../../tests/packages-js/packages-js.md)（本版で DB 列・設定を上書き）  
-E2E 前提: [`./v0.6.0.md`](../../../tests/e2e/e2e.md)（シナリオは維持。DB 列参照のみ本版に追随）  
+前提（出荷契約）: [`db-media`](../../../specs/db-media/db-media.md) / [`packages-js`](../../../tests/packages-js/packages-js.md)（本版で DB 列・設定を上書き）  
+E2E 前提: [`e2e`](../../../tests/e2e/e2e.md)（シナリオは維持。DB 列参照のみ本版に追随）  
 ロードマップ: [`../roadmap.md`](../roadmap.md)  
 書き方: charter [`tdd.md`](../../../charter/tdd.md)（氷山パターン）
 
@@ -188,7 +188,7 @@ v0.6.0 のシナリオ ID（L1/S1・C-L/C-S・T-L/T-S）は維持する。変更
 
 ## 版外（本ファイルで検証しない）
 
-- マイグレーションコマンド / ホスト migrate 連携（DDL 出力 CLI・goose embed 等）
+- マイグレーションコマンド / ホスト migrate 連携（本版時点ではスコープ外。現行は [`ddl-cli`](../../../tests/ddl-cli/ddl-cli.md)）
 - `hash` の UNIQUE 化・部分 UNIQUE
 - 公開 API フィールド名 `path` のリネーム
 - 既存 DB からの自動 ALTER アップグレード

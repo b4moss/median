@@ -11,11 +11,11 @@ timestamp: 2026-09-25T07:20:00Z
 対象マイルストーン: `v0.3.0`（Go DB・画像パイプライン・S3）  
 製品: [`../main.md`](../../../README.md)  
 仕様: [`../specs/db-media/`](../../../specs/db-media/)（[db-media.md](../../../specs/db-media/db-media.md) / [media-pipeline.md](../../../specs/media-pipeline/media-pipeline.md) / [s3-adapter.md](../../../specs/s3-adapter/s3-adapter.md)）  
-前提（コア）: [`./v0.2.0.md`](../../../tests/core-api/core-api.md)  
+前提（コア）: [`core-api`](../../../tests/core-api/core-api.md)  
 ロードマップ: [`../roadmap.md`](../roadmap.md)  
 書き方: charter [`tdd.md`](../../../charter/tdd.md)（氷山パターン）
 
-> **現行 DB 列・テーブル設定の受け入れは [`./v0.7.0.md`](../../../specs/db-media/db-media.md) を正とする。** 本ファイルの `path` 必須カラム等は v0.3.0 出荷時点の契約として残す。
+> **現行 DB 列・テーブル設定の受け入れは [`db-media`](../../../specs/db-media/db-media.md) を正とする。** 本ファイルの `path` 必須カラム等は v0.3.0 出荷時点の契約として残す。
 
 ## 共通前提
 
@@ -58,7 +58,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 #### テスト：正常系
 
 - SQLite に Up すると `media` が存在し、必須カラム（id/path/mime/size/width/height/hash/created_at/original_id/variant_key/created_by/owned_by/status）が揃う  
-  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`./v0.7.0.md`](../../../specs/db-media/db-media.md)**
+  - **v0.7.0 以降の現行列は `file_path` / `file_name` / `original_file_name`（`path` 廃止）。受け入れは [`db-media`](../../../specs/db-media/db-media.md)**
 - Down すると `media` が消える
 - `auto_increment` 戦略で整数系 PK になる
 - `uuid_v4`（または text 系戦略）で text PK の DDL が選ばれる（生成 SQL または適用結果で確認）
@@ -82,7 +82,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 
 #### テスト: 異常系
 
-- path 欠落など必須欠落は拒否する（**v0.7.0 以降は `file_path` / `file_name` / `hash` 等。[`./v0.7.0.md`](../../../specs/db-media/db-media.md)**）
+- path 欠落など必須欠落は拒否する（**v0.7.0 以降は `file_path` / `file_name` / `hash` 等。[`db-media`](../../../specs/db-media/db-media.md)**）
 - actor 未指定かつ DefaultActor なしは拒否する（Store 経路）
 - 一意制約（path、または original_id+variant_key）違反はエラーになる（**v0.7.0 以降の UNIQUE は `file_path`**）
 

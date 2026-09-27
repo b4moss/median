@@ -13,6 +13,9 @@ OKF の版索引。プロダクトの目的・スコープ等の本文は [READM
 
 # Project Docs
 
+* [ルート README](../README.md) / [日本語](../README-ja.md) - ホスト組み込みステップバイステップ（言語共通）
+* [packages/go/README](../packages/go/README.md) - Go 言語ハブ
+* [packages/js/README](../packages/js/README.md) - JS 言語ハブ
 * [roadmap.md](roadmap.md) - マイルストーン一覧
 * [wishlist.md](wishlist.md) - PO メモ（未整理）
 * [er.dbml](er.dbml) - デフォルト media テーブルの論理 ER
