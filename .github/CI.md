@@ -17,7 +17,7 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 | Workflow | Role |
 | --- | --- |
 | `ci.yml` | PR/push tests for `packages/{go,js,php}` with path filters (docs-only does not start CI). Needs `pull-requests: read` for dorny/paths-filter on PRs |
-| `e2e.yml` | **Manual only** (`workflow_dispatch`). RustFS + LocalFS E2E for Go and JS (`e2e/run.sh`). Not a PR gate — see `docs/tests/v0.6.0.md` / `docs/specs/v0.6.0/` |
+| `e2e.yml` | **Manual only** (`workflow_dispatch`). RustFS + LocalFS E2E for Go and JS (`e2e/run.sh`). Not a PR gate — see `docs/tests/e2e/e2e.md` / `docs/specs/e2e/` |
 | `codeql.yml` | CodeQL on **PR → main only** (crudian と同型). **Private 現状**: `upload: never` + 言語は `actions` のみ。**Public / GHAS 後**: workflow 内のコメントアウトを外す（go / js-ts matrix と SARIF upload） |
 | `scorecard.yml` | OpenSSF Scorecard on default branch |
 | `release-on-tag.yml` | GitHub Release for `v*`, `packages/go/v*`, `packages/php/v*` |

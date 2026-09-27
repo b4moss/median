@@ -29,8 +29,8 @@ Module path matches the repo subdirectory and tag prefix (`packages/go/vX.Y.Z`) 
 go test ./...
 ```
 
-Specs: [docs/specs/v0.2.0/](../../docs/specs/v0.2.0/)–[v0.4.0/](../../docs/specs/v0.4.0/), [v0.7.0/](../../docs/specs/v0.7.0/), [v0.8.0/](../../docs/specs/v0.8.0/)  
-Acceptance tests: [docs/tests/v0.2.0.md](../../docs/tests/v0.2.0.md)–[v0.4.0.md](../../docs/tests/v0.4.0.md), [v0.7.0.md](../../docs/tests/v0.7.0.md), [v0.8.0.md](../../docs/tests/v0.8.0.md)  
-E2E (shared): [e2e/](../../e2e/) / [docs/specs/v0.6.0/](../../docs/specs/v0.6.0/)
+Specs: [core-api](../../docs/specs/core-api/)–[svg-sanitize](../../docs/specs/svg-sanitize/) / [pdf-thumbnail](../../docs/specs/pdf-thumbnail/), [db-media](../../docs/specs/db-media/), [go-module-path](../../docs/specs/go-module-path/)  
+Acceptance tests: [core-api](../../docs/tests/core-api/) / [storage](../../docs/tests/storage/) / … / [db-media](../../docs/tests/db-media/), [go-module-path](../../docs/tests/go-module-path/)  
+E2E (shared): [e2e/](../../e2e/) / [docs/specs/e2e/](../../docs/specs/e2e/)
 
 Repository hub: [README.md](../../README.md) / [README-ja.md](../../README-ja.md)

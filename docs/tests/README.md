@@ -1,26 +1,31 @@
 ---
 type: Index
 title: tests
-description: TDD入力となるテスト仕様の置き場。
+description: TDD入力となるテスト仕様（specs と同じドメイン切り）。
 tags: [median, tests, index]
-timestamp: 2026-09-27T03:15:07Z
+timestamp: 2026-09-27T05:00:00Z
 ---
 
 # tests
 
-TDD の入力となるテスト仕様を置く。書き方・氷山パターンは charter [`tdd.md`](../charter/tdd.md)。
+TDD の入力となるテスト仕様を置く。書き方・氷山パターンは charter [`tdd.md`](../charter/tdd.md)。  
+`specs/` と**同じドメイン切り**。**SemVer フォルダ（`vX.Y.Z`）では切らない**（OKF v0.1）。
 
-マイルストーン単位で 1 ファイルにまとめる（crudian 同型）。
-
-| 版 | テスト仕様 |
+| ドメイン | テスト仕様 |
 | --- | --- |
-| `v0.1.0` | スキャフォールドのみのため原則不要 |
-| `v0.2.0` | [v0.2.0.md](./v0.2.0.md)（Go コア + Local FS） |
-| `v0.3.0` | [v0.3.0.md](./v0.3.0.md)（Go DB・画像・S3。DB 列の現行契約は v0.7.0） |
-| `v0.4.0` | [v0.4.0.md](./v0.4.0.md)（Go SVG・PDF） |
-| `v0.5.0` | [v0.5.0.md](./v0.5.0.md)（TypeScript / `packages/js`。DB 列の現行契約は v0.7.0） |
-| `v0.6.0` | [v0.6.0.md](./v0.6.0.md)（E2E: L1/S1・CRUD+DB・サムネ T-L/T-S） |
-| `v0.7.0` | [v0.7.0.md](./v0.7.0.md)（DB パス列再編・テーブル名／カラムマップ。Go / JS） |
+| [scaffold/](./scaffold/) | スキャフォールドのみのため原則不要 |
+| [core-api/](./core-api/) | Go コア API |
+| [storage/](./storage/) | Local FS・key・ファイル名・shardian |
+| [db-media/](./db-media/) | DB・メディアスキーマ（パス列含む） |
+| [media-pipeline/](./media-pipeline/) | 画像パイプライン |
+| [s3-adapter/](./s3-adapter/) | S3 互換 Adapter |
+| [svg-sanitize/](./svg-sanitize/) | SVG サニタイズ |
+| [pdf-thumbnail/](./pdf-thumbnail/) | PDF サムネ |
+| [packages-js/](./packages-js/) | TypeScript / `packages/js` |
+| [e2e/](./e2e/) | E2E（L1/S1・CRUD+DB・サムネ） |
+| [go-module-path/](./go-module-path/) | Go モジュールパス整合 |
+
+版ごとの歴史資料は [`_archived/history/`](../_archived/history/) を参照。
 
 ----
 

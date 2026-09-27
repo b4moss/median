@@ -33,7 +33,7 @@ npm run build
 ```
 
 API notes: [`packages/js/README.md`](./packages/js/README.md).  
-Acceptance tests: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md). Specs: [`docs/specs/v0.7.0/`](./docs/specs/v0.7.0/).
+Acceptance tests: [`docs/tests/db-media/db-media.md`](./docs/tests/db-media/db-media.md). Specs: [`docs/specs/db-media/`](./docs/specs/db-media/).
 
 **Release:** root git tag `vX.Y.Z` must match `package.json` `version`. Pushing that tree to `release` publishes to npm when packed content differs from the registry ([`.github/CI.md`](./.github/CI.md)). Trusted Publishing is configured for GitHub Actions.
 
@@ -60,7 +60,7 @@ go test ./...
 | `github.com/b4moss/median/packages/go/pipeline` | Image / SVG / PDF pipeline |
 
 Usage: [`packages/go/README.md`](./packages/go/README.md).  
-Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v0.4.0/). Tests: [`docs/tests/`](./docs/tests/).
+Specs: [`docs/specs/core-api/`](./docs/specs/core-api/)–[`docs/specs/svg-sanitize/`](./docs/specs/svg-sanitize/). Tests: [`docs/tests/`](./docs/tests/).
 
 **Release:** tag `packages/go/vX.Y.Z` matching `VERSION`. Root tag `vX.Y.Z` alone does **not** publish Go.
 
@@ -70,15 +70,15 @@ Not scheduled yet (`unscheduled`). Planned under `packages/php` — see [`docs/p
 
 ## E2E
 
-Shipped milestone **`v0.6.0`**: RustFS + POSIX LocalFS, CRUD+DB meta, thumbnails (Go and JS). Not in regular CI — run `./e2e/run.sh` locally (especially before version bumps) or trigger [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) via `workflow_dispatch`. Specs: [`docs/specs/v0.6.0/`](./docs/specs/v0.6.0/).
+Shipped milestone **`v0.6.0`**: RustFS + POSIX LocalFS, CRUD+DB meta, thumbnails (Go and JS). Not in regular CI — run `./e2e/run.sh` locally (especially before version bumps) or trigger [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) via `workflow_dispatch`. Specs: [`docs/specs/e2e/`](./docs/specs/e2e/).
 
 ## Docs
 
 | Doc | Contents |
 |-----|----------|
-| [`docs/main.md`](./docs/main.md) | Product hub (purpose, scope, tech policy) |
+| [`docs/README.md`](./docs/README.md) | Product pillar (purpose, scope, tech policy) |
 | [`docs/roadmap.md`](./docs/roadmap.md) | Milestones |
-| [`docs/specs/`](./docs/specs/) | Shipped specs (v0.1–v0.6) |
+| [`docs/specs/`](./docs/specs/) | Current specs (domain-oriented) |
 | [`docs/plans/`](./docs/plans/) | Upcoming plans (PHP unscheduled) |
 | [`docs/tests/`](./docs/tests/) | TDD acceptance specs |
 | [`docs/charter/`](./docs/charter/) | Charter (Git, SemVer, TDD, …) |

@@ -3,14 +3,14 @@ type: Index
 title: plans 索引
 description: 未実装計画の版フォルダ索引。
 tags: [median, plans, index]
-timestamp: 2026-09-27T03:23:29Z
+timestamp: 2026-09-27T05:00:00Z
 ---
 
 # plans 索引
 
-**これからやる**計画・仕様詳細の索引。実装後は対応ファイルを `docs/specs/` へ移す。
+**これからやる**計画・仕様詳細の索引。実装後は対応ファイルを `docs/specs/{domain}/` へ移す。
 
-出荷済み（v0.1〜v0.7）は [specs/](../specs/) を参照。
+出荷済みは [specs/](../specs/)（ドメイン切り）を参照。
 
 ## 版フォルダ
 
