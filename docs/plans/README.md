@@ -3,7 +3,7 @@ type: Index
 title: plans 索引
 description: 未実装計画の版フォルダ索引。
 tags: [median, plans, index]
-timestamp: 2026-09-27T03:04:17Z
+timestamp: 2026-09-27T03:07:27Z
 ---
 
 # plans 索引
@@ -16,11 +16,12 @@ timestamp: 2026-09-27T03:04:17Z
 
 | マイルストーン | 内容 | 状態 |
 | --- | --- | --- |
-| [unscheduled/](./unscheduled/) | マイルストーン未割当（DB スキーマ方針・PHP 移植など） | — |
+| [v0.7.0/](./v0.7.0/) | DB メディアスキーマ（パス列・テーブル名） | 方針確定 |
+| [unscheduled/](./unscheduled/) | マイルストーン未割当（PHP 移植など） | — |
 
 ## 実装順（残り）
 
-1. （未割当）DB メディアスキーマ — [unscheduled/db-media-schema.md](./unscheduled/db-media-schema.md)
+1. `v0.7.0` — DB メディアスキーマ — [v0.7.0/db-media-schema.md](./v0.7.0/db-media-schema.md)
 2. （未割当）PHP — [unscheduled/packages-php.md](./unscheduled/packages-php.md)
 
 ----

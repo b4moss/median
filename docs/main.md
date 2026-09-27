@@ -3,7 +3,7 @@ type: Hub
 title: median
 description: ファイル操作を抽象化するDDD向けライブラリの目的・スコープ・技術方針ハブ。
 tags: [median, hub]
-timestamp: 2026-09-27T02:55:00Z
+timestamp: 2026-09-27T03:07:27Z
 ---
 
 # median
@@ -34,7 +34,7 @@ timestamp: 2026-09-27T02:55:00Z
 ## 技術方針
 
 - 他の `-an` 系（shardian / crudian）と同様の開発方針を主軸とする
-- 開発順は **Go → TypeScript（`packages/js`）→ E2E →（未割当）PHP**
+- 開発順は **Go → TypeScript（`packages/js`）→ E2E → DB スキーマ（`v0.7.0`）→（未割当）PHP**
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
 - **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`（未割当は `plans/unscheduled/`）
@@ -62,7 +62,7 @@ timestamp: 2026-09-27T02:55:00Z
 | [roadmap.md](./roadmap.md) | マイルストーン |
 | [er.dbml](./er.dbml) | デフォルト media テーブルの論理 ER |
 | [specs/](./specs/) | 現行仕様（v0.1〜v0.6） |
-| [plans/](./plans/) | 未実装計画（unscheduled） |
+| [plans/](./plans/) | 未実装計画（`v0.7.0` / unscheduled） |
 | [tests/](./tests/) | テスト仕様 |
 | [charter/](./charter/) | 憲章 |
 | [override-charter.md](./override-charter.md) | 憲章オーバーライド（現状なし） |
