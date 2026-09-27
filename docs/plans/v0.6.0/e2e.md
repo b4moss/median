@@ -11,7 +11,7 @@ timestamp: 2026-09-27T02:00:00Z
 - **状態**: 方針確定（シナリオ・ランナー詳細は後日）
 - **マイルストーン**: `v0.6.0`
 - **前提**: Go（`v0.4.0`）および TypeScript（`v0.5.0`）が出荷済みであること
-- **関連**: [main.md](../../main.md) / [roadmap.md](../../roadmap.md) / [charter/tdd.md](../../charter/tdd.md)
+- **関連**: [main.md](../../main.md) / [roadmap.md](../../roadmap.md) / [charter/tdd.md](../../charter/tdd.md) / [tests/v0.6.0.md](../../tests/v0.6.0.md)
 - **Issue**: [#40](https://github.com/b4moss/median/issues/40)
 
 ## 目的
@@ -61,9 +61,7 @@ timestamp: 2026-09-27T02:00:00Z
 ## 後日詳細
 
 - RustFS のイメージ pin・ヘルスチェック
-- シナリオ一覧（Store / Get / Delete / Presign / パイプラインのどれを必須とするか）
-- テストランナー配置（例: `e2e/`）と Go / JS の起動手順
-- `docs/tests/v0.6.0.md` の TDD 入力
+- テストランナー配置（`e2e/`）と Go / JS の起動手順（シナリオは [tests/v0.6.0.md](../../tests/v0.6.0.md) 第2部で確定）
 
 ----
 
