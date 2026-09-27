@@ -55,7 +55,10 @@ UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、�
 | `MEDIAN_ID_STRATEGY` | `auto_increment`（デフォルト） / `uuid_v4` / `uuid_v7` / `ulid` | PK 型 |
 | `MEDIAN_TABLE_NAME` | 識別子（デフォルト `media`） | テーブル名（goose 正本） |
 
-`packages/go` / `packages/js` の `CreateMediaSQL` / `MigrateUp` も同内容（テーブル名引数あり）。
+- Go / JS の DDL 生成は同内容に同期
+- **ホストへの適用**: [`median migrate dump`](../docs/specs/v0.9.0/ddl-cli.md) で SQL を出し、ホストの migrate に載せる（公式）
+- ルートでの `goose -dir migrations ...` 直叩きは参考（開発・検証用）。ライブラリ配布物には goose 正本は含まれない
+- ランタイムの `MigrateUp` / `migrateUp` はテスト・使い捨て DB 向け
 
 ## ファイル
 
@@ -63,7 +66,22 @@ UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、�
 | --- | --- |
 | [`00001_create_media.go`](./00001_create_media.go) | media テーブル作成（dialect × id strategy × table name） |
 
-## 実行（実装後）
+## ホスト向け（推奨）
+
+```bash
+# Go
+go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+  migrate dump --dialect postgres --id-strategy auto_increment --table media \
+  > migrations/XXXX_median_media.sql
+
+# JS
+npx @b4moss/median@0.9.0 migrate dump --dialect postgres --table media \
+  > migrations/XXXX_median_media.sql
+```
+
+引数はアプリ側 median Config（テーブル名・ID 戦略）と一致させる。
+
+## 参考: ルート goose（クローン／開発用）
 
 ```bash
 # 例: Postgres
