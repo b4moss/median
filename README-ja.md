@@ -68,7 +68,9 @@ go test ./...
 
 マイルストーン未割当（`unscheduled`）。`packages/php` 予定 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md)
 
-次のマイルストーンは **E2E テスト**（`v0.6.0`）— [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/)
+## E2E
+
+出荷済マイルストーン **`v0.6.0`**: RustFS + POSIX LocalFS、CRUD+DB メタ、サムネ（Go/JS）。通常 CI には含めない — 手元では `./e2e/run.sh`（版上げ前に推奨）、Actions は [`.github/workflows/e2e.yml`](./.github/workflows/e2e.yml) の `workflow_dispatch`。仕様: [`docs/specs/v0.6.0/`](./docs/specs/v0.6.0/)
 
 ## ドキュメント
 
@@ -76,10 +78,11 @@ go test ./...
 |-----|----------|
 | [`docs/main.md`](./docs/main.md) | プロダクトハブ（目的・スコープ・技術方針） |
 | [`docs/roadmap.md`](./docs/roadmap.md) | マイルストーン |
-| [`docs/specs/`](./docs/specs/) | 出荷済仕様（v0.1〜v0.5） |
-| [`docs/plans/`](./docs/plans/) | 今後の計画（`v0.6.0` E2E / PHP は unscheduled） |
+| [`docs/specs/`](./docs/specs/) | 出荷済仕様（v0.1〜v0.6） |
+| [`docs/plans/`](./docs/plans/) | 今後の計画（PHP は unscheduled） |
 | [`docs/tests/`](./docs/tests/) | TDD 受け入れ仕様 |
 | [`docs/charter/`](./docs/charter/) | 憲章（Git / SemVer / TDD など） |
+| [`e2e/`](./e2e/) | E2E ハーネス（RustFS + LocalFS） |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD 方針 |
 
 ## ライセンス

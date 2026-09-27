@@ -1,0 +1,41 @@
+name: E2E
+
+# Manual-only. Not a PR/push gate (see docs/tests/v0.6.0.md).
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: RustFS + LocalFS (Go and JS)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: "1.26.x"
+          cache-dependency-path: |
+            packages/go/go.sum
+            e2e/go/go.sum
+
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: |
+            packages/js/package-lock.json
+            e2e/js/package-lock.json
+
+      - name: Run E2E
+        run: ./e2e/run.sh all

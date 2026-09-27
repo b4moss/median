@@ -1,0 +1,41 @@
+# median E2E — RustFS + Docker volume for Local FS
+# Image pin: rustfs/rustfs:1.0.0 (digest sha256:8cc9801755448b71a786705ce76692c77e14936cccd87cf2fc31842e58f4d1ff)
+
+services:
+  rustfs:
+    image: rustfs/rustfs:1.0.0@sha256:8cc9801755448b71a786705ce76692c77e14936cccd87cf2fc31842e58f4d1ff
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      RUSTFS_ACCESS_KEY: ${MEDIAN_E2E_S3_ACCESS_KEY:-median_e2e}
+      RUSTFS_SECRET_KEY: ${MEDIAN_E2E_S3_SECRET_KEY:-median_e2e_secret}
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+      RUSTFS_UNSAFE_BYPASS_DISK_CHECK: "true"
+      RUSTFS_OBS_LOGGER_LEVEL: error
+    volumes:
+      - rustfs_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+
+  # Keeps the POSIX volume alive; runners mount the same volume at /data/local.
+  localfs:
+    image: alpine:3.20
+    command: ["sh", "-c", "mkdir -p /data/local && chmod 777 /data/local && sleep infinity"]
+    volumes:
+      - local_data:/data/local
+    healthcheck:
+      test: ["CMD", "test", "-d", "/data/local"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  rustfs_data:
+  local_data:
