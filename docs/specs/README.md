@@ -20,7 +20,7 @@ timestamp: 2026-09-27T01:40:00Z
 | [v0.4.0/](./v0.4.0/) | Go SVG サニタイズ・PDF サムネ |
 | [v0.5.0/](./v0.5.0/) | TypeScript（`packages/js`） |
 
-未実装は [plans/](../plans/)（現在は `v0.6.0` PHP）。
+未実装は [plans/](../plans/)（現在は `v0.6.0` E2E、および [unscheduled/](../plans/unscheduled/)）。
 
 ----
 

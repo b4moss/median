@@ -66,7 +66,9 @@ Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v
 
 ## PHP
 
-Not started yet (`v0.6.0`). Planned under `packages/php` — see [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/).
+Not scheduled yet (`unscheduled`). Planned under `packages/php` — see [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md).
+
+Next milestone is **E2E tests** (`v0.6.0`) — [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/).
 
 ## Docs
 
@@ -75,7 +77,7 @@ Not started yet (`v0.6.0`). Planned under `packages/php` — see [`docs/plans/v0
 | [`docs/main.md`](./docs/main.md) | Product hub (purpose, scope, tech policy) |
 | [`docs/roadmap.md`](./docs/roadmap.md) | Milestones |
 | [`docs/specs/`](./docs/specs/) | Shipped specs (v0.1–v0.5) |
-| [`docs/plans/`](./docs/plans/) | Upcoming plans (v0.6 PHP) |
+| [`docs/plans/`](./docs/plans/) | Upcoming plans (`v0.6.0` E2E; PHP unscheduled) |
 | [`docs/tests/`](./docs/tests/) | TDD acceptance specs |
 | [`docs/charter/`](./docs/charter/) | Charter (Git, SemVer, TDD, …) |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD policy |
