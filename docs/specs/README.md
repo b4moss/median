@@ -21,6 +21,8 @@ timestamp: 2026-09-27T03:23:29Z
 | [v0.5.0/](./v0.5.0/) | TypeScript（`packages/js`） |
 | [v0.6.0/](./v0.6.0/) | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS） |
 | [v0.7.0/](./v0.7.0/) | DB メディアスキーマ（パス列・テーブル名／カラムマップ） |
+| [v0.8.0/](./v0.8.0/) | Go モジュールパス（`packages/go`） |
+| [v0.9.0/](./v0.9.0/) | DDL 生成 CLI（`median migrate dump`） |
 
 未実装は [plans/](../plans/)（現在は [unscheduled/](../plans/unscheduled/) のみ）。
 
