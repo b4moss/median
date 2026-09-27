@@ -7,9 +7,10 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 | Artifact | Version | How |
 | --- | --- | --- |
 | `@b4moss/median` (npm) | `0.7.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
-| `github.com/b4moss/median/go` | `0.7.0` | Tag `packages/go/vX.Y.Z` |
+| `github.com/b4moss/median/packages/go` | `0.8.0` | Tag `packages/go/vX.Y.Z`（module path = ディレクトリ／タグ接頭辞） |
 | E2E harness (`e2e/`) | `v0.6.0` | Tag `v0.6.0`（milestone release。Go/npm の SemVer は上げない。`release` ブランチ不要） |
-| DB media schema | `v0.7.0` | Tags `v0.7.0` + `packages/go/v0.7.0`（`release` デプロイは E2E 確認後） |
+| DB media schema | `v0.7.0` | Tags `v0.7.0` + `packages/go/v0.7.0`（出荷済） |
+| Go module path | `v0.8.0` | Tag `packages/go/v0.8.0`（`github.com/b4moss/median/packages/go`） |
 
 ## Workflows
 
@@ -21,7 +22,7 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 | `scorecard.yml` | OpenSSF Scorecard on default branch |
 | `release-on-tag.yml` | GitHub Release for `v*`, `packages/go/v*`, `packages/php/v*` |
 | `publish-npm.yml` | Publish `@b4moss/median` from `release` when JS changed |
-| `publish-go.yml` | GitHub Release + proxy ping for `github.com/b4moss/median/go` |
+| `publish-go.yml` | GitHub Release + proxy ping for `github.com/b4moss/median/packages/go` |
 
 ## Runtimes (CI)
 

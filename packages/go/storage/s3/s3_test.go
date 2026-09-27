@@ -12,8 +12,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/b4moss/median/go/storage"
-	s3store "github.com/b4moss/median/go/storage/s3"
+	"github.com/b4moss/median/packages/go/storage"
+	s3store "github.com/b4moss/median/packages/go/storage/s3"
 )
 
 type memS3 struct {

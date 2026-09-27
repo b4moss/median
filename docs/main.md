@@ -44,7 +44,7 @@ timestamp: 2026-09-27T03:07:27Z
 
 | パス | 内容 | 現状 |
 |------|------|------|
-| `packages/go` | Go（開発順 1） | 出荷済 `v0.7.0`（タグ `packages/go/v0.7.0`） |
+| `packages/go` | Go（開発順 1） | 実装中 `v0.8.0`（モジュールパス `github.com/b4moss/median/packages/go`） |
 | `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.7.0`（npm `@b4moss/median`） |
 | `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |
