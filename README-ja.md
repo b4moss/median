@@ -66,7 +66,9 @@ go test ./...
 
 ## PHP
 
-未着手（`v0.6.0`）。`packages/php` 予定 — [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/)
+マイルストーン未割当（`unscheduled`）。`packages/php` 予定 — [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md)
+
+次のマイルストーンは **E2E テスト**（`v0.6.0`）— [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/)
 
 ## ドキュメント
 
@@ -75,7 +77,7 @@ go test ./...
 | [`docs/main.md`](./docs/main.md) | プロダクトハブ（目的・スコープ・技術方針） |
 | [`docs/roadmap.md`](./docs/roadmap.md) | マイルストーン |
 | [`docs/specs/`](./docs/specs/) | 出荷済仕様（v0.1〜v0.5） |
-| [`docs/plans/`](./docs/plans/) | 今後の計画（v0.6 PHP） |
+| [`docs/plans/`](./docs/plans/) | 今後の計画（`v0.6.0` E2E / PHP は unscheduled） |
 | [`docs/tests/`](./docs/tests/) | TDD 受け入れ仕様 |
 | [`docs/charter/`](./docs/charter/) | 憲章（Git / SemVer / TDD など） |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD 方針 |

@@ -3,7 +3,7 @@ type: Hub
 title: median roadmap
 description: SemVerマイルストーン一覧と短い受け入れのハブ。
 tags: [median, roadmap]
-timestamp: 2026-09-27T01:40:00Z
+timestamp: 2026-09-27T01:45:00Z
 ---
 
 # median roadmap
@@ -23,13 +23,20 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | `v0.3.0` | 出荷済 | Go DB・画像パイプライン・S3 互換 Adapter（署名付き GET） | [specs/v0.3.0/](./specs/v0.3.0/) |
 | `v0.4.0` | 出荷済 | Go SVG サニタイズ + PDF 先頭ページサムネ（タグ `packages/go/v0.4.0`） | [specs/v0.4.0/](./specs/v0.4.0/) |
 | `v0.5.0` | 出荷済 | TypeScript（`packages/js` / npm `@b4moss/median`、タグ `v0.5.0`） | [specs/v0.5.0/](./specs/v0.5.0/) |
-| `v0.6.0` | 計画中 | PHP（`packages/php`）移植 | [plans/v0.6.0/](./plans/v0.6.0/) |
+| `v0.6.0` | 計画中 | E2E テスト追加（詳細は後日） | [plans/v0.6.0/](./plans/v0.6.0/) |
+
+## 未割当（unscheduled）
+
+| 項目 | 状態 | 詳細 |
+| --- | --- | --- |
+| PHP（`packages/php`）移植 | 意図スタブ | [plans/unscheduled/packages-php.md](./plans/unscheduled/packages-php.md) |
 
 ## 開発順
 
 1. Go（`packages/go`）… `v0.1.0`〜`v0.4.0`（完了）
 2. TypeScript（`packages/js`）… `v0.5.0`（完了）
-3. PHP（`packages/php`）… `v0.6.0`（次）
+3. E2E テスト… `v0.6.0`（次）
+4. PHP（`packages/php`）… マイルストーン未割当
 
 CI/CD は他の `-an` 系（shardian / crudian）と同じ振る舞いとし、docs のみの変更で冗長な CI を起動しない。
 
