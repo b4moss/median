@@ -3,14 +3,14 @@ type: Index
 title: tests
 description: TDD入力となるテスト仕様の置き場。
 tags: [median, tests, index]
-timestamp: 2026-09-27T00:40:00Z
+timestamp: 2026-09-27T01:40:00Z
 ---
 
 # tests
 
 TDD の入力となるテスト仕様を置く。書き方・氷山パターンは charter [`tdd.md`](../charter/tdd.md)。
 
-マイルストーン単位で 1 ファイルにまとめる（crudian 同型）。実装着手時に追加する。
+マイルストーン単位で 1 ファイルにまとめる（crudian 同型）。
 
 | 版 | テスト仕様 |
 | --- | --- |

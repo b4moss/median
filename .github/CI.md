@@ -2,6 +2,13 @@
 
 Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / crudian).
 
+## Current publish targets (checkpoint)
+
+| Artifact | Version | How |
+| --- | --- | --- |
+| `@b4moss/median` (npm) | `0.5.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
+| `github.com/b4moss/median/go` | `0.4.0` | Tag `packages/go/vX.Y.Z` |
+
 ## Workflows
 
 | Workflow | Role |

@@ -3,7 +3,7 @@ type: Hub
 title: median
 description: ファイル操作を抽象化するDDD向けライブラリの目的・スコープ・技術方針ハブ。
 tags: [median, hub]
-timestamp: 2026-09-25T05:28:00Z
+timestamp: 2026-09-27T01:40:00Z
 ---
 
 # median
@@ -18,10 +18,10 @@ timestamp: 2026-09-25T05:28:00Z
 
 ### やること
 
-- ファイルの保存（`Store`）・削除（`Delete`）・取得（`Get`）
-- ローカル FS /（後続）S3 互換ストレージへの Adapter
+- ファイルの保存（`Store`）・削除（`Delete`）・取得（`Get`）・署名付き GET（`PresignGet`）
+- ローカル FS / S3 互換ストレージへの Adapter
 - 任意のメディア DB 連携（b4moss/crudian）
-- 画像の圧縮・リサイズ・サムネイル生成（版により範囲が異なる。詳細は plans）
+- 画像の圧縮・リサイズ・サムネイル、SVG サニタイズ、PDF 先頭ページサムネ（版により範囲が異なる。詳細は specs）
 - MIME allow/deny、サイズ上限、同時アップロード制限、shardian による階層 path
 
 ### やらないこと
@@ -37,23 +37,23 @@ timestamp: 2026-09-25T05:28:00Z
 - 開発順は **Go → TypeScript（`packages/js`）→ PHP**
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
-- 未実装の詳細仕様は `docs/plans/`、現行の振る舞いは `docs/specs/`（現時点では未実装のため specs は空）
-- テスト仕様は実装版に入るとき `docs/tests/` へ（TDD）
+- **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`
+- テスト仕様は `docs/tests/`（TDD）
 
 ## パッケージ配置
 
-| パス | 内容 |
-|------|------|
-| `packages/go` | Go（開発順 1） |
-| `packages/js` | TypeScript / bun・Node.js（開発順 2） |
-| `packages/php` | PHP（開発順 3） |
-| `migrations/` | スキーママイグレーション正本（goose・方言解釈。MySQL/MariaDB/Postgres/SQLite） |
+| パス | 内容 | 現状 |
+|------|------|------|
+| `packages/go` | Go（開発順 1） | 出荷済 `v0.4.0`（タグ `packages/go/v0.4.0`） |
+| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.5.0`（npm `@b4moss/median`） |
+| `packages/php` | PHP（開発順 3） | 未着手（`v0.6.0`） |
+| `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |
 
 ## ランタイム
 
-- bun / Node.js 24+
+- Node.js 24+（bun でも開発可）
 - Go 1.26+
-- PHP 8.2+
+- PHP 8.2+（予定）
 
 ## 索引
 
@@ -61,8 +61,9 @@ timestamp: 2026-09-25T05:28:00Z
 |------|------|
 | [roadmap.md](./roadmap.md) | マイルストーン |
 | [er.dbml](./er.dbml) | デフォルト media テーブルの論理 ER |
-| [plans/README.md](./plans/README.md) | 未実装計画の索引 |
-| [specs/](./specs/) | 現行仕様（未実装のためプレースホルダ） |
+| [specs/](./specs/) | 現行仕様（v0.1〜v0.5） |
+| [plans/](./plans/) | 未実装計画（v0.6） |
+| [tests/](./tests/) | テスト仕様 |
 | [charter/](./charter/) | 憲章 |
 | [override-charter.md](./override-charter.md) | 憲章オーバーライド（現状なし） |
 

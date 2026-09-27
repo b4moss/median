@@ -8,7 +8,7 @@ timestamp: 2026-09-25T06:30:00Z
 
 # SVG サニタイズ
 
-- **状態**: 方針確定
+- **状態**: 出荷済（現行仕様）
 - **マイルストーン**: `v0.4.0`
 - **前提**: `v0.2.0`。画像パイプライン接続は `v0.3.0` 以降が自然
 - **関連**: [v0.3.0/media-pipeline.md](../v0.3.0/media-pipeline.md) / [pdf-thumbnail.md](./pdf-thumbnail.md)
