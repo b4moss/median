@@ -40,7 +40,7 @@ Go で固めた契約語彙を TypeScript（Node.js 24+ / bun）へ移植し、`
 ## やらぬこと（当面）
 
 - exports 条件の過剰な最適化
-- PHP 移植（`v0.6.0`）
+- PHP 移植（[unscheduled](../../plans/unscheduled/packages-php.md)）
 - 署名付き PUT/DELETE、ストレージ間移行
 
 ----
