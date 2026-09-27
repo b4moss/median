@@ -34,7 +34,7 @@ timestamp: 2026-09-27T03:07:27Z
 ## 技術方針
 
 - 他の `-an` 系（shardian / crudian）と同様の開発方針を主軸とする
-- 開発順は **Go → TypeScript（`packages/js`）→ E2E → DB スキーマ（`v0.7.0`）→（未割当）PHP**
+- 開発順は **Go → TypeScript（`packages/js`）→ E2E → DB スキーマ（`v0.7.0`）→ Go module path（`v0.8.0`）→ DDL CLI（`v0.9.0`）→（未割当）PHP**
 - CI/CD は `-an` 系と同じ振る舞い（path filter、docs のみでは冗長起動しない）
 - 憲章（`docs/charter/`）に従う。独自例外は `docs/override-charter.md`
 - **現行仕様**は `docs/specs/`、これからやる内容は `docs/plans/`（未割当は `plans/unscheduled/`）
