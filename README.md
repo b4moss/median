@@ -13,16 +13,20 @@ DDD-oriented media store: put bytes in storage and get them back under one contr
 
 Core operations are **Store / Delete / Get** (plus **PresignGet** where supported), with Local FS and S3 adapters, optional media DB metadata, and an image pipeline (compress / resize / thumbnails, SVG sanitize, PDF first-page thumbnails).
 
-Versions are **independent per language**. A planning milestone name does not force every package to share that number (for example historically Go `0.4.0` vs npm `0.5.0`). The current DB schema line ships Go and npm both at **`0.7.0`**.
+Versions are **independent per language**. A planning milestone name does not force every package to share that number (for example historically Go `0.4.0` vs npm `0.5.0`). The current DDL CLI line ships Go and npm both at **`0.9.0`**.
 
 ## TypeScript / JavaScript
 
 npm package: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (`packages/js`)
 
-Current line: see `packages/js/package.json` (currently **`0.7.0`**). Requires **Node.js 24+**.
+Current line: see `packages/js/package.json` (currently **`0.9.0`**). Requires **Node.js 24+**.
 
 ```bash
 npm install @b4moss/median
+```
+
+```bash
+npx @b4moss/median migrate dump --dialect postgres --table media
 ```
 
 ```bash
@@ -33,7 +37,7 @@ npm run build
 ```
 
 API notes: [`packages/js/README.md`](./packages/js/README.md).  
-Acceptance tests: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md). Specs: [`docs/specs/v0.7.0/`](./docs/specs/v0.7.0/).
+Acceptance tests: [`docs/tests/v0.9.0.md`](./docs/tests/v0.9.0.md). Specs: [`docs/specs/v0.9.0/`](./docs/specs/v0.9.0/).
 
 **Release:** root git tag `vX.Y.Z` must match `package.json` `version`. Pushing that tree to `release` publishes to npm when packed content differs from the registry ([`.github/CI.md`](./.github/CI.md)). Trusted Publishing is configured for GitHub Actions.
 
@@ -41,10 +45,15 @@ Acceptance tests: [`docs/tests/v0.7.0.md`](./docs/tests/v0.7.0.md). Specs: [`doc
 
 Go module: **[github.com/b4moss/median/packages/go](./packages/go)** (`packages/go`)
 
-Current line: `packages/go/VERSION` → **`0.8.0`**, git tag **`packages/go/v0.8.0`**.
+Current line: `packages/go/VERSION` → **`0.9.0`**, git tag **`packages/go/v0.9.0`**.
 
 ```bash
-go get github.com/b4moss/median/packages/go@v0.8.0
+go get github.com/b4moss/median/packages/go@v0.9.0
+```
+
+```bash
+go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+  migrate dump --dialect postgres --table media
 ```
 
 ```bash
@@ -58,6 +67,7 @@ go test ./...
 | `github.com/b4moss/median/packages/go/storage/...` | Local / S3 adapters |
 | `github.com/b4moss/median/packages/go/db` | Migrations helpers + MediaRepo |
 | `github.com/b4moss/median/packages/go/pipeline` | Image / SVG / PDF pipeline |
+| `github.com/b4moss/median/packages/go/cmd/median` | CLI (`migrate dump`) |
 
 Usage: [`packages/go/README.md`](./packages/go/README.md).  
 Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v0.4.0/). Tests: [`docs/tests/`](./docs/tests/).
