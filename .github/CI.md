@@ -6,9 +6,10 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 
 | Artifact | Version | How |
 | --- | --- | --- |
-| `@b4moss/median` (npm) | `0.5.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
-| `github.com/b4moss/median/go` | `0.4.0` | Tag `packages/go/vX.Y.Z` |
+| `@b4moss/median` (npm) | `0.7.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
+| `github.com/b4moss/median/go` | `0.7.0` | Tag `packages/go/vX.Y.Z` |
 | E2E harness (`e2e/`) | `v0.6.0` | Tag `v0.6.0`（milestone release。Go/npm の SemVer は上げない。`release` ブランチ不要） |
+| DB media schema | `v0.7.0` | Tags `v0.7.0` + `packages/go/v0.7.0`（`release` デプロイは E2E 確認後） |
 
 ## Workflows
 
