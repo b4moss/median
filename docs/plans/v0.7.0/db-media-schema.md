@@ -11,7 +11,7 @@ timestamp: 2026-09-27T03:07:27Z
 - **状態**: 方針確定（マイグレーション連携は後日詳細・本マイルストーン外）
 - **マイルストーン**: `v0.7.0`
 - **前提**: 現行 [specs/v0.3.0/db-media.md](../../specs/v0.3.0/db-media.md) / [er.dbml](../../er.dbml)
-- **関連**: [README.md](./README.md) / [roadmap.md](../../roadmap.md) / [migrations/README.md](../../../migrations/README.md)
+- **関連**: [README.md](./README.md) / [roadmap.md](../../roadmap.md) / [migrations/README.md](../../../migrations/README.md) / [tests/v0.7.0.md](../../tests/v0.7.0.md)
 
 ## 目的
 
@@ -59,7 +59,7 @@ timestamp: 2026-09-27T03:07:27Z
 - `docs/er.dbml`
 - `docs/specs/` の DB メディア仕様（現行は v0.3.0。完了後は本版の specs へ）
 - `migrations/` および Go / JS の schema・repo
-- 必要なら `docs/tests/`
+- `docs/tests/v0.7.0.md`（本マイルストーンの TDD 入力）
 
 ----
 
