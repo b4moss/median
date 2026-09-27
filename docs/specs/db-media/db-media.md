@@ -12,12 +12,18 @@ timestamp: 2026-09-25T06:30:00Z
 - **導入**: `v0.3.0`（パス列・テーブル設定は `v0.7.0` で現行形）
 - **関連**: [er.dbml](../../er.dbml) / [../core-api/core-api.md](../core-api/core-api.md) / [../storage/storage.md](../storage/storage.md) / [../media-pipeline/media-pipeline.md](../media-pipeline/media-pipeline.md) / [../../tests/db-media/](../../tests/db-media/)
 
-## crudian
+## DB スタック（言語別）
 
-- DB 操作は **b4moss/crudian** を用いる
-- 対応 Dialects（crudian と同じ系統）: **MySQL / MariaDB / Postgres / SQLite**（libSQL は SQLite 系として扱う）
-- 呼び出し側が CRUD / DB ハンドルを注入できる
-- 注入がなければ config から DB / crudian を内部生成してもよい
+### Go
+
+- 行操作は **b4moss/crudian**（gorm）経由
+- 対応 Dialects（DDL / goose）: **MySQL / MariaDB / Postgres / SQLite**（libSQL は SQLite 系）
+- 呼び出し側が `*gorm.DB` / Crud を注入できる。未注入時は Config DSN から内部生成してもよい
+
+### JS（`packages/js`）
+
+- **crudian は使わない**。自前 `MediaRepo` + **better-sqlite3**（実行時）
+- DDL 文字列生成は MySQL / Postgres / SQLite 向けを持つが、ランタイム Repo は **SQLite のみ**
 
 ## スキーマ方式
 
@@ -30,7 +36,7 @@ timestamp: 2026-09-25T06:30:00Z
 - **方言別 SQL を並べてメンテしない**。1 バージョン = 1 定義とし、goose の dialect（`mysql` / `postgres` / `sqlite3`）に応じて解釈・展開する
   - MariaDB は goose / driver 上 `mysql` として扱う
 - 正本の実装形: [`migrations/00001_create_media.go`](../../../migrations/00001_create_media.go)（詳細は [`migrations/README.md`](../../../migrations/README.md)）
-- 採番方式（auto increment / UUID / ULID）も **同一定義内の条件分岐**（別マイグレーション版にしない）。切替は `MEDIAN_ID_STRATEGY`
+- 採番方式も **同一定義内の条件分岐**（別マイグレーション版にしない）。切替は `MEDIAN_ID_STRATEGY`（値は下記ワイヤ形式）
 
 論理 ER の正本: [er.dbml](../../er.dbml)（適用後の物理スキーマは migrations が正）
 
@@ -56,11 +62,13 @@ timestamp: 2026-09-25T06:30:00Z
 
 ## `id` 採番
 
-- 選択可: `auto increment` / `UUID v4` / `UUID v7` / `ULID`
-- **デフォルトは auto increment**
-- 物理型:
-  - `auto increment` → **integer / bigint**（デフォルト ER はこちら。`docs/er.dbml`）
-  - `UUID v4` / `UUID v7` / `ULID` → **text**
+| ワイヤ値（`MEDIAN_ID_STRATEGY` / Config） | 生成 | 物理型 |
+| --- | --- | --- |
+| `auto_increment`（**デフォルト**） | DB 採番 | integer / bigint |
+| `uuid_v4` | UUID v4 文字列 | text |
+| `uuid_v7` | UUID v7 文字列 | text |
+| `ulid` | **現行実装は UUID v7 文字列**（真の ULID ライブラリは未使用。DDL は text ID 分岐） | text |
+
 - `original_id` の物理型は `id` に合わせる
 - マイグレーションは方式ごとに版を増やさず、**同一 `00001` 内の分岐**で DDL を選ぶ
 

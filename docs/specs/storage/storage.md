@@ -20,10 +20,12 @@ timestamp: 2026-09-25T06:30:00Z
 ## マルチストレージ（key 解決）
 
 - config に複数ストレージを **key** 付きで登録する
-  - 各 key に `driver`, `bucket` / `path`（ルート）等
+  - 各 key に `driver`
+  - Local: `path`（ルート）
+  - S3: `bucket` / `region` / `endpoint` / `forcePathStyle` / **`prefix`**（オブジェクト key 前置。Local の `path` とは別フィールド）
 - config に **default key** を置く
 - `Store` / `Delete` / `Get` で未指定時は default key、呼び出しで上書き可
-- DB が保持するのは **ストレージルートからの相対 path のみ**（key / bucket は持たない）
+- DB が保持するのは **ストレージルートからの相対 path のみ**（key / bucket / prefix は持たない）
 - どの key を渡すかの管理は client の責務
 - 誤った key による失敗も client 責任
 - Store 返却には実際に使った `storageKey` を含める

@@ -18,12 +18,12 @@ timestamp: 2026-09-27T05:00:00Z
 
 | 項目 | 値 |
 | --- | --- |
-| Module | `github.com/b4moss/median/go` |
+| Module | `github.com/b4moss/median/packages/go` |
 | 対象パッケージ | `pipeline`（SVG / PDF）/ `core`（Store 配線） |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
-| PDF レンダラ | `PDFRenderer` 注入。本番デフォルトは go-fitz（CGO）。単体・結合は **偽レンダラ**（固定画像を返す）で足りる |
+| PDF レンダラ | `PDFRenderer` は **Config 注入必須**（サムネ要求時）。Go に CGO 付き `FitzPDFRenderer` はあるが New はデフォルト注入しない。単体・結合は **偽レンダラ**で足りる |
 | 入口 | `core.New(Config)` → `Store` / 既存 Get・Delete |
-| 依存追加 | go-fitz（CGO・本番パス）。テストはインターフェース越しに偽実装 |
+| 依存追加 | 任意で go-fitz（CGO・`FitzPDFRenderer`）。テストはインターフェース越しに偽実装 |
 
 ### 実装固定デフォルト
 

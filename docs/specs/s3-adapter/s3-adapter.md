@@ -20,10 +20,11 @@ S3 互換ストレージへ出し入れし、閲覧用の署名付き URL を返
 ## 方針
 
 - SDK を用いた S3 互換 Adapter
-- マルチストレージは既存の **storage key** モデル（config の `driver` / `bucket` / `path`）
-- 署名付き URL は **GET のみ**
+- マルチストレージは既存の **storage key** モデル（config の `driver` / `bucket` / `region` / `endpoint` / `forcePathStyle` / **`prefix`**）
+  - オブジェクト key は `prefix` + 相対 path。Local の `path`（FS ルート）とは別フィールド
+- 署名付き URL は **GET のみ**（`PresignGet`）。Local key では拒否
 - 有効期限は config で定める（呼び出しで上書き可）
-  - ライブラリが用意する config デフォルト値は **1時間**
+  - ライブラリが用意する config デフォルト値は **1時間**（TTL≤0 はデフォルトにフォールバック）
 
 ## やらぬこと（当面）
 

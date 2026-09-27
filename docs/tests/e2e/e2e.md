@@ -6,14 +6,14 @@ tags: [median, tests, v0.6.0, e2e, rustfs, db, thumbnails]
 timestamp: 2026-09-27T02:25:00Z
 ---
 
-# テスト仕様 v0.6.0
+# テスト仕様 — e2e
 
-対象マイルストーン: `v0.6.0`（E2E テスト）  
+対象ドメイン: `e2e`（導入マイルストーン `v0.6.0`）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/e2e/e2e.md`](../../specs/e2e/e2e.md)  
 実装: [`../../e2e/`](../../../e2e/)  
-出荷契約（参照）: [`./v0.2.0.md`](../core-api/core-api.md) / [`./v0.3.0.md`](../db-media/db-media.md) / [`./v0.5.0.md`](../packages-js/packages-js.md)  
-DB 列の現行契約: [`./v0.7.0.md`](../db-media/db-media.md)（E2E の DB メタ照合は `file_path` 等に追随）  
+出荷契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../packages-js/`](../packages-js/)  
+DB 列の現行契約: [`../db-media/`](../db-media/)（E2E の DB メタ照合は `file_path` 等）  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
 書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン・クリティカルのみ）
 
@@ -22,7 +22,7 @@ DB 列の現行契約: [`./v0.7.0.md`](../db-media/db-media.md)（E2E の DB メ
 1. **実装テスト** — Compose・ランナー・Workflow などハーネス自体の検証（ロジック単位の正常系 / 異常系）
 2. **E2E シナリオ** — 利用者視点のクリティカル経路（別枠。ステップ列で記述）
 
-パッケージ SemVer（Go `0.4.0` / npm `0.5.0`）は本マイルストーンでは上げない。
+本マイルストーン導入時のパッケージ SemVer（当時 Go `0.4.0` / npm `0.5.0`）は据え置きだった。現行パッケージ版は Go `0.8.0` / npm `0.7.0`（roadmap 参照）。
 
 ## 共通前提
 
@@ -31,12 +31,12 @@ DB 列の現行契約: [`./v0.7.0.md`](../db-media/db-media.md)（E2E の DB メ
 | 配置 | リポジトリ直下 `e2e/`（通常の `packages/*/…_test` とは分離） |
 | 言語 | **Go（`packages/go`）と JS（`packages/js`）の両方**必須。片方のみでは受け入れない |
 | S3 実体 | Docker 上の **RustFS**（MinIO 不使用） |
-| Local 実体 | Docker 内の **POSIX ボリューム**上の Local Adapter（ホスト `TempDir` のみは不可） |
-| DB | **インメモリ SQLite**（Go: glebarez/sqlite `:memory:` 相当、JS: better-sqlite3 `:memory:`）。方言横断や crudian 内部は信頼し、median が書いたメタの有無・整合のみ見る |
+| Local 実体 | Compose `localfs` と **ホスト bind-mount**（`e2e/.local-data`）した POSIX 上の Local Adapter。ホスト側で `go test` / `npm test` が実行する（ホスト単独 `TempDir` のみは不可） |
+| DB | **インメモリ SQLite**（Go: glebarez/sqlite `:memory:` 相当、JS: better-sqlite3 `:memory:`）。方言横断や DB ドライバ内部は信頼し、median が書いたメタの有無・整合のみ見る |
 | 入口 | Go: `core.New` → `Store` / `Get` / `Delete` / `PresignGet`。JS: `createMedian` → `store` / `get` / `delete` / `presignGet` |
 | 通常 CI | [`ci.yml`](../../../.github/workflows/ci.yml) には**含めない** |
-| 手動実行 | ローカル任意 + GitHub Actions `workflow_dispatch`（[`e2e.yml`](../../../.github/workflows/e2e.yml) 予定） |
-| 依存 | Docker Compose、RustFS イメージ（実装時にタグ / digest を pin）、Go toolchain、Node 24+ |
+| 手動実行 | ローカル任意 + GitHub Actions `workflow_dispatch`（[`.github/workflows/e2e.yml`](../../../.github/workflows/e2e.yml) 既存） |
+| 依存 | Docker Compose、RustFS イメージ（タグ / digest pin）、Go toolchain、Node 24+ |
 
 ### Update（CRUD の U）の定義
 
@@ -66,17 +66,17 @@ Store 返却: DB あり時は `id` 必須確認。常に `path` / `mime` / `size
 
 ## Compose / 起動
 
-### compose up（RustFS + POSIX ボリューム）
+### compose up（RustFS + POSIX bind-mount）
 
-- RustFS コンテナと Local 用名前付きボリュームを起動する
+- RustFS コンテナと Local 用 bind-mount（ホスト `e2e/.local-data` ↔ コンテナ `/data/local`）を起動する
 - ヘルスチェック通過後に S3 API へ到達できる状態にする
 - テスト用バケットが利用可能である（init またはテスト setup で作成）
 
 #### テスト：正常系
 
-- `docker compose up`（または同等）で RustFS が healthy になる
+- `docker compose up`（または同等 / `e2e/run.sh`）で RustFS が healthy になる
 - S3 API ポートへ TCP / HTTP ヘルスが通る
-- Local 用ボリュームが runner コンテナから読み書きできるパスとしてマウントされる
+- Local 用ディレクトリがホスト側ランナー（`go test` / `npm test`）から読み書きできる
 - テスト用バケットが存在する（または CreateBucket 後に利用できる）
 
 #### テスト: 異常系
@@ -169,7 +169,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 | --- | --- |
 | 言語 | 各シナリオを Go と JS の両方で実施 |
 | ストレージ実体 | Local = Docker POSIX、S3 = RustFS（シミュレーション不可） |
-| DB 検証 | インメモリ SQLite。`FindByID`（または同等）で行の有無と主要カラムを確認。crudian 自体の CRUD 網羅はしない |
+| DB 検証 | インメモリ SQLite。`FindByID`（または同等）で行の有無と主要カラムを確認。DB ドライバ内部の CRUD 網羅はしない |
 
 ---
 
@@ -295,7 +295,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 
 - 通常 CI への常時組み込み・必須ゲート化
 - MinIO や複数 S3 実装の併走
-- 実 MySQL/Postgres への接続、crudian 内部の再検証
+- 実 MySQL/Postgres への接続、DB ドライバ内部の再検証
 - SVG サニタイズ・PDF サムネの E2E（単体の範囲）
 - 全 API 面・負荷・ビジュアルリグレッション
 - PHP

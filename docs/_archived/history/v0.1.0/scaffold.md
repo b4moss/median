@@ -8,6 +8,8 @@ timestamp: 2026-09-25T06:30:00Z
 
 # v0.1.0 — Go スキャフォールド
 
+> 歴史資料。現行の `packages/go` は実装済み（core / db / pipeline / storage）。この文書は当時の受け入れ条件のみを残す。
+
 - **状態**: 出荷済
 - **マイルストーン**: `v0.1.0`
 - **関連**: [roadmap](../../roadmap.md)

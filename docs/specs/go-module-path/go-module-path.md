@@ -8,6 +8,9 @@ timestamp: 2026-09-27T04:15:00Z
 
 # Go module path alignment（v0.8.0）
 
+- **状態**: 出荷済（`VERSION` `0.8.0`、タグ `packages/go/v0.8.0`、module path 整合済み）
+- **関連**: [tests/go-module-path/](../../tests/go-module-path/)
+
 ## 背景
 
 `packages/go/go.mod` が `module github.com/b4moss/median/go` を宣言しつつ、ソースは `packages/go/`、タグは `packages/go/vX.Y.Z` だった。  

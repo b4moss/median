@@ -20,7 +20,7 @@ timestamp: 2026-09-27T05:00:00Z
 
 | 項目 | 値 |
 | --- | --- |
-| Module | `github.com/b4moss/median/go` |
+| Module | `github.com/b4moss/median/packages/go` |
 | 対象パッケージ | `core` / `storage` / `storage/local`（`internal` は単体対象可） |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | ストレージ | Local FS（テストは `t.TempDir()` 等） |
@@ -204,10 +204,11 @@ Store 返却（本版）: `{ path, mime, size, hash, storageKey }`
 - data URL で base64 でないスキームは拒否する
 - 空文字は拒否する
 
-### PartFromMultipart
+### PartToStoreOptions（JS: `partToStoreInput`）
 
 - 抽出済み multipart part（ファイル名 + MIME + バイト / Reader）を Store 入力に変換する
-- HTTP Request 丸ごとのパースは本版の必須テスト対象外
+- HTTP Request 丸ごとのパースは必須テスト対象外
+- 関数名は Go `PartToStoreOptions` / JS `partToStoreInput`（`PartFromMultipart` という別名は無い）
 
 #### テスト：正常系
 

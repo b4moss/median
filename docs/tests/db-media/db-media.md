@@ -20,19 +20,19 @@ timestamp: 2026-09-27T05:00:00Z
 
 | 項目 | 値 |
 | --- | --- |
-| Module | `github.com/b4moss/median/go` |
+| Module | `github.com/b4moss/median/packages/go` |
 | 対象パッケージ | `core` / `db` / `pipeline` / `storage` / `storage/local` / `storage/s3` |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | テスト DB | **SQLite**（gorm + modernc 系）。他 dialect はマイグレーション SQL 生成の単体確認まで |
 | S3 テスト | Adapter 単体 + `httptest` モック（実 MinIO は必須にしない） |
 | 入口 | `core.New(Config)` → `Store` / `Delete` / `Get` / `PresignGet` |
-| 依存 | crudian（gorm）、shardian、imaging、AWS SDK v2（S3） |
+| 依存 | Go: crudian（gorm）+ shardian + imaging + AWS SDK v2。JS 側は別ドメイン（packages-js） |
 
 ### 実装固定デフォルト
 
 | 項目 | 値 |
 | --- | --- |
-| crudian | 注入優先（`*gorm.DB` / Crud）。未注入時は Config DSN から内部生成可 |
+| DB（Go） | crudian 注入優先（`*gorm.DB` / Crud）。未注入時は Config DSN から内部生成可 |
 | ID 戦略 | デフォルト `auto_increment`（Config / `MEDIAN_ID_STRATEGY` で切替） |
 | 重複 hash | デフォルト **既存レコード返却**。`RejectDuplicate=true` で拒否 |
 | actor | DB 使用時必須（`StoreOptions.Actor` または Config `DefaultActor`） |

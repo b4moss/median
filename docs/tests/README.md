@@ -13,7 +13,7 @@ TDD の入力となるテスト仕様を置く。書き方・氷山パターン�
 
 | ドメイン | テスト仕様 |
 | --- | --- |
-| [scaffold/](./scaffold/) | スキャフォールドのみのため原則不要 |
+| [scaffold/](./scaffold/) | 歴史マイルストーンのみ（現行テストなし） |
 | [core-api/](./core-api/) | Go コア API |
 | [storage/](./storage/) | Local FS・key・ファイル名・shardian |
 | [db-media/](./db-media/) | DB・メディアスキーマ（パス列含む） |

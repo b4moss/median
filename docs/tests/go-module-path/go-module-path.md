@@ -6,12 +6,12 @@ tags: [median, tests, v0.8.0, go, module]
 timestamp: 2026-09-27T04:15:00Z
 ---
 
-# テスト仕様 v0.8.0
+# テスト仕様 — go-module-path
 
-対象マイルストーン: `v0.8.0`（Go module path）  
+対象ドメイン: `go-module-path`（Go module path）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/go-module-path/`](../../specs/go-module-path/)  
-前提: [`./v0.7.0.md`](../db-media/db-media.md)（振る舞い・スキーマは維持）  
+前提: [`../db-media/`](../db-media/)（振る舞い・スキーマは維持）  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)
 
 ## 共通前提
@@ -21,6 +21,7 @@ timestamp: 2026-09-27T04:15:00Z
 | 対象 | Go `packages/go`（全パッケージ）と `e2e/go` の replace |
 | パッケージ SemVer | Go **`0.8.0`**（タグ `packages/go/v0.8.0`）。npm 変更なし |
 | Module path | `github.com/b4moss/median/packages/go` |
+| 状態 | 出荷済（ソース・VERSION・タグ済み） |
 
 ## 受け入れケース
 
@@ -33,7 +34,7 @@ timestamp: 2026-09-27T04:15:00Z
 ### M2 — 内部 import
 
 - **Given** `packages/go` 配下の `.go` ソース
-- **Then** `github.com/b4moss/median/go/...` への参照が残っていない
+- **Then** 旧パス `github.com/b4moss/median/go/...` への参照が残っていない
 - **And** `go test ./...` が成功する
 
 ### M3 — e2e replace

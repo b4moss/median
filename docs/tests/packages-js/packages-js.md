@@ -6,16 +6,16 @@ tags: [median, tests, v0.5.0, js, typescript]
 timestamp: 2026-09-27T00:40:00Z
 ---
 
-# テスト仕様 v0.5.0
+# テスト仕様 — packages-js
 
-対象マイルストーン: `v0.5.0`（TypeScript / `packages/js` 移植）  
+対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.7.0`）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/packages-js/`](../../specs/packages-js/)（[packages-js.md](../../specs/packages-js/packages-js.md)）  
-Go 契約（参照）: [`./v0.2.0.md`](../core-api/core-api.md) / [`./v0.3.0.md`](../db-media/db-media.md) / [`./v0.4.0.md`](../svg-sanitize/svg-sanitize.md)  
+Go 契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../svg-sanitize/`](../svg-sanitize/) / [`../pdf-thumbnail/`](../pdf-thumbnail/)  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
 書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
 
-> **現行 DB 列・テーブル設定の受け入れは [`./v0.7.0.md`](../db-media/db-media.md) を正とする。** 本ファイルの DB 必須カラム記述は v0.5.0 出荷時点の契約として残す。
+> **現行 DB 列・テーブル設定の受け入れは [`../db-media/`](../db-media/) を正とする。** 本ファイルの DB 必須カラム記述に旧 `path` 単列があれば現行の `file_path` / `file_name` / `original_file_name` で読み替える。
 
 Go で固めた語彙・振る舞いを TypeScript で同等に満たす。細部の期待値は上記 Go テスト仕様と食い違わないこと。本ファイルは JS 実装・CI（`npm test`）の入力とする。
 
@@ -32,7 +32,7 @@ Go で固めた語彙・振る舞いを TypeScript で同等に満たす。細�
 | テスト DB | **SQLite**（実ファイルまたは `:memory:`）。他 dialect は SQL 生成の単体まで |
 | S3 テスト | Adapter 単体 + HTTP モック（実 MinIO は必須にしない） |
 | 入口 | `createMedian(config)` または同等 → `store` / `delete` / `get` / `presignGet` |
-| 依存方針 | shardian（JS）、crudian（JS）、画像処理、AWS SDK v3（S3）、**svgo**（SVG）、PDF は注入レンダラ |
+| 依存方針 | shardian（JS）、自前 MediaRepo + better-sqlite3、画像処理（sharp 等）、AWS SDK v3（S3）、**svgo**（SVG）、PDF は注入レンダラ（**crudian 不使用**） |
 
 ### 実装固定デフォルト（Go と同値）
 

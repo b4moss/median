@@ -13,10 +13,9 @@ timestamp: 2026-09-27T05:00:00Z
 
 | ドメイン | 内容 |
 | --- | --- |
-| [scaffold/](./scaffold/) | Go スキャフォールド |
 | [core-api/](./core-api/) | 公開 API（Store / Delete / Get） |
 | [storage/](./storage/) | Local FS・storage key・ファイル名・shardian |
-| [db-media/](./db-media/) | crudian・メディアスキーマ・パス列・テーブル設定 |
+| [db-media/](./db-media/) | メディアスキーマ・パス列・テーブル設定（Go: crudian / JS: MediaRepo） |
 | [media-pipeline/](./media-pipeline/) | 画像圧縮・リサイズ・サムネイル |
 | [s3-adapter/](./s3-adapter/) | S3 互換 Adapter・署名付き GET |
 | [svg-sanitize/](./svg-sanitize/) | SVG サニタイズ |

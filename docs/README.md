@@ -22,7 +22,7 @@ OKF の版索引は [`index.md`](./index.md)（`okf_version: "0.1"`）。本文�
 
 - ファイルの保存（`Store`）・削除（`Delete`）・取得（`Get`）・署名付き GET（`PresignGet`）
 - ローカル FS / S3 互換ストレージへの Adapter
-- 任意のメディア DB 連携（b4moss/crudian）
+- 任意のメディア DB 連携（Go: b4moss/crudian。JS: 自前 MediaRepo + SQLite）
 - 画像の圧縮・リサイズ・サムネイル、SVG サニタイズ、PDF 先頭ページサムネ（版により範囲が異なる。詳細は specs）
 - MIME allow/deny、サイズ上限、同時アップロード制限、shardian による階層 path
 
@@ -46,7 +46,7 @@ OKF の版索引は [`index.md`](./index.md)（`okf_version: "0.1"`）。本文�
 
 | パス | 内容 | 現状 |
 |------|------|------|
-| `packages/go` | Go（開発順 1） | 実装中 `v0.8.0`（モジュールパス `github.com/b4moss/median/packages/go`） |
+| `packages/go` | Go（開発順 1） | 出荷済 `v0.8.0`（モジュールパス `github.com/b4moss/median/packages/go`） |
 | `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.7.0`（npm `@b4moss/median`） |
 | `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 |

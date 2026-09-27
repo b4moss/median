@@ -18,7 +18,7 @@ timestamp: 2026-09-27T05:00:00Z
 
 | 項目 | 値 |
 | --- | --- |
-| Module | `github.com/b4moss/median/go` |
+| Module | `github.com/b4moss/median/packages/go` |
 | 対象パッケージ | `core` / `db` / `pipeline` / `storage` / `storage/local` / `storage/s3` |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | テスト DB | **SQLite**（gorm + modernc 系）。他 dialect はマイグレーション SQL 生成の単体確認まで |
@@ -44,6 +44,8 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 
 ---
 
+
+> **WebP エンコード**: Go は std にエンコーダが無く、加工後は **PNG バイト**を返す場合がある（宣言 MIME が webp のまま残りうる）。
 
 ## pipeline
 
@@ -102,18 +104,17 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 - 辞書に無い key は拒否する
 - presets 空なのに key 指定したら拒否する
 
-### Animated GIF / APNG（最小）
+### GIF（先頭フレーム）
 
-- リサイズ後もデコーダで読める（再生可能な出力）
+- GIF は先頭フレームのみデコード・加工する。アニメ再生維持・APNG は対象外
 
 #### テスト：正常系
 
-- アニメ GIF をリサイズしても gif としてデコードできる
-- APNG（または対応デコード経路）をリサイズしても画像としてデコードできる
+- GIF をリサイズしても画像としてデコードできる（先頭フレーム）
 
 #### テスト: 異常系
 
-- 壊れたアニメ入力は拒否する
+- 壊れた GIF 入力は拒否する
 
 ---
 

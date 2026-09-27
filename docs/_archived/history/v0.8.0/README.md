@@ -10,7 +10,7 @@ timestamp: 2026-09-27T04:15:00Z
 
 > 歴史資料。現行の仕様・テスト正本は [`../../../specs/`](../../../specs/) / [`../../../tests/`](../../../tests/)（ドメイン切り）。
 
-- **状態**: 実装中
+- **状態**: 出荷済
 - **マイルストーン**: `v0.8.0`
 - **文書**: [go-module-path.md](../../../specs/go-module-path/go-module-path.md)
 - **テスト仕様**: [tests/go-module-path/go-module-path.md](../../../tests/go-module-path/go-module-path.md)

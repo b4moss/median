@@ -20,7 +20,7 @@ timestamp: 2026-09-27T05:00:00Z
 
 | 項目 | 値 |
 | --- | --- |
-| Module | `github.com/b4moss/median/go` |
+| Module | `github.com/b4moss/median/packages/go` |
 | 対象パッケージ | `core` / `storage` / `storage/local`（`internal` は単体対象可） |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | ストレージ | Local FS（テストは `t.TempDir()` 等） |
