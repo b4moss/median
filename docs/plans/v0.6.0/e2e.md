@@ -1,9 +1,9 @@
 ---
 type: Plan
 title: E2E tests
-description: Docker 上の S3 互換・POSIX LocalFS に対する E2E。通常 CI 外・手動 Workflow あり。
+description: Docker 上の RustFS（S3 互換）・POSIX LocalFS に対する Go/JS E2E。通常 CI 外・手動 Workflow あり。
 tags: [median, plans, v0.6.0, e2e]
-timestamp: 2026-09-27T01:55:00Z
+timestamp: 2026-09-27T02:00:00Z
 ---
 
 # E2E tests
@@ -24,14 +24,18 @@ timestamp: 2026-09-27T01:55:00Z
 
 | 軸 | 内容 |
 | --- | --- |
-| S3 互換 | Docker 上にオブジェクトストレージを立て、実 PUT/GET/DELETE（必要なら署名付き GET）を実行する |
+| S3 互換 | Docker 上の **RustFS** に対し、実 PUT/GET/DELETE（必要なら署名付き GET）を実行する |
 | Local FS | Docker 内の **POSIX ファイルシステム**上で Local Adapter を動かし、実ファイル I/O を検証する |
 
-### S3 互換サーバの選定
+### S3 互換サーバ
 
-- **MinIO または RustFS のどちらか一方**（並列メンテしない）
-- 選定基準: OSS として継続的に安定しており、median が使う S3 API 面での互換精度が高い方
-- 背景: MinIO コミュニティ版は停滞・方針転換が進んでいる。RustFS は S3 互換・Apache 2.0・1.0 GA を前面に出している → **既定候補は RustFS**。実装着手時に Compose 起動と API 面の短い確認で最終確定する
+- **採用: RustFS**（MinIO は採用しない。両者の並列メンテもしない）
+- 理由: MinIO コミュニティ版は停滞・方針転換が進んでいる一方、RustFS は S3 互換・Apache 2.0・1.0 GA を前面に出している
+
+### 言語パッケージ（必須・両方）
+
+- **Go（`packages/go`）と TypeScript（`packages/js`）の両方**で、同一のクリティカルシナリオを通す
+- 片言語のみの E2E では受け入れない
 
 ### CI / 実行場所
 
@@ -43,22 +47,22 @@ timestamp: 2026-09-27T01:55:00Z
 
 ## ざっくり範囲
 
-- Docker Compose（または同等）で S3 互換 + POSIX ボリュームを起動
-- Go / JS の少なくとも出荷契約に沿ったクリティカルシナリオ（詳細は後日）
+- Docker Compose（または同等）で RustFS + POSIX ボリュームを起動
+- Go / JS 双方のクリティカルシナリオ（詳細は後日）
 - 手動 Workflow とローカル実行手順の文書化
 
 ## やらぬこと（当面）
 
 - 通常 CI への常時組み込み
-- MinIO と RustFS の両方を常設
+- MinIO の常設・併走
 - 全 API 面の網羅的 E2E、ビジュアルリグレッション
 - PHP（[unscheduled](../unscheduled/packages-php.md)）
 
 ## 後日詳細
 
-- RustFS（または最終選定サーバ）のイメージ pin・ヘルスチェック
+- RustFS のイメージ pin・ヘルスチェック
 - シナリオ一覧（Store / Get / Delete / Presign / パイプラインのどれを必須とするか）
-- テストランナー配置（例: `e2e/`）と Go / JS のどちらを走らせるか
+- テストランナー配置（例: `e2e/`）と Go / JS の起動手順
 - `docs/tests/v0.6.0.md` の TDD 入力
 
 ----

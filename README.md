@@ -68,7 +68,7 @@ Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v
 
 Not scheduled yet (`unscheduled`). Planned under `packages/php` — see [`docs/plans/unscheduled/packages-php.md`](./docs/plans/unscheduled/packages-php.md).
 
-Next milestone is **E2E tests** (`v0.6.0`: Docker S3-compatible + POSIX LocalFS; not in regular CI) — [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/).
+Next milestone is **E2E tests** (`v0.6.0`: RustFS + POSIX LocalFS, Go and JS; not in regular CI) — [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/).
 
 ## Docs
 
