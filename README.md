@@ -1,31 +1,29 @@
 # median
 
-ファイル操作を抽象化する DDD 向けライブラリ。バイト列の Store / Delete / Get を中心に、Local FS・S3、任意のメディア DB、画像パイプライン（圧縮・リサイズ・サムネ・SVG サニタイズ・PDF 先頭ページサムネ）を、言語横断で同じ契約語彙で提供する。
+[![CI](https://github.com/b4moss/median/actions/workflows/ci.yml/badge.svg)](https://github.com/b4moss/median/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/b4moss/median)](https://codecov.io/gh/b4moss/median)
+[![npm](https://img.shields.io/npm/v/@b4moss/median)](https://www.npmjs.com/package/@b4moss/median)
+[![Release](https://img.shields.io/github/v/release/b4moss/median)](https://github.com/b4moss/median/releases)
+[![License](https://img.shields.io/github/license/b4moss/median)](https://github.com/b4moss/median/blob/main/LICENSE)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/b4moss/median/badge)](https://scorecard.dev/viewer/?uri=github.com/b4moss/median)
 
-## 現状（区切り: v0.5.0）
+DDD-oriented media store: put bytes in storage and get them back under one contract across languages.
 
-| 言語 | パス | 版 | 配布 |
-| --- | --- | --- | --- |
-| Go | [`packages/go`](packages/go/) | `0.4.0` | モジュール `github.com/b4moss/median/go`（タグ `packages/go/v0.4.0`） |
-| TypeScript | [`packages/js`](packages/js/) | `0.5.0` | npm [`@b4moss/median`](https://www.npmjs.com/package/@b4moss/median)（タグ `v0.5.0`） |
-| PHP | `packages/php` | — | 未着手（`v0.6.0`） |
+- [日本語版 README](./README-ja.md)
 
-## クイックスタート
+Core operations are **Store / Delete / Get** (plus **PresignGet** where supported), with Local FS and S3 adapters, optional media DB metadata, and an image pipeline (compress / resize / thumbnails, SVG sanitize, PDF first-page thumbnails).
 
-### Go
+Versions are **independent per language**. A planning milestone name does not force every package to share that number (for example Go may sit on `0.4.0` while npm is `0.5.0`).
+
+## TypeScript / JavaScript
+
+npm package: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)** (`packages/js`)
+
+Current line: see `packages/js/package.json` (currently **`0.5.0`**). Requires **Node.js 24+**.
 
 ```bash
-cd packages/go
-go test ./...
+npm install @b4moss/median
 ```
-
-```go
-import "github.com/b4moss/median/go/core"
-```
-
-詳細: [packages/go/README.md](packages/go/README.md)
-
-### TypeScript (Node.js 24+)
 
 ```bash
 cd packages/js
@@ -34,30 +32,54 @@ npm test
 npm run build
 ```
 
+API notes: [`packages/js/README.md`](./packages/js/README.md).  
+Acceptance tests: [`docs/tests/v0.5.0.md`](./docs/tests/v0.5.0.md). Specs: [`docs/specs/v0.5.0/`](./docs/specs/v0.5.0/).
+
+**Release:** root git tag `vX.Y.Z` must match `package.json` `version`. Pushing that tree to `release` publishes to npm when packed content differs from the registry ([`.github/CI.md`](./.github/CI.md)). Trusted Publishing is configured for GitHub Actions.
+
+## Go
+
+Go module: **[github.com/b4moss/median/go](./packages/go)** (`packages/go`)
+
+Current line: `packages/go/VERSION` → **`0.4.0`**, git tag **`packages/go/v0.4.0`**.
+
 ```bash
-npm install @b4moss/median
+go get github.com/b4moss/median/go@v0.4.0
 ```
 
-詳細: [packages/js/README.md](packages/js/README.md)
+```bash
+cd packages/go
+go test ./...
+```
 
-## ドキュメント
+| Import path | Role |
+|-------------|------|
+| `github.com/b4moss/median/go/core` | `New` / Store / Delete / Get / PresignGet |
+| `github.com/b4moss/median/go/storage/...` | Local / S3 adapters |
+| `github.com/b4moss/median/go/db` | Migrations helpers + MediaRepo |
+| `github.com/b4moss/median/go/pipeline` | Image / SVG / PDF pipeline |
 
-| 文書 | 内容 |
-| --- | --- |
-| [docs/main.md](docs/main.md) | 目的・スコープ・技術方針 |
-| [docs/roadmap.md](docs/roadmap.md) | マイルストーン |
-| [docs/specs/](docs/specs/) | **現行仕様**（v0.1〜v0.5） |
-| [docs/plans/](docs/plans/) | これからやる計画（v0.6 PHP） |
-| [docs/tests/](docs/tests/) | TDD 入力のテスト仕様 |
-| [docs/charter/](docs/charter/) | 憲章（Git / SemVer / TDD 等） |
-| [.github/CI.md](.github/CI.md) | CI / タグ / 公開のメモ |
+Usage: [`packages/go/README.md`](./packages/go/README.md).  
+Specs: [`docs/specs/v0.2.0/`](./docs/specs/v0.2.0/)–[`v0.4.0/`](./docs/specs/v0.4.0/). Tests: [`docs/tests/`](./docs/tests/).
 
-## 開発メモ
+**Release:** tag `packages/go/vX.Y.Z` matching `VERSION`. Root tag `vX.Y.Z` alone does **not** publish Go.
 
-- ブランチ運用: `feat` → `dev-vX.Y.Z` → `develop` → `main` →（パッケージ）`release`
-- JS 公開: `release` への `packages/js/**` push + ルートタグ `vX.Y.Z`（Trusted Publisher）
-- Go 公開: タグ `packages/go/vX.Y.Z`
+## PHP
 
-## ライセンス
+Not started yet (`v0.6.0`). Planned under `packages/php` — see [`docs/plans/v0.6.0/`](./docs/plans/v0.6.0/).
 
-リポジトリおよび各パッケージの表記に従う。
+## Docs
+
+| Doc | Contents |
+|-----|----------|
+| [`docs/main.md`](./docs/main.md) | Product hub (purpose, scope, tech policy) |
+| [`docs/roadmap.md`](./docs/roadmap.md) | Milestones |
+| [`docs/specs/`](./docs/specs/) | Shipped specs (v0.1–v0.5) |
+| [`docs/plans/`](./docs/plans/) | Upcoming plans (v0.6 PHP) |
+| [`docs/tests/`](./docs/tests/) | TDD acceptance specs |
+| [`docs/charter/`](./docs/charter/) | Charter (Git, SemVer, TDD, …) |
+| [`.github/CI.md`](./.github/CI.md) | CI/CD policy |
+
+## License
+
+MIT © Bicycle for Mind LLC. — see [`LICENSE`](./LICENSE).
