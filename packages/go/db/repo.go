@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/b4moss/crudian/go/crudian"
-	gormcrud "github.com/b4moss/crudian/go/gorm"
+	"github.com/b4moss/crudian/packages/go/crudian"
+	gormcrud "github.com/b4moss/crudian/packages/go/gorm"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
