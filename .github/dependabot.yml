@@ -69,23 +69,5 @@ updates:
           - minor
           - patch
 
-  - package-ecosystem: composer
-    directory: /packages/php
-    schedule:
-      interval: weekly
-      day: monday
-    open-pull-requests-limit: 5
-    labels:
-      - dependencies
-      - php
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
-    groups:
-      composer:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
+  # packages/php is unscheduled (no composer.json yet). Re-add composer
+  # ecosystem when packages/php/composer.json lands.
