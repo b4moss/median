@@ -3,7 +3,7 @@ type: Index
 title: plans 索引
 description: 未実装計画の版フォルダ索引。
 tags: [median, plans, index]
-timestamp: 2026-09-27T05:00:00Z
+timestamp: 2026-10-22T09:34:00Z
 ---
 
 # plans 索引
@@ -16,11 +16,13 @@ timestamp: 2026-09-27T05:00:00Z
 
 | マイルストーン | 内容 | 状態 |
 | --- | --- | --- |
+| [v0.10.0/](./v0.10.0/) | `GetWithAllThumbnails` / `getWithAllThumbnails`（[#77](https://github.com/b4moss/median/issues/77)） | 仕様詳細・PO 承認待ち |
 | [unscheduled/](./unscheduled/) | マイルストーン未割当（PHP 移植など） | — |
 
 ## 実装順（残り）
 
-1. （未割当）PHP — [unscheduled/packages-php.md](./unscheduled/packages-php.md)
+1. `v0.10.0` — [v0.10.0/get-with-all-thumbnails.md](./v0.10.0/get-with-all-thumbnails.md)（承認後に実装）
+2. （未割当）PHP — [unscheduled/packages-php.md](./unscheduled/packages-php.md)
 
 ----
 
