@@ -21,7 +21,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.14.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.20.4 // indirect
 	github.com/aws/smithy-go v1.28.1 // indirect
-	github.com/b4moss/crudian/go v0.0.0-00010101000000-000000000000 // indirect
+	github.com/b4moss/crudian/packages/go v0.12.1 // indirect
 	github.com/b4moss/shardian/packages/go v0.5.0 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -44,5 +44,3 @@ require (
 )
 
 replace github.com/b4moss/median/packages/go => ../../packages/go
-
-replace github.com/b4moss/crudian/go => ../../packages/go/third_party/crudian
