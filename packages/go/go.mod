@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.47.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.20.6
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.113.4
-	github.com/b4moss/crudian/go v0.0.0-00010101000000-000000000000
+	github.com/b4moss/crudian/packages/go v0.12.1
 	github.com/b4moss/shardian/packages/go v0.5.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/gen2brain/go-fitz v1.28.2
@@ -41,5 +41,3 @@ require (
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/sqlite v1.34.5 // indirect
 )
-
-replace github.com/b4moss/crudian/go => ./third_party/crudian
