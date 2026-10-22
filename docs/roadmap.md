@@ -3,7 +3,7 @@ type: Hub
 title: median roadmap
 description: SemVerマイルストーン一覧と短い受け入れのハブ。
 tags: [median, roadmap]
-timestamp: 2026-09-27T05:00:00Z
+timestamp: 2026-10-22T09:34:00Z
 ---
 
 # median roadmap
@@ -27,6 +27,7 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | `v0.7.0` | 出荷済 | DB メディアスキーマ（`file_path` / `file_name` / `original_file_name`、テーブル名／カラムマップ。Go/JS `0.7.0`） | [db-media](./specs/db-media/)（パス列現行） |
 | `v0.8.0` | 出荷済 | Go モジュールパスを `github.com/b4moss/median/packages/go` に揃え、proxy 解決可能にする（タグ `packages/go/v0.8.0`） | [go-module-path](./specs/go-module-path/) |
 | `v0.9.0` | 出荷済 | DDL 生成 CLI（`median migrate dump`）。Go / npm `0.9.0` | [ddl-cli](./specs/ddl-cli/) |
+| `v0.10.0` | 計画中（PO 承認待ち） | `GetWithAllThumbnails` / `getWithAllThumbnails`（DB 必須・active ファミリー・幅昇順 variants）。Go / npm `0.10.0` | [plans/v0.10.0](./plans/v0.10.0/) |
 
 旧版フォルダ索引は [`_archived/history/`](./_archived/history/) を参照。
 
@@ -44,7 +45,8 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 4. DB メディアスキーマ… `v0.7.0`（完了）
 5. Go モジュールパス修正… `v0.8.0`（完了）
 6. DDL 生成 CLI… `v0.9.0`（完了）
-7. PHP（`packages/php`）… マイルストーン未割当
+7. ファミリー取得 API… `v0.10.0`（計画中・[#77](https://github.com/b4moss/median/issues/77)）
+8. PHP（`packages/php`）… マイルストーン未割当
 
 CI/CD は他の `-an` 系（shardian / crudian）と同じ振る舞いとし、docs のみの変更で冗長な CI を起動しない。
 

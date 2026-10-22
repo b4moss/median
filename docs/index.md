@@ -19,7 +19,7 @@ OKF の版索引。プロダクトの目的・スコープ等の本文は [READM
 * [roadmap.md](roadmap.md) - マイルストーン一覧
 * [wishlist.md](wishlist.md) - PO メモ（未整理）
 * [er.dbml](er.dbml) - デフォルト media テーブルの論理 ER
-* [plans](plans/) - これからやる内容（unscheduled）
+* [plans](plans/) - これからやる内容（`v0.10.0` / unscheduled）
 * [specs](specs/) - 現行機能の仕様正本（ドメイン切り）
 * [tests](tests/) - テスト仕様（specs と同じドメイン切り）
 * [e2e](../e2e/) - E2E ハーネス
