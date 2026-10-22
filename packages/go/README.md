@@ -31,7 +31,6 @@ SQL goes to stdout (redirect into the host app's migrations). See [docs/specs/v0
 | `cmd/median` | CLI (`migrate dump`) |
 | `pipeline` | Image / SVG / PDF |
 | `internal` | MIME, filename, shardian path |
-| `third_party/crudian` | Vendored crudian (`replace` in `go.mod`) |
 
 ## Test
 
