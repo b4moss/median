@@ -1,13 +1,11 @@
 name: OpenSSF Scorecard
 
 # Badge / published results only work on the default branch.
+# Weekly + manual only (avoid docs-only main pushes).
 on:
-  branch_protection_rule:
   schedule:
     - cron: "30 1 * * 1"
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions: read-all
 
