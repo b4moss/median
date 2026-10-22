@@ -16,6 +16,7 @@ on:
       - "packages/php/**"
       - ".github/workflows/ci.yml"
       - "codecov.yml"
+      - "!**/*.md"
   pull_request:
     branches:
       - main
@@ -27,6 +28,7 @@ on:
       - "packages/php/**"
       - ".github/workflows/ci.yml"
       - "codecov.yml"
+      - "!**/*.md"
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
