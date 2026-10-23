@@ -1,6 +1,6 @@
 name: E2E
 
-# Manual-only. Not a PR/push gate (see docs/tests/v0.6.0.md).
+# Manual-only. Not a PR/push gate (see docs/tests/e2e/e2e.md).
 on:
   workflow_dispatch:
 
