@@ -455,3 +455,59 @@ func TestTS_RustFSThumbnails(t *testing.T) {
 	ensureBucket(t)
 	runThumb(t, s3Config())
 }
+
+// TestFL_LocalGetWithAllThumbnails is optional Local E2E F-L (v0.11.0).
+func TestFL_LocalGetWithAllThumbnails(t *testing.T) {
+	root := mustLocalRoot(t)
+	gdb, _ := openMemDB(t)
+	cfg := localConfig(root)
+	cfg.DB = &core.DBConfig{Gorm: gdb, IDStrategy: db.IDAutoIncrement}
+	cfg.DefaultActor = "e2e-actor"
+	cfg.Thumbnails = &pipeline.ThumbnailsConfig{
+		Presets: map[string]pipeline.ThumbnailPreset{
+			"sm": {Mode: pipeline.ModeLongEdge, Size: 32, Quality: 0.8},
+			"md": {Mode: pipeline.ModeLongEdge, Size: 48, Quality: 0.8},
+		},
+		DefaultKeys: []string{"sm", "md"},
+	}
+	m, err := core.New(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx := context.Background()
+	payload := makePNG(t, 64, 64)
+	res, err := m.Store(ctx, bytes.NewReader(payload), int64(len(payload)), core.StoreOptions{
+		MIME: "image/png", Filename: "pic.png",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.ID == nil || len(res.Variants) != 2 {
+		t.Fatalf("store variants: %+v", res)
+	}
+
+	got, err := m.GetWithAllThumbnails(ctx, res.ID, core.GetWithAllThumbnailsOptions{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if fmt.Sprint(got.ID) != fmt.Sprint(res.ID) || got.Path != res.Path {
+		t.Fatalf("top-level parent: %+v vs %+v", got, res)
+	}
+	if len(got.Variants) != 2 {
+		t.Fatalf("variants count: %d", len(got.Variants))
+	}
+	if got.Variants[0].Key != "sm" || got.Variants[1].Key != "md" {
+		t.Fatalf("want sm then md by width: %s %s", got.Variants[0].Key, got.Variants[1].Key)
+	}
+	if got.Variants[0].Width > got.Variants[1].Width {
+		t.Fatalf("not width-asc: %+v", got.Variants)
+	}
+
+	fromChild, err := m.GetWithAllThumbnails(ctx, res.Variants[0].ID, core.GetWithAllThumbnailsOptions{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if fmt.Sprint(fromChild.ID) != fmt.Sprint(res.ID) || len(fromChild.Variants) != 2 {
+		t.Fatalf("from derived: %+v", fromChild)
+	}
+}

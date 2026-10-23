@@ -1,6 +1,6 @@
 # E2E (v0.6.0)
 
-End-to-end tests against **RustFS** (S3-compatible) and a **Docker-shared POSIX** directory for Local FS. Scenarios: L1 / S1 / C-L / C-S / T-L / T-S — see [`docs/tests/e2e/e2e.md`](../docs/tests/e2e/e2e.md).
+End-to-end tests against **RustFS** (S3-compatible) and a **Docker-shared POSIX** directory for Local FS. Scenarios: L1 / S1 / C-L / C-S / T-L / T-S / optional F-L — see [`docs/tests/e2e/e2e.md`](../docs/tests/e2e/e2e.md).
 
 **Not** part of regular PR/push CI. Run locally before version bumps; GitHub Actions via **workflow_dispatch** (`.github/workflows/e2e.yml`).
 

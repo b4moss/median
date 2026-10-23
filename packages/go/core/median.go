@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"path"
+	"sort"
 	"time"
 
 	"github.com/b4moss/median/packages/go/db"
@@ -64,6 +65,12 @@ type GetOptions struct {
 	ID         any // required when DB enabled
 }
 
+// GetWithAllThumbnailsOptions configures GetWithAllThumbnails.
+// StorageKey is optional (same as Get); empty uses defaultKey.
+type GetWithAllThumbnailsOptions struct {
+	StorageKey string
+}
+
 type GetResult struct {
 	ID         any
 	Path       string
@@ -82,15 +89,16 @@ type DeleteOptions struct {
 }
 
 var (
-	ErrNegativeSize = errors.New("median: negative size")
-	ErrSizeExceeded = errors.New("median: size exceeds MaxSize")
-	ErrEmptyPath    = errors.New("median: path is empty")
-	ErrUnknownKey   = errors.New("median: unknown storage key")
-	ErrActorRequired = errors.New("median: actor required")
-	ErrIDRequired   = errors.New("median: id required")
-	ErrDuplicate            = errors.New("median: duplicate hash")
-	ErrNotS3                = errors.New("median: storage is not s3")
-	ErrPDFRendererRequired  = errors.New("median: PDFRenderer required")
+	ErrNegativeSize        = errors.New("median: negative size")
+	ErrSizeExceeded        = errors.New("median: size exceeds MaxSize")
+	ErrEmptyPath           = errors.New("median: path is empty")
+	ErrUnknownKey          = errors.New("median: unknown storage key")
+	ErrActorRequired       = errors.New("median: actor required")
+	ErrIDRequired          = errors.New("median: id required")
+	ErrDBRequired          = errors.New("median: db required")
+	ErrDuplicate           = errors.New("median: duplicate hash")
+	ErrNotS3               = errors.New("median: storage is not s3")
+	ErrPDFRendererRequired = errors.New("median: PDFRenderer required")
 )
 
 func (m *Median) Store(ctx context.Context, r io.Reader, size int64, opt StoreOptions) (*StoreResult, error) {
@@ -381,6 +389,107 @@ func (m *Median) Get(ctx context.Context, objectPath string, opt GetOptions) (*G
 		out.Hash = hex.EncodeToString(sum[:])
 	}
 	return out, nil
+}
+
+// GetWithAllThumbnails returns the active original row and its active variants
+// as a StoreResult (metadata only). DB is required. Parent is resolved via
+// original_id only. Variants are ordered by width ascending (0 included),
+// then variant_key ascending; NULL width last.
+func (m *Median) GetWithAllThumbnails(ctx context.Context, id any, opt GetWithAllThumbnailsOptions) (*StoreResult, error) {
+	if !m.dbEnabled {
+		return nil, ErrDBRequired
+	}
+	if id == nil || id == "" {
+		return nil, ErrIDRequired
+	}
+	key, _, err := m.resolveKey(opt.StorageKey)
+	if err != nil {
+		return nil, err
+	}
+
+	row, err := m.repo.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	parentID := row.ID
+	parent := row
+	if row.OriginalID != nil {
+		parentID = row.OriginalID
+		parent, err = m.repo.FindByID(ctx, parentID)
+		if err != nil {
+			return nil, err
+		}
+	}
+	if parent.Status != "active" {
+		return nil, db.ErrNotFound
+	}
+
+	children, err := m.repo.ListChildren(ctx, parentID)
+	if err != nil {
+		return nil, err
+	}
+
+	active := make([]*db.Media, 0, len(children))
+	for _, ch := range children {
+		if ch.Status == "active" {
+			active = append(active, ch)
+		}
+	}
+	sort.SliceStable(active, func(i, j int) bool {
+		wi, wj := active[i].Width, active[j].Width
+		if wi == nil && wj == nil {
+			return variantKeyOf(active[i]) < variantKeyOf(active[j])
+		}
+		if wi == nil {
+			return false
+		}
+		if wj == nil {
+			return true
+		}
+		if *wi != *wj {
+			return *wi < *wj
+		}
+		return variantKeyOf(active[i]) < variantKeyOf(active[j])
+	})
+
+	variants := make([]VariantResult, 0, len(active))
+	for _, ch := range active {
+		variants = append(variants, mediaToVariantResult(ch, key))
+	}
+
+	out := mediaToStoreResult(parent, key, m.cfg.DefaultKey)
+	out.StorageKey = key
+	out.Variants = variants
+	return out, nil
+}
+
+func variantKeyOf(m *db.Media) string {
+	if m.VariantKey == nil {
+		return ""
+	}
+	return *m.VariantKey
+}
+
+func mediaToVariantResult(row *db.Media, storageKey string) VariantResult {
+	vr := VariantResult{
+		Path:       row.FilePath,
+		MIME:       row.MIME,
+		Size:       row.Size,
+		Hash:       row.Hash,
+		ID:         row.ID,
+		StorageKey: storageKey,
+	}
+	if row.VariantKey != nil {
+		vr.Key = *row.VariantKey
+	}
+	if row.Width != nil {
+		vr.Width = *row.Width
+	}
+	if row.Height != nil {
+		vr.Height = *row.Height
+	}
+	return vr
 }
 
 // PresignGet returns a signed GET URL for an S3 storage key.

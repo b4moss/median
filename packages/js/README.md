@@ -23,7 +23,7 @@ npx @b4moss/median migrate dump --dialect postgres --table media
 
 | Path | Role |
 | --- | --- |
-| `src/core` | `createMedian` / store / delete / get / presignGet |
+| `src/core` | `createMedian` / store / delete / get / getWithAllThumbnails / presignGet |
 | `src/storage` | local / s3 |
 | `src/db` | `createMediaSQL` / `migrateUp` / MediaRepo |
 | `src/cli.ts` | CLI (`migrate dump`) |

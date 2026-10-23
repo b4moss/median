@@ -20,7 +20,7 @@ go install github.com/b4moss/median/packages/go/cmd/median@v0.9.0
 
 | Path | Role |
 | --- | --- |
-| `core` | `New` / Store / Delete / Get / PresignGet / Config |
+| `core` | `New` / Store / Delete / Get / GetWithAllThumbnails / PresignGet / Config |
 | `storage` / `local` / `s3` | Adapters |
 | `db` | `CreateMediaSQL` / `MigrateUp` / MediaRepo |
 | `cmd/median` | CLI (`migrate dump`) |

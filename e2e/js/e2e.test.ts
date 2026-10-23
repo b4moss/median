@@ -346,3 +346,45 @@ describe("E2E T-S RustFS + DB thumbnails", () => {
     await runThumb(s3Cfg());
   });
 });
+
+describe("E2E F-L Local + DB GetWithAllThumbnails (optional)", () => {
+  it("variants count and width order for sm/md", async () => {
+    const root = localRoot("FL");
+    try {
+      const sqlite = openMemDB();
+      const m = await createMedian({
+        ...localCfg(root),
+        db: { db: sqlite, idStrategy: ID_AUTO_INCREMENT },
+        defaultActor: "e2e-actor",
+        thumbnails: {
+          presets: {
+            sm: { mode: "longEdge", size: 32, quality: 0.8 },
+            md: { mode: "longEdge", size: 48, quality: 0.8 },
+          },
+          defaultKeys: ["sm", "md"],
+        },
+      });
+      const payload = await makePNG(64, 64);
+      const res = await m.store(payload, payload.length, {
+        mime: "image/png",
+        filename: "pic.png",
+      });
+      assert.ok(res.id !== undefined);
+      assert.equal(res.variants?.length, 2);
+
+      const got = await m.getWithAllThumbnails(res.id!);
+      assert.equal(String(got.id), String(res.id));
+      assert.equal(got.path, res.path);
+      assert.equal(got.variants!.length, 2);
+      assert.equal(got.variants![0]!.key, "sm");
+      assert.equal(got.variants![1]!.key, "md");
+      assert.ok(got.variants![0]!.width <= got.variants![1]!.width);
+
+      const fromChild = await m.getWithAllThumbnails(res.variants![0]!.id!);
+      assert.equal(String(fromChild.id), String(res.id));
+      assert.equal(fromChild.variants!.length, 2);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+});

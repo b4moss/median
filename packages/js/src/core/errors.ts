@@ -11,6 +11,7 @@ export const ErrEmptyPath = new MedianError("median: path is empty");
 export const ErrUnknownKey = new MedianError("median: unknown storage key");
 export const ErrActorRequired = new MedianError("median: actor required");
 export const ErrIDRequired = new MedianError("median: id required");
+export const ErrDBRequired = new MedianError("median: db required");
 export const ErrDuplicate = new MedianError("median: duplicate hash");
 export const ErrNotS3 = new MedianError("median: storage is not s3");
 export const ErrPDFRendererRequired = new MedianError("median: PDFRenderer required");
