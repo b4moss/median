@@ -1,30 +1,32 @@
 ---
 type: Index
 title: specs
-description: 現行バージョンに存在する機能の仕様正本の置き場。
+description: 現行バージョンに存在する機能の仕様正本（ドメイン切り）。
 tags: [median, specs, index]
-timestamp: 2026-09-27T03:23:29Z
+timestamp: 2026-09-27T05:00:00Z
 ---
 
 # specs
 
-現行バージョンに存在する機能の仕様正本を置く。
+現行バージョンに存在する機能の仕様正本を置く。**SemVer フォルダでは切らない**（OKF v0.1 / doc-rule）。  
+テスト仕様は [`../tests/`](../tests/) と**同じドメイン切り**。
 
-実装完了したマイルストーンの文書を `plans/` から移している（コピー放置しない）。
-
-| 版 | 内容 |
+| ドメイン | 内容 |
 | --- | --- |
-| [v0.1.0/](./v0.1.0/) | Go スキャフォールド |
-| [v0.2.0/](./v0.2.0/) | Go コア API + Local FS |
-| [v0.3.0/](./v0.3.0/) | Go DB・画像パイプライン・S3（DB 列の現行は v0.7.0） |
-| [v0.4.0/](./v0.4.0/) | Go SVG サニタイズ・PDF サムネ |
-| [v0.5.0/](./v0.5.0/) | TypeScript（`packages/js`） |
-| [v0.6.0/](./v0.6.0/) | E2E（RustFS + POSIX、CRUD+DB・サムネ、Go/JS） |
-| [v0.7.0/](./v0.7.0/) | DB メディアスキーマ（パス列・テーブル名／カラムマップ） |
-| [v0.8.0/](./v0.8.0/) | Go モジュールパス（`packages/go`） |
-| [v0.9.0/](./v0.9.0/) | DDL 生成 CLI（`median migrate dump`） |
+| [core-api/](./core-api/) | 公開 API（Store / Delete / Get） |
+| [storage/](./storage/) | Local FS・storage key・ファイル名・shardian |
+| [db-media/](./db-media/) | メディアスキーマ・パス列・テーブル設定（Go: crudian / JS: MediaRepo） |
+| [media-pipeline/](./media-pipeline/) | 画像圧縮・リサイズ・サムネイル |
+| [s3-adapter/](./s3-adapter/) | S3 互換 Adapter・署名付き GET |
+| [svg-sanitize/](./svg-sanitize/) | SVG サニタイズ |
+| [pdf-thumbnail/](./pdf-thumbnail/) | PDF 先頭ページサムネ |
+| [packages-js/](./packages-js/) | TypeScript（`packages/js`） |
+| [e2e/](./e2e/) | E2E（RustFS + POSIX、Go/JS） |
+| [go-module-path/](./go-module-path/) | Go モジュールパス整合 |
+| [ddl-cli/](./ddl-cli/) | DDL 生成 CLI（`median migrate dump`） |
 
-未実装は [plans/](../plans/)（現在は [unscheduled/](../plans/unscheduled/) のみ）。
+未実装は [plans/](../plans/)（現在は [unscheduled/](../plans/unscheduled/) のみ）。  
+完了マイルストーンの版索引は [`_archived/history/`](../_archived/history/) を参照。
 
 ----
 

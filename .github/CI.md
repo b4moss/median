@@ -6,19 +6,20 @@ Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / cru
 
 | Artifact | Version | How |
 | --- | --- | --- |
-| `@b4moss/median` (npm) | `0.9.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
-| `github.com/b4moss/median/packages/go` | `0.9.0` | Tag `packages/go/vX.Y.Z`（module path = ディレクトリ／タグ接頭辞） |
+| `@b4moss/median` (npm) | `0.10.0` | Push `packages/js/**` to `release` + root tag `vX.Y.Z`（Trusted Publisher） |
+| `github.com/b4moss/median/packages/go` | `0.10.0` | Tag `packages/go/vX.Y.Z`（module path = ディレクトリ／タグ接頭辞） |
 | E2E harness (`e2e/`) | `v0.6.0` | Tag `v0.6.0`（milestone release。Go/npm の SemVer は上げない。`release` ブランチ不要） |
 | DB media schema | `v0.7.0` | Tags `v0.7.0` + `packages/go/v0.7.0`（出荷済） |
 | Go module path | `v0.8.0` | Tag `packages/go/v0.8.0`（出荷済） |
-| DDL CLI (`median migrate dump`) | `v0.9.0` | Tags `v0.9.0` + `packages/go/v0.9.0` |
+| DDL CLI (`median migrate dump`) | `v0.9.0` | Tags `v0.9.0` + `packages/go/v0.9.0`（出荷済） |
+| Dependency updates (sharp / shardian / crudian public / AWS SDK 等) | `v0.10.0` | Tags `v0.10.0` + `packages/go/v0.10.0` |
 
 ## Workflows
 
 | Workflow | Role |
 | --- | --- |
 | `ci.yml` | PR/push tests for `packages/{go,js,php}` with path filters (docs-only does not start CI). Needs `pull-requests: read` for dorny/paths-filter on PRs |
-| `e2e.yml` | **Manual only** (`workflow_dispatch`). RustFS + LocalFS E2E for Go and JS (`e2e/run.sh`). Not a PR gate — see `docs/tests/v0.6.0.md` / `docs/specs/v0.6.0/` |
+| `e2e.yml` | **Manual only** (`workflow_dispatch`). RustFS + LocalFS E2E for Go and JS (`e2e/run.sh`). Not a PR gate — see `docs/tests/e2e/e2e.md` / `docs/specs/e2e/` |
 | `codeql.yml` | CodeQL on **PR → main only** (crudian と同型). **Private 現状**: `upload: never` + 言語は `actions` のみ。**Public / GHAS 後**: workflow 内のコメントアウトを外す（go / js-ts matrix と SARIF upload） |
 | `scorecard.yml` | OpenSSF Scorecard on default branch |
 | `release-on-tag.yml` | GitHub Release for `v*`, `packages/go/v*`, `packages/php/v*` |
