@@ -227,8 +227,10 @@ Store 返却（本版）: `{ path, mime, size, hash, storageKey }`
 
 ## GetWithAllThumbnails（v0.11.0・DB 必須）
 
-計画正本: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（U1〜U12）。  
+計画正本: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（U1〜U14）。  
 JS 同等: [`../packages-js/packages-js.md`](../packages-js/packages-js.md)。Repo 契約は変えない（[`../db-media/`](../db-media/)）。status 絞り込みとソートは **core**（U7）。
+
+**テストの置き場所（U14・PO 決定 2026-10-23）:** 本節の Go テストは **core のテスト（インメモリ SQLite 付き）に集約**する。db 層（db-media）は、新しい公開関数を足した場合だけ薄いテストを足す（本版は Repo 契約を変えないため、db-media への追加は想定しない）。
 
 ### 前提（本節のみ）
 

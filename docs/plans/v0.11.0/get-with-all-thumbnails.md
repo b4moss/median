@@ -215,7 +215,7 @@ getWithAllThumbnails(
 
 ## 11. 決定事項
 
-PO（こうきさん）決定。旧 U1〜U12、U13 は 2026-10-23 追加。
+PO（こうきさん）決定。旧 U1〜U12、U13・U14 は 2026-10-23 追加。
 
 | ID | 決定 |
 | --- | --- |
@@ -232,6 +232,7 @@ PO（こうきさん）決定。旧 U1〜U12、U13 は 2026-10-23 追加。
 | U11 | 幅 **0** はふつうの数値として並べ順に含める。最後に回すのは幅が **NULL（不明）** のものだけ |
 | U12 | 親の判定は **`original_id` だけ**で行う（`variant_key` など他の値から推測しない） |
 | U13 | Go の呼び出し形は `GetWithAllThumbnails(ctx, id any, opt GetWithAllThumbnailsOptions)`。構造体は `{StorageKey}` のみ（id は必須の別引数。JS は `(id, opt?)` と同形） |
+| U14 | Go のテストは **core のテスト（インメモリ SQLite 付き）に集約**する。db 層（db-media）は、新しい公開関数を足した場合だけ薄いテストを足す |
 
 ## 12. 要検討事項
 
