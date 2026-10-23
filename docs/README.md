@@ -46,8 +46,8 @@ OKF の版索引は [`index.md`](./index.md)（`okf_version: "0.1"`）。本文�
 
 | パス | 内容 | 現状 | 言語ハブ |
 |------|------|------|----------|
-| `packages/go` | Go（開発順 1） | 出荷済 `v0.9.0`（DDL CLI。モジュール `github.com/b4moss/median/packages/go`） | [README](../packages/go/README.md) |
-| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.9.0`（DDL CLI / npm `@b4moss/median`） | [README](../packages/js/README.md) |
+| `packages/go` | Go（開発順 1） | 出荷済 `v0.10.0`（依存更新。モジュール `github.com/b4moss/median/packages/go`） | [README](../packages/go/README.md) |
+| `packages/js` | TypeScript / Node.js 24+（開発順 2） | 出荷済 `v0.10.0`（依存更新 / npm `@b4moss/median`） | [README](../packages/js/README.md) |
 | `packages/php` | PHP（開発順: 未割当） | 未着手（[unscheduled](./plans/unscheduled/packages-php.md)） | — |
 | `migrations/` | スキーママイグレーション正本（goose・方言解釈） | 共用 | [README](../migrations/README.md) |
 

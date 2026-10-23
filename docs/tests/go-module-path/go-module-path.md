@@ -29,7 +29,7 @@ timestamp: 2026-09-27T04:15:00Z
 
 - **Given** `packages/go/go.mod`
 - **Then** 先頭行が `module github.com/b4moss/median/packages/go`
-- **And** `VERSION` が SemVer として存在し、module path 契約を破らない（導入時は `0.8.0`。現行は `0.9.0` 以降可）
+- **And** `VERSION` が SemVer として存在し、module path 契約を破らない（導入時は `0.8.0`。現行は `0.10.0` 以降可）
 
 ### M2 — 内部 import
 

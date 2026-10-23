@@ -128,7 +128,7 @@ timestamp: 2026-09-25T06:30:00Z
 ## パッケージ版
 
 - パス列再編の導入版: Go / npm **`0.7.0`**
-- 現行ライン（DDL CLI 含む）: Go / npm **`0.9.0`**（`packages/go/VERSION` / `packages/js/package.json`）
+- 現行ライン（DDL CLI 含む）: Go / npm **`0.10.0`**（`packages/go/VERSION` / `packages/js/package.json`）
 
 ----
 

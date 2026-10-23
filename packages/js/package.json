@@ -1,6 +1,6 @@
 {
   "name": "@b4moss/median",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Median media store (TypeScript) — Store/Delete/Get/PresignGet with local/S3, DB, image pipeline, SVG sanitize, PDF thumbnails",
   "type": "module",
   "main": "./dist/index.js",

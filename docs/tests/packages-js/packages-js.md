@@ -8,7 +8,7 @@ timestamp: 2026-09-27T00:40:00Z
 
 # テスト仕様 — packages-js
 
-対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.9.0`）  
+対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.10.0`）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/packages-js/`](../../specs/packages-js/)（[packages-js.md](../../specs/packages-js/packages-js.md)）  
 Go 契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../svg-sanitize/`](../svg-sanitize/) / [`../pdf-thumbnail/`](../pdf-thumbnail/)  

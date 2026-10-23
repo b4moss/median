@@ -192,7 +192,7 @@ Store 返却（本版・DB/パイプライン有効時に増えうる）: `{ id?
 | 対象 | Go `packages/go`（`db` / `core`）と JS `packages/js`（`src/db` / `src/core`）の**両方** |
 | テスト DB | **SQLite**（Go: gorm + 既存系、JS: better-sqlite3）。他 dialect は DDL 生成の単体確認まで |
 | 入口 | Go: `core.New` → `Store` / `Delete` / `Get`。JS: `createMedian` → `store` / `delete` / `get` |
-| パッケージ SemVer（パス列導入時） | Go / npm **`0.7.0`**。現行ラインは **`0.9.0`** |
+| パッケージ SemVer（パス列導入時） | Go / npm **`0.7.0`**。現行ラインは **`0.10.0`** |
 | 破壊的変更 | 物理列 `path` を廃止。既存 DB への ALTER マイグレーションは提供しない（`00001` 置き換え） |
 
 ### 実装固定デフォルト

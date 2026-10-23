@@ -70,12 +70,12 @@ UUID / ULID / UUID 採番を選ぶ場合も **別バージョンにせず**、�
 
 ```bash
 # Go
-go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+go run github.com/b4moss/median/packages/go/cmd/median@v0.10.0 \
   migrate dump --dialect postgres --id-strategy auto_increment --table media \
   > migrations/XXXX_median_media.sql
 
 # JS
-npx @b4moss/median@0.9.0 migrate dump --dialect postgres --table media \
+npx @b4moss/median@0.10.0 migrate dump --dialect postgres --table media \
   > migrations/XXXX_median_media.sql
 ```
 

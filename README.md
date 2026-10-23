@@ -19,7 +19,7 @@ Core operations are **Store / Delete / Get** (plus **PresignGet** where supporte
 - Optional **media DB** metadata (table name + column map)
 - Image pipeline (compress / resize / thumbnails), **SVG sanitize**, **PDF** first-page thumbnails (renderer injection)
 
-Versions are **independent per language**. Check the current line in each port’s README / `VERSION` / `package.json`. Today Go and npm both ship **`0.9.0`** (DDL CLI).
+Versions are **independent per language**. Check the current line in each port’s README / `VERSION` / `package.json`. Today Go and npm both ship **`0.10.0`** (dependency updates).
 
 ## Choose a language port
 
@@ -38,7 +38,7 @@ This root README is the **shared host workflow**. Port-specific install commands
 | | Go host | JS / Node host |
 |--|---------|----------------|
 | Runtime | Go **1.26+** | Node.js **24+** |
-| Package | `github.com/b4moss/median/packages/go@v0.9.0` | `@b4moss/median@0.9.0` |
+| Package | `github.com/b4moss/median/packages/go@v0.10.0` | `@b4moss/median@0.10.0` |
 | DB (optional) | GORM-backed dialect via crudian | better-sqlite3 at runtime; DDL dump still supports mysql / postgres / sqlite3 |
 | Storage | Local path and/or S3-compatible endpoint | Same |
 
@@ -53,7 +53,7 @@ Recommended production path when **your app owns migrations**.
 ### Step 1 — Pick a port and install
 
 - Go → [`packages/go/README.md`](./packages/go/README.md)  
-  `go get github.com/b4moss/median/packages/go@v0.9.0`
+  `go get github.com/b4moss/median/packages/go@v0.10.0`
 - JS → [`packages/js/README.md`](./packages/js/README.md)  
   `npm install @b4moss/median`
 
@@ -75,7 +75,7 @@ median does **not** run production migrate for you. Generate SQL and commit it t
 
 ```bash
 # Go
-go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+go run github.com/b4moss/median/packages/go/cmd/median@v0.10.0 \
   migrate dump --dialect postgres --id-strategy auto_increment --table media \
   > migrations/XXXX_median_media.sql
 
@@ -165,8 +165,8 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 
 | | Go | JS |
 |--|----|----|
-| Run | `go run …/cmd/median@v0.9.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
-| Install binary | `go install …/cmd/median@v0.9.0` | `npm i -g @b4moss/median` (or local `npx`) |
+| Run | `go run …/cmd/median@v0.10.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
+| Install binary | `go install …/cmd/median@v0.10.0` | `npm i -g @b4moss/median` (or local `npx`) |
 | Library twin | `db.CreateMediaSQL` | `createMediaSQL` |
 
 Full flags and examples: language hubs · [`migrations/README.md`](./migrations/README.md).

@@ -19,7 +19,7 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 - 任意の **メディア DB**（テーブル名・カラムマップ）
 - 画像パイプライン（圧縮・リサイズ・サムネ）、**SVG サニタイズ**、**PDF** 先頭ページサムネ（レンダラ注入）
 
-版番号は **言語ごとに独立**。現行ラインは各ポートの README / `VERSION` / `package.json` を見る。いま Go / npm とも **`0.9.0`**（DDL CLI）。
+版番号は **言語ごとに独立**。現行ラインは各ポートの README / `VERSION` / `package.json` を見る。いま Go / npm とも **`0.10.0`**（依存更新）。
 
 ## 言語ポートを選ぶ
 
@@ -38,7 +38,7 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 | | Go ホスト | JS / Node ホスト |
 |--|-----------|------------------|
 | ランタイム | Go **1.26+** | Node.js **24+** |
-| パッケージ | `github.com/b4moss/median/packages/go@v0.9.0` | `@b4moss/median@0.9.0` |
+| パッケージ | `github.com/b4moss/median/packages/go@v0.10.0` | `@b4moss/median@0.10.0` |
 | DB（任意） | GORM + crudian | ランタイムは better-sqlite3。DDL dump は mysql / postgres / sqlite3 対応 |
 | ストレージ | Local パスおよび／または S3 互換 | 同上 |
 
@@ -53,7 +53,7 @@ DDD 向けメディアストア。バイト列をストレージへ出し入れ�
 ### ステップ 1 — ポートを選んでインストール
 
 - Go → [`packages/go/README.md`](./packages/go/README.md)  
-  `go get github.com/b4moss/median/packages/go@v0.9.0`
+  `go get github.com/b4moss/median/packages/go@v0.10.0`
 - JS → [`packages/js/README.md`](./packages/js/README.md)  
   `npm install @b4moss/median`
 
@@ -75,7 +75,7 @@ median は本番の migrate を代行しません。SQL を生成し、ホスト
 
 ```bash
 # Go
-go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+go run github.com/b4moss/median/packages/go/cmd/median@v0.10.0 \
   migrate dump --dialect postgres --id-strategy auto_increment --table media \
   > migrations/XXXX_median_media.sql
 
@@ -162,8 +162,8 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 
 | | Go | JS |
 |--|----|----|
-| 実行 | `go run …/cmd/median@v0.9.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
-| バイナリ | `go install …/cmd/median@v0.9.0` | `npm i -g @b4moss/median`（またはローカル `npx`） |
+| 実行 | `go run …/cmd/median@v0.10.0 migrate dump …` | `npx @b4moss/median migrate dump …` |
+| バイナリ | `go install …/cmd/median@v0.10.0` | `npm i -g @b4moss/median`（またはローカル `npx`） |
 | ライブラリ同等 | `db.CreateMediaSQL` | `createMediaSQL` |
 
 詳細は言語ハブ · [`migrations/README.md`](./migrations/README.md)。

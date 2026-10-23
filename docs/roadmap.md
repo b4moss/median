@@ -29,6 +29,8 @@ SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リ�
 | `v0.9.0` | 出荷済 | DDL 生成 CLI（`median migrate dump`）。Go / npm `0.9.0` | [ddl-cli](./specs/ddl-cli/) |
 | `v0.10.0` | 計画中（PO 承認待ち） | `GetWithAllThumbnails` / `getWithAllThumbnails`（DB 必須・active ファミリー・幅昇順 variants）。Go / npm `0.10.0` | [plans/v0.10.0](./plans/v0.10.0/) |
 
+> 注: 依存更新リリースを `v0.10.0` とし、GetWithAllThumbnails は `v0.11.0` へ繰り下げ。
+
 旧版フォルダ索引は [`_archived/history/`](./_archived/history/) を参照。
 
 ## 未割当（unscheduled）
