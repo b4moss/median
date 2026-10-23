@@ -26,7 +26,6 @@ go install github.com/b4moss/median/packages/go/cmd/median@v0.9.0
 | `cmd/median` | CLI (`migrate dump`) |
 | `pipeline` | Image / SVG / PDF |
 | `internal` | MIME, filename, shardian path |
-| `third_party/crudian` | Vendored crudian (`replace` in `go.mod`) |
 
 ## Step-by-step (Go host)
 
