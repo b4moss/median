@@ -28,7 +28,7 @@ timestamp: 2026-10-22T10:54:00Z
 | JS | `median.getWithAllThumbnails(id, …)`（同上） |
 | 返り値 | 既存 **`StoreResult`**（各要素も既存の Store / Variant 形）。トップレベルはオリジナルのメタ、`variants` は Store と同形 |
 | id | オリジナルでも派生行でも、`original_id` だけで親をたどりファミリー全体を返す |
-| DB | **必須**。未設定なら Go `ErrDBRequired` / JS `DBRequiredError` |
+| DB | **必須**。未設定なら Go・JS とも `ErrDBRequired`（既存の `ErrIDRequired` 等と同じ番兵エラー） |
 | status | 返すのは `status = active` の行のみ（絞り込みは **core**）。オリジナルが active でなければファミリー全体を「見つからない」。渡された id が inactive な派生でも親をたどる |
 | 並び | `variants` は幅の小さい順。幅 `0` は通常の数値として含める。幅 NULL（不明）のみ最後。同幅は `variant_key` 昇順 |
 | 版 | minor 上げて Go / npm **`0.11.0`** |
@@ -87,7 +87,7 @@ getWithAllThumbnails(
 
 | 状況 | 扱い | エラー |
 | --- | --- | --- |
-| DB 未設定（`dbEnabled == false`） | エラー | Go **`ErrDBRequired`** / JS **`DBRequiredError`**（U8） |
+| DB 未設定（`dbEnabled == false`） | エラー | Go・JS とも **`ErrDBRequired`**（既存と同じ番兵エラー）（U8） |
 | id 空 / nil | エラー | 既存 `ErrIDRequired` 相当を再利用可 |
 | 行が存在しない | 見つからない | 既存 `db.ErrNotFound` / JS `db: media not found` |
 | オリジナルが `active` でない | ファミリー全体を見つからない | 同上 not found（呼び出し側は存在有無と区別しない） |
@@ -101,7 +101,7 @@ getWithAllThumbnails(
 
 ### 5.1 処理手順（言語共通）
 
-1. DB 必須チェック。無ければ `ErrDBRequired` / `DBRequiredError`
+1. DB 必須チェック。無ければ `ErrDBRequired`
 2. `FindByID(id)` で行を取得（存在しなければ not found）。**この行の status は問わない**（inactive な派生 id でも続行。U5）
 3. 親 id の決定（**`original_id` のみ**。`variant_key` 等から推測しない。U12）:
    - `original_id` が非 NULL → それが親 id
@@ -167,7 +167,7 @@ getWithAllThumbnails(
 
 #### テスト: 異常系
 
-- DB 未設定で呼ぶと `ErrDBRequired` / `DBRequiredError`（not found ではない）
+- DB 未設定で呼ぶと `ErrDBRequired`（not found ではない）
 - 存在しない id は not found
 - オリジナルが active でないとき（派生 id 経由でも）not found
 - id 空は拒否
@@ -222,7 +222,7 @@ PO（こうきさん）決定。旧 U1〜U12。
 | U5 | 渡された id が **inactive な派生**でも親をたどる。返すのは active なファミリーだけ（親が inactive なら not found） |
 | U6 | 幅が同じ場合は **`variant_key` の昇順**で並べる |
 | U7 | active の絞り込みは **core（本体）側**で行う |
-| U8 | DB なしで呼ばれたときのエラーは Go **`ErrDBRequired`**、JS **`DBRequiredError`** |
+| U8 | DB なしで呼ばれたときのエラーは Go・JS とも **`ErrDBRequired`**（既存と同じ番兵エラー。メッセージ `median: db required`） |
 | U9 | 既存の `Get` は今回の版では変えない（active のみに絞らない）。将来の扱いは [§12 要検討事項](#12-要検討事項) |
 | U10 | テストは **単体を厚め**に書き、**Local E2E を任意で 1 本**だけ足す |
 | U11 | 幅 **0** はふつうの数値として並べ順に含める。最後に回すのは幅が **NULL（不明）** のものだけ |
@@ -238,7 +238,7 @@ Issue にはしない。将来の版で検討するメモ。
 
 ## 13. 受け入れ（短い・roadmap 用）
 
-DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が、オリジナルまたは派生 id から active なファミリー（`StoreResult`：オリジナルメタ＋幅昇順 variants、無しは空配列）を返す。DB なしは `ErrDBRequired` / `DBRequiredError`。Go / npm `0.11.0`。
+DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が、オリジナルまたは派生 id から active なファミリー（`StoreResult`：オリジナルメタ＋幅昇順 variants、無しは空配列）を返す。DB なしは `ErrDBRequired`。Go / npm `0.11.0`。
 
 ----
 

@@ -2,7 +2,7 @@
 type: Spec
 title: テスト仕様 — core-api
 description: Go コア API（Store / Delete / Get / GetWithAllThumbnails）の TDD 入力。
-tags: [median, tests, core-api, go, v0.10.0]
+tags: [median, tests, core-api, go, v0.11.0]
 timestamp: 2026-10-22T11:10:00Z
 ---
 
@@ -11,12 +11,12 @@ timestamp: 2026-10-22T11:10:00Z
 対象ドメイン: `core-api`（Go コア API）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/core-api/`](../../specs/core-api/)  
-計画: [`../../plans/v0.10.0/get-with-all-thumbnails.md`](../../plans/v0.10.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
+計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
 関連: [`../storage/`](../storage/) / [`../db-media/`](../db-media/) / [`../packages-js/`](../packages-js/) / [`../../roadmap.md`](../../roadmap.md)  
 書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
 
 旧マイルストーン `v0.2.0` 由来。storage 単体は [`../storage/`](../storage/) を参照。  
-**v0.10.0**: `GetWithAllThumbnails` は **DB 必須**（下記専用節）。それ以外の本ファイル節は従来どおり DB なし契約。
+**v0.11.0**: `GetWithAllThumbnails` は **DB 必須**（下記専用節）。それ以外の本ファイル節は従来どおり DB なし契約。
 
 ## 共通前提
 
@@ -26,7 +26,7 @@ timestamp: 2026-10-22T11:10:00Z
 | 対象パッケージ | `core` / `storage` / `storage/local`（`internal` は単体対象可） |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | ストレージ | Local FS（テストは `t.TempDir()` 等） |
-| 入口 | `core.New(Config)` → `Store` / `Delete` / `Get` / **`GetWithAllThumbnails`（v0.10.0・DB 必須）** |
+| 入口 | `core.New(Config)` → `Store` / `Delete` / `Get` / **`GetWithAllThumbnails`（v0.11.0・DB 必須）** |
 | DB / 画像 / S3 | 従来節は **対象外**（`id`・`width`・`height`・`variants` は返さない）。**例外**: `GetWithAllThumbnails` 節のみ DB・variants を扱う |
 | 依存 | `github.com/b4moss/shardian/packages/go`（DB 節は crudian / 既存 MediaRepo 経路） |
 
@@ -225,9 +225,9 @@ Store 返却（本版）: `{ path, mime, size, hash, storageKey }`
 ---
 
 
-## GetWithAllThumbnails（v0.10.0・DB 必須）
+## GetWithAllThumbnails（v0.11.0・DB 必須）
 
-計画正本: [`../../plans/v0.10.0/get-with-all-thumbnails.md`](../../plans/v0.10.0/get-with-all-thumbnails.md)（U1〜U12）。  
+計画正本: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（U1〜U12）。  
 JS 同等: [`../packages-js/packages-js.md`](../packages-js/packages-js.md)。Repo 契約は変えない（[`../db-media/`](../db-media/)）。status 絞り込みとソートは **core**（U7）。
 
 ### 前提（本節のみ）

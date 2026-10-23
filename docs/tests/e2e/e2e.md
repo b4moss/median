@@ -2,16 +2,16 @@
 type: Spec
 title: テスト仕様 — e2e
 description: E2E（RustFS + Docker POSIX LocalFS、Go/JS）。CRUD+DB メタ・サムネ・任意 GetWithAllThumbnails を含む。
-tags: [median, tests, e2e, rustfs, db, thumbnails, v0.10.0]
+tags: [median, tests, e2e, rustfs, db, thumbnails, v0.11.0]
 timestamp: 2026-10-22T11:10:00Z
 ---
 
 # テスト仕様 — e2e
 
-対象ドメイン: `e2e`（導入マイルストーン `v0.6.0`。v0.10.0 で任意シナリオ 1 本追加可）  
+対象ドメイン: `e2e`（導入マイルストーン `v0.6.0`。v0.11.0 で任意シナリオ 1 本追加可）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/e2e/e2e.md`](../../specs/e2e/e2e.md)  
-計画: [`../../plans/v0.10.0/get-with-all-thumbnails.md`](../../plans/v0.10.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
+計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
 実装: [`../../e2e/`](../../../e2e/)  
 出荷契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../packages-js/`](../packages-js/)  
 DB 列の現行契約: [`../db-media/`](../db-media/)（E2E の DB メタ照合は `file_path` 等）  
@@ -277,7 +277,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 
 ---
 
-## シナリオ F-L — Local + DB: GetWithAllThumbnails（任意・v0.10.0）
+## シナリオ F-L — Local + DB: GetWithAllThumbnails（任意・v0.11.0）
 
 **目的:** Store でサムネ生成後、`GetWithAllThumbnails` / `getWithAllThumbnails` が **variants 件数と幅順**を返すこと（契約の主担保は単体。本シナリオは任意 1 本）。
 
@@ -286,7 +286,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 - Local + インメモリ SQLite、`defaultActor`
 - `thumbnails.presets` に **幅の異なる** 2 key 以上（例: `sm` / `md`）、`defaultKeys` にそれらを列挙
 - 入力は小さな PNG
-- 計画: [`../../plans/v0.10.0/get-with-all-thumbnails.md`](../../plans/v0.10.0/get-with-all-thumbnails.md) §8（U10）
+- 計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md) §8（U10）
 
 **手順:**
 
@@ -311,9 +311,9 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 | C-S | RustFS | インメモリ | CRUD + メタ + Presign | 通ること | 通ること | はい |
 | T-L | Local | インメモリ | サムネ + DB 親子 + カスケード | 通ること | 通ること | はい |
 | T-S | RustFS | インメモリ | 同上 on S3 | 通ること | 通ること | はい |
-| F-L | Local | インメモリ | GetWithAllThumbnails（件数・幅順） | 通ること | 通ること | **任意**（v0.10.0） |
+| F-L | Local | インメモリ | GetWithAllThumbnails（件数・幅順） | 通ること | 通ること | **任意**（v0.11.0） |
 
-必須セル成功で v0.6.0 由来のシナリオ受け入れとする。F-L は v0.10.0 の任意受け入れ（単体が主担保）。
+必須セル成功で v0.6.0 由来のシナリオ受け入れとする。F-L は v0.11.0 の任意受け入れ（単体が主担保）。
 
 ---
 

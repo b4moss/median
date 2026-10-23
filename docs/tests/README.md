@@ -14,14 +14,14 @@ TDD の入力となるテスト仕様を置く。書き方・氷山パターン�
 | ドメイン | テスト仕様 |
 | --- | --- |
 | [scaffold/](./scaffold/) | 歴史マイルストーンのみ（現行テストなし） |
-| [core-api/](./core-api/) | Go コア API（v0.10.0: `GetWithAllThumbnails`） |
+| [core-api/](./core-api/) | Go コア API（v0.11.0: `GetWithAllThumbnails`） |
 | [storage/](./storage/) | Local FS・key・ファイル名・shardian |
 | [db-media/](./db-media/) | DB・メディアスキーマ（パス列含む） |
 | [media-pipeline/](./media-pipeline/) | 画像パイプライン |
 | [s3-adapter/](./s3-adapter/) | S3 互換 Adapter |
 | [svg-sanitize/](./svg-sanitize/) | SVG サニタイズ |
 | [pdf-thumbnail/](./pdf-thumbnail/) | PDF サムネ |
-| [packages-js/](./packages-js/) | TypeScript / `packages/js`（v0.10.0: `getWithAllThumbnails`） |
+| [packages-js/](./packages-js/) | TypeScript / `packages/js`（v0.11.0: `getWithAllThumbnails`） |
 | [e2e/](./e2e/) | E2E（L1/S1・CRUD+DB・サムネ・任意 F-L） |
 | [go-module-path/](./go-module-path/) | Go モジュールパス整合 |
 | [ddl-cli/](./ddl-cli/) | DDL 生成 CLI（`median migrate dump`） |
