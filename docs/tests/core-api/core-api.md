@@ -1,9 +1,9 @@
 ---
 type: Spec
 title: テスト仕様 — core-api
-description: Go コア API（Store / Delete / Get）の TDD 入力。
-tags: [median, tests, core-api, go]
-timestamp: 2026-09-27T05:00:00Z
+description: Go コア API（Store / Delete / Get / GetWithAllThumbnails）の TDD 入力。
+tags: [median, tests, core-api, go, v0.11.0]
+timestamp: 2026-10-22T11:10:00Z
 ---
 
 # テスト仕様 — core-api
@@ -11,10 +11,12 @@ timestamp: 2026-09-27T05:00:00Z
 対象ドメイン: `core-api`（Go コア API）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/core-api/`](../../specs/core-api/)  
-関連: [`../storage/`](../storage/) / [`../../roadmap.md`](../../roadmap.md)  
+計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
+関連: [`../storage/`](../storage/) / [`../db-media/`](../db-media/) / [`../packages-js/`](../packages-js/) / [`../../roadmap.md`](../../roadmap.md)  
 書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
 
-旧マイルストーン `v0.2.0` 由来。storage 単体は [`../storage/`](../storage/) を参照。
+旧マイルストーン `v0.2.0` 由来。storage 単体は [`../storage/`](../storage/) を参照。  
+**v0.11.0**: `GetWithAllThumbnails` は **DB 必須**（下記専用節）。それ以外の本ファイル節は従来どおり DB なし契約。
 
 ## 共通前提
 
@@ -24,9 +26,9 @@ timestamp: 2026-09-27T05:00:00Z
 | 対象パッケージ | `core` / `storage` / `storage/local`（`internal` は単体対象可） |
 | ランタイム / テスト | Go `1.26.x` + `go test` |
 | ストレージ | Local FS（テストは `t.TempDir()` 等） |
-| 入口 | `core.New(Config)` → `Store` / `Delete` / `Get` |
-| DB / 画像 / S3 | **対象外**（`id`・`width`・`height`・`variants` は返さない） |
-| 依存 | `github.com/b4moss/shardian/packages/go` |
+| 入口 | `core.New(Config)` → `Store` / `Delete` / `Get` / **`GetWithAllThumbnails`（v0.11.0・DB 必須）** |
+| DB / 画像 / S3 | 従来節は **対象外**（`id`・`width`・`height`・`variants` は返さない）。**例外**: `GetWithAllThumbnails` 節のみ DB・variants を扱う |
+| 依存 | `github.com/b4moss/shardian/packages/go`（DB 節は crudian / 既存 MediaRepo 経路） |
 
 ### 実装固定デフォルト
 
@@ -223,10 +225,71 @@ Store 返却（本版）: `{ path, mime, size, hash, storageKey }`
 ---
 
 
-## 対象外（本版）
+## GetWithAllThumbnails（v0.11.0・DB 必須）
 
-- DB 永続化、`id` 採番、重複 hash 抑止、actor 永続化
-- 画像の width/height / variants / パイプライン
+計画正本: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（U1〜U14）。  
+JS 同等: [`../packages-js/packages-js.md`](../packages-js/packages-js.md)。Repo 契約は変えない（[`../db-media/`](../db-media/)）。status 絞り込みとソートは **core**（U7）。
+
+**テストの置き場所（U14・PO 決定 2026-10-23）:** 本節の Go テストは **core のテスト（インメモリ SQLite 付き）に集約**する。db 層（db-media）は、新しい公開関数を足した場合だけ薄いテストを足す（本版は Repo 契約を変えないため、db-media への追加は想定しない）。
+
+### 前提（本節のみ）
+
+| 項目 | 値 |
+| --- | --- |
+| 入口 | `(*Median).GetWithAllThumbnails(ctx, id any, opt GetWithAllThumbnailsOptions)`（構造体は `{StorageKey}` のみ。`StorageKey` は既存 `Get` と同じく任意。id は必須の別引数） |
+| 戻り値 | 既存 `*StoreResult`（トップレベル＝オリジナルメタ。`Variants` は Store 返却と同形。無しは **空スライス**、nil にしない） |
+| Body | 付けない（メタのみ。`WithBody` なし） |
+| DB | **必須**。未設定は `ErrDBRequired`（not found ではない） |
+| 親解決 | `original_id` のみ（非 NULL → 親 id、NULL → 自身が親）。`variant_key` 等から推測しない |
+| status | 返すのは `active` のみ。絞り込みは core。渡された id が inactive 派生でも親をたどる。親が active でなければファミリー全体 not found |
+| 並び | 幅昇順（`0` 含む）→ 同幅は `variant_key` 昇順 → 幅 NULL（不明）のみ末尾 |
+| Repo | 既存 `FindByID` + `ListChildren`。status 条件付き List は追加しない |
+| テスト DB | SQLite（既存 db-media 経路）。テーブル名上書き・カラムマップ・ID 戦略は代表ケースでよい |
+| 既存 `Get` | 本版では変えない（active 絞り込みしない。U9） |
+
+### GetWithAllThumbnails
+
+- 渡された id からオリジナルを解決し、active なオリジナルメタと active な variants を `StoreResult` で返す
+- variants は Store 返却と同形（Key / Path / MIME / Size / Hash / Width / Height / ID / StorageKey）
+- variants は幅昇順（0 含む）。同幅は `variant_key` 昇順。幅 NULL のみ末尾
+- バイナリは読まない（ストレージ Get を呼ばない）
+
+#### テスト：正常系
+
+- オリジナル id で、複数サムネ付きファミリーが返り、トップレベルは親メタ、`Variants` が幅昇順・同幅は key 昇順
+- 派生行（active）id で同じファミリーが返る（トップレベルは親のもの。派生自身のメタがトップにならない）
+- inactive な派生 id でも親が active ならファミリーが返る（入力行の status は問わない）
+- サムネ無しの active オリジナルは成功し、`Variants` は長さ 0 のスライス（nil ではない）
+- 子に inactive が混在する場合、active の子だけが `Variants` に入る（inactive 子は除外）
+- `width=0` の variant が数値として昇順に含まれる（NULL 扱いにしない）
+- 幅 NULL の variant のみ、数値幅のあとに並ぶ
+- 同幅の複数 variant は `variant_key` 昇順
+- `opt.StorageKey` 省略時（ゼロ値）は defaultKey、明示時はその key がオリジナル・各 variant の `StorageKey` に載る
+- テーブル名上書き、またはカラムマップ、または非 `auto_increment` ID 戦略のいずれか代表ケースでも同じ契約（全組み合わせの網羅は不要）
+
+#### テスト: 異常系
+
+- DB 未設定（`dbEnabled == false`）で呼ぶと `ErrDBRequired`（既存 not found / `ErrNotFound` ではない）
+- 存在しない id は not found（既存 `db.ErrNotFound` 相当）
+- オリジナルが active でないとき（派生 id 経由でも）not found（ファミリー全体）
+- id 空 / nil は拒否（既存 `ErrIDRequired` 相当を再利用可）
+- 未知の storage key は拒否（既存 `ErrUnknownKey`）
+
+### 本節の対象外
+
+- `getWithAllThmbnailsAsHTMLSrcSet` 等 HTML / srcset 返却
+- 既存 `Get` の active 絞り込み変更（将来検討。計画 §12）
+- Repo への status 条件付き List 追加
+- DDL / マイグレーション変更
+- Local E2E（任意 1 本は [`../e2e/e2e.md`](../e2e/e2e.md)）
+
+---
+
+
+## 対象外（本版・従来節）
+
+- DB 永続化、`id` 採番、重複 hash 抑止、actor 永続化（**例外**: 上記 `GetWithAllThumbnails`）
+- 画像の width/height / variants / パイプライン（**例外**: 上記 `GetWithAllThumbnails` のメタ）
 - S3 Adapter・署名付き URL
 - SVG サニタイズ、PDF サムネ
 - HTTP Request 全体の multipart パース必須化

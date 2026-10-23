@@ -1,16 +1,17 @@
 ---
 type: Spec
-title: テスト仕様 v0.5.0
-description: TypeScript（packages/js）移植の TDD 入力。Go v0.2〜v0.4 契約の同等振る舞い。
-tags: [median, tests, v0.5.0, js, typescript]
-timestamp: 2026-09-27T00:40:00Z
+title: テスト仕様 — packages-js
+description: TypeScript（packages/js）の TDD 入力。Go 契約の同等振る舞い（v0.11.0 getWithAllThumbnails 含む）。
+tags: [median, tests, packages-js, js, typescript, v0.11.0]
+timestamp: 2026-10-22T11:10:00Z
 ---
 
 # テスト仕様 — packages-js
 
-対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.9.0`）  
+対象ドメイン: `packages-js`（TypeScript / `packages/js`。導入マイルストーン `v0.5.0`、現行 npm `0.9.0`、次版 `0.11.0`）  
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/packages-js/`](../../specs/packages-js/)（[packages-js.md](../../specs/packages-js/packages-js.md)）  
+計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（Issue [#77](https://github.com/b4moss/median/issues/77)）  
 Go 契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../svg-sanitize/`](../svg-sanitize/) / [`../pdf-thumbnail/`](../pdf-thumbnail/)  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
 書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
@@ -31,7 +32,7 @@ Go で固めた語彙・振る舞いを TypeScript で同等に満たす。細�
 | 型チェック | `npx tsc -p tsconfig.build.json --noEmit` |
 | テスト DB | **SQLite**（実ファイルまたは `:memory:`）。他 dialect は SQL 生成の単体まで |
 | S3 テスト | Adapter 単体 + HTTP モック（実 MinIO は必須にしない） |
-| 入口 | `createMedian(config)` または同等 → `store` / `delete` / `get` / `presignGet` |
+| 入口 | `createMedian(config)` または同等 → `store` / `delete` / `get` / `presignGet` / **`getWithAllThumbnails`（v0.11.0・DB 必須）** |
 | 依存方針 | shardian（JS）、自前 MediaRepo + better-sqlite3、画像処理（sharp 等）、AWS SDK v3（S3）、**svgo**（SVG）、PDF は注入レンダラ（**crudian 不使用**） |
 
 ### 実装固定デフォルト（Go と同値）
@@ -227,6 +228,41 @@ Store 返却: `{ id?, path, mime, size, hash, storageKey, width?, height?, varia
 
 - 存在しない id、DB 有効時の id 無し get/delete は拒否
 
+### getWithAllThumbnails（v0.11.0・DB 必須）
+
+計画正本: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md)（U1〜U12）。  
+Go 同等: [`../core-api/core-api.md`](../core-api/core-api.md) の `GetWithAllThumbnails`。期待値は Go と食い違わないこと。
+
+- シグネチャ: `getWithAllThumbnails(id: string | number, opt?: { storageKey?: string }): Promise<StoreResult>`
+- 戻り値は既存 `StoreResult`。サムネ無しは `variants: []`（欠落させない）
+- `body` / `withBody` は付けない（メタのみ）
+- DB 必須。未設定は `ErrDBRequired`（not found 文字列と区別できること）
+- 親解決は `original_id` のみ。返すのは `status === "active"` のみ（絞り込みは core）
+- `variants` 並び: 幅昇順（`0` 含む）→ 同幅は `variant_key` 昇順 → 幅 `null` / 不明のみ末尾
+- `Median` 型・`createMedian` 返却・パッケージ export にメソッドが載る
+
+#### テスト：正常系
+
+- オリジナル id で、複数サムネ付きファミリーが返り、トップレベルは親メタ、`variants` が幅昇順・同幅は key 昇順
+- 派生行（active）id で同じファミリーが返る（トップレベルは親）
+- inactive な派生 id でも親が active ならファミリーが返る
+- サムネ無しの active オリジナルは成功し、`variants` は `[]`
+- 子に inactive が混在する場合、active の子だけが `variants` に入る
+- `width === 0` の variant が数値として昇順に含まれる
+- 幅不明（`null`）の variant のみ末尾
+- 同幅の複数 variant は `variant_key` 昇順
+- `storageKey` 省略時は defaultKey、明示時はその key がオリジナル・各 variant に載る
+- テーブル名上書き / カラムマップ / 非 `auto_increment` ID 戦略のいずれか代表ケースでも同じ契約
+- 各 `variants[]` 要素は Store 返却と同形（`key` / `path` / `mime` / `size` / `hash` / `width` / `height` / `id` / `storageKey`）
+
+#### テスト: 異常系
+
+- DB 未設定で呼ぶと `ErrDBRequired`（`db: media not found` 等の not found ではない）
+- 存在しない id は not found（既存 `db: media not found` 相当）
+- オリジナルが active でないとき（派生 id 経由でも）not found
+- id 空は拒否（既存 id 必須エラー相当）
+- 未知の storage key は拒否
+
 ---
 
 ## pipeline / core（SVG）
@@ -301,6 +337,8 @@ Store 返却: `{ id?, path, mime, size, hash, storageKey, width?, height?, varia
 - 本番 PDF レンダラ実バイナリを CI 必須にする結合（偽レンダラで契約固定）
 - PHP（[unscheduled](../../plans/unscheduled/packages-php.md)）
 - Go パッケージ自体の変更
+- HTML / srcset 返却メソッド（v0.11.0 計画の対象外）
+- 既存 `get` の active 絞り込み変更（計画 §12・将来検討）
 
 ----
 
