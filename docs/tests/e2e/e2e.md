@@ -284,7 +284,7 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 **前提:**
 
 - Local + インメモリ SQLite、`defaultActor`
-- `thumbnails.presets` に **幅の異なる** 2 key 以上（例: `sm` / `md`）、`defaultKeys` にそれらを列挙
+- `thumbnails.presets` に **幅の異なる 2 key（`sm` と `md`）に固定**（PO 決定 2026-10-23。幅は `sm` < `md`）、`defaultKeys` に両方を列挙
 - 入力は小さな PNG
 - 計画: [`../../plans/v0.11.0/get-with-all-thumbnails.md`](../../plans/v0.11.0/get-with-all-thumbnails.md) §8（U10）
 
@@ -292,8 +292,8 @@ Go / JS は**同じシナリオ ID・同じ手順・同じ期待**を満たす�
 
 1. PNG を `Store`（サムネ生成あり）
 2. 親 `id` で `GetWithAllThumbnails` / `getWithAllThumbnails`（メタのみ）
-3. 返却トップレベルが親メタであること。`variants` 件数が Store 時の active 派生件数と一致すること
-4. `variants` が幅昇順であること（同幅があれば `variant_key` 昇順）
+3. 返却トップレベルが親メタであること。`variants` 件数が 2（`sm` / `md`）で、Store 時の active 派生件数と一致すること
+4. `variants` が幅昇順（`sm` → `md`）であること
 5. （任意）派生行の id で同じ API を呼び、同じファミリーが返ること
 6. Compose / RustFS 変更は不要（Local のみ）
 
