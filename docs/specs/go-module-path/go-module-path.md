@@ -23,7 +23,7 @@ Go のネストモジュール規約ではパス末尾・ディレクトリ・�
 | Module path | `github.com/b4moss/median/packages/go` |
 | ソース | `packages/go/`（変更なし） |
 | タグ | `packages/go/v0.8.0`（変更なしの規約） |
-| SemVer（導入時） | Go **`0.8.0`**（npm は当時据え置き `0.7.0`）。現行は Go / npm とも `0.9.0` 以降 |
+| SemVer（導入時） | Go **`0.8.0`**（npm は当時据え置き `0.7.0`）。現行は Go / npm とも `0.10.0` 以降 |
 | 破壊的変更 | import パスが変わる（旧パスは proxy 未解決のため実害は限定的） |
 
 ## 非目標

@@ -1,19 +1,19 @@
 # packages/go
 
 Go module **`github.com/b4moss/median/packages/go`**  
-Current: `packages/go/VERSION` → **`0.9.0`** (tag `packages/go/v0.9.0`).
+Current: `packages/go/VERSION` → **`0.10.0`** (tag `packages/go/v0.10.0`).
 
 Language-port hub for Go. Cross-language product overview and host workflow: [root README](../../README.md). Specs: [docs/specs/](../../docs/specs/).
 
 ## Install
 
 ```bash
-go get github.com/b4moss/median/packages/go@v0.9.0
+go get github.com/b4moss/median/packages/go@v0.10.0
 ```
 
 ```bash
-go install github.com/b4moss/median/packages/go/cmd/median@v0.9.0
-# or: go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 …
+go install github.com/b4moss/median/packages/go/cmd/median@v0.10.0
+# or: go run github.com/b4moss/median/packages/go/cmd/median@v0.10.0 …
 ```
 
 ## Layout
@@ -34,7 +34,7 @@ Shared host workflow (all languages): [root README](../../README.md).
 ### 1. Add the module
 
 ```bash
-go get github.com/b4moss/median/packages/go@v0.9.0
+go get github.com/b4moss/median/packages/go@v0.10.0
 ```
 
 ### 2. Create the media table (production)
@@ -42,7 +42,7 @@ go get github.com/b4moss/median/packages/go@v0.9.0
 Dump DDL and commit it into **your** migrations (goose / Flyway / raw SQL — your tool):
 
 ```bash
-go run github.com/b4moss/median/packages/go/cmd/median@v0.9.0 \
+go run github.com/b4moss/median/packages/go/cmd/median@v0.10.0 \
   migrate dump --dialect postgres --id-strategy auto_increment --table media \
   > migrations/XXXX_median_media.sql
 ```

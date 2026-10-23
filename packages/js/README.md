@@ -1,7 +1,7 @@
 # @b4moss/median
 
 TypeScript port (`packages/js`). npm: **[@b4moss/median](https://www.npmjs.com/package/@b4moss/median)**  
-Current: **`0.9.0`** (git tag `v0.9.0`). Requires **Node.js 24+**.
+Current: **`0.10.0`** (git tag `v0.10.0`). Requires **Node.js 24+**.
 
 Language-port hub for JS/TS. Cross-language product overview and host workflow: [root README](../../README.md). Specs: [docs/specs/](../../docs/specs/).
 
