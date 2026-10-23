@@ -2,14 +2,14 @@
 type: Plan
 title: GetWithAllThumbnails（ファミリー取得）
 description: オリジナルと関連サムネイル全体を返す API の仕様詳細計画。
-tags: [median, plans, v0.10.0, core-api, db-media]
+tags: [median, plans, v0.11.0, core-api, db-media]
 timestamp: 2026-10-22T10:54:00Z
 ---
 
 # GetWithAllThumbnails（ファミリー取得）
 
 - **状態**: 仕様詳細（未実装・PO 承認待ち。U1〜U12 は PO 決定済み）
-- **マイルストーン**: `v0.10.0`
+- **マイルストーン**: `v0.11.0`
 - **Issue**: [#77](https://github.com/b4moss/median/issues/77)（本文が正。2026-10-22 壁打ち決定＋同日 U1〜U12 PO 決定を反映）
 - **前提**: [specs/core-api](../../specs/core-api/core-api.md) / [specs/db-media](../../specs/db-media/db-media.md) / [specs/packages-js](../../specs/packages-js/packages-js.md) / [specs/media-pipeline](../../specs/media-pipeline/media-pipeline.md)
 - **関連**: [README.md](./README.md) / [roadmap](../../roadmap.md) / [charter/tdd.md](../../charter/tdd.md) / [charter/versioning-rule.md](../../charter/versioning-rule.md)
@@ -31,7 +31,7 @@ timestamp: 2026-10-22T10:54:00Z
 | DB | **必須**。未設定なら Go `ErrDBRequired` / JS `DBRequiredError` |
 | status | 返すのは `status = active` の行のみ（絞り込みは **core**）。オリジナルが active でなければファミリー全体を「見つからない」。渡された id が inactive な派生でも親をたどる |
 | 並び | `variants` は幅の小さい順。幅 `0` は通常の数値として含める。幅 NULL（不明）のみ最後。同幅は `variant_key` 昇順 |
-| 版 | minor 上げて Go / npm **`0.10.0`** |
+| 版 | minor 上げて Go / npm **`0.11.0`** |
 
 ### 対象外
 
@@ -184,17 +184,17 @@ getWithAllThumbnails(
 
 ## 9. リリース（タグ）手順
 
-現行 `0.9.0` → **`0.10.0`**（MINOR。後方互換の新 API）。
+現行 `0.9.0`（依存更新の `0.10.0` リリース後は `0.10.0`）→ **`0.11.0`**（MINOR。後方互換の新 API）。
 
-1. 実装・テスト完了後、`dev-v0.10.0` → `develop` → `main`（git-rule）
-2. 版ファイルを `0.10.0` に揃える
+1. 実装・テスト完了後、`dev-v0.11.0` → `develop` → `main`（git-rule）
+2. 版ファイルを `0.11.0` に揃える
    - `packages/go/VERSION`
    - `packages/js/package.json`（lock があれば追随）
 3. **main** 上でタグを打つ（versioning-rule）
-   - Go: `packages/go/v0.10.0`（`publish-go` / Release on tag）
-   - npm: ルート `v0.10.0`（`publish-npm` / Release on tag）
+   - Go: `packages/go/v0.11.0`（`publish-go` / Release on tag）
+   - npm: ルート `v0.11.0`（`publish-npm` / Release on tag）
 4. GitHub Release は既存 `release-on-tag.yml` に任せる
-5. roadmap / specs の版表記を `0.10.0` に更新し、本 plans を specs へ昇格・履歴は `_archived/history/v0.10.0/` へ
+5. roadmap / specs の版表記を `0.11.0` に更新し、本 plans を specs へ昇格・履歴は `_archived/history/v0.11.0/` へ
 
 ## 10. 作業の順番
 
@@ -203,8 +203,8 @@ getWithAllThumbnails(
 3. Go: 失敗するテスト → `GetWithAllThumbnails` 実装 → Green
 4. JS: 同等テスト → `getWithAllThumbnails` 実装 → Green
 5. （任意）Local E2E 1 本・手動 Workflow
-6. 版バンプ `0.10.0`、README の API 一覧更新
-7. `dev-v0.10.0` PR → develop → main、タグ打ち
+6. 版バンプ `0.11.0`、README の API 一覧更新
+7. `dev-v0.11.0` PR → develop → main、タグ打ち
 8. main 側で plans → specs 昇格、roadmap を出荷済に更新
 
 並行: Go と JS は契約固定済みのため並列可。Repo 拡張は不要。
@@ -234,11 +234,11 @@ Issue にはしない。将来の版で検討するメモ。
 
 | 項目 | 内容 |
 | --- | --- |
-| 既存 `Get` の status | 本版（`v0.10.0`）では `Get` は active 絞り込みしない。将来「`Get` も active のみに揃えるか」を検討する（別 Issue 化はしない。必要になったら本節または wishlist / 次版 plans で起こす） |
+| 既存 `Get` の status | 本版（`v0.11.0`）では `Get` は active 絞り込みしない。将来「`Get` も active のみに揃えるか」を検討する（別 Issue 化はしない。必要になったら本節または wishlist / 次版 plans で起こす） |
 
 ## 13. 受け入れ（短い・roadmap 用）
 
-DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が、オリジナルまたは派生 id から active なファミリー（`StoreResult`：オリジナルメタ＋幅昇順 variants、無しは空配列）を返す。DB なしは `ErrDBRequired` / `DBRequiredError`。Go / npm `0.10.0`。
+DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が、オリジナルまたは派生 id から active なファミリー（`StoreResult`：オリジナルメタ＋幅昇順 variants、無しは空配列）を返す。DB なしは `ErrDBRequired` / `DBRequiredError`。Go / npm `0.11.0`。
 
 ----
 
