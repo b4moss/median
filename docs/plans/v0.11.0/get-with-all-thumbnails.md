@@ -24,7 +24,7 @@ timestamp: 2026-10-22T10:54:00Z
 
 | 項目 | 内容 |
 | --- | --- |
-| Go | `(*Median).GetWithAllThumbnails(ctx, id, …)`（storageKey は Get と同じく任意） |
+| Go | `(*Median).GetWithAllThumbnails(ctx, id, opt GetWithAllThumbnailsOptions)`（`opt.StorageKey` は Get と同じく任意） |
 | JS | `median.getWithAllThumbnails(id, …)`（同上） |
 | 返り値 | 既存 **`StoreResult`**（各要素も既存の Store / Variant 形）。トップレベルはオリジナルのメタ、`variants` は Store と同形 |
 | id | オリジナルでも派生行でも、`original_id` だけで親をたどりファミリー全体を返す |
@@ -49,8 +49,12 @@ timestamp: 2026-10-22T10:54:00Z
 ### 3.1 Go
 
 ```go
-// storageKey は Get と同じく任意（省略時は defaultKey）。第3引数の形は実装で Get に揃える
-func (m *Median) GetWithAllThumbnails(ctx context.Context, id any, storageKey ...string) (*StoreResult, error)
+// opt.StorageKey は Get と同じく任意（省略時は defaultKey）。id は必須の別引数（U13）
+type GetWithAllThumbnailsOptions struct {
+	StorageKey string
+}
+
+func (m *Median) GetWithAllThumbnails(ctx context.Context, id any, opt GetWithAllThumbnailsOptions) (*StoreResult, error)
 ```
 
 - 戻り値は既存 **`*StoreResult`**（U1）
@@ -211,7 +215,7 @@ getWithAllThumbnails(
 
 ## 11. 決定事項
 
-PO（こうきさん）決定。旧 U1〜U12。
+PO（こうきさん）決定。旧 U1〜U12、U13 は 2026-10-23 追加。
 
 | ID | 決定 |
 | --- | --- |
@@ -227,6 +231,7 @@ PO（こうきさん）決定。旧 U1〜U12。
 | U10 | テストは **単体を厚め**に書き、**Local E2E を任意で 1 本**だけ足す |
 | U11 | 幅 **0** はふつうの数値として並べ順に含める。最後に回すのは幅が **NULL（不明）** のものだけ |
 | U12 | 親の判定は **`original_id` だけ**で行う（`variant_key` など他の値から推測しない） |
+| U13 | Go の呼び出し形は `GetWithAllThumbnails(ctx, id any, opt GetWithAllThumbnailsOptions)`。構造体は `{StorageKey}` のみ（id は必須の別引数。JS は `(id, opt?)` と同形） |
 
 ## 12. 要検討事項
 

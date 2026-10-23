@@ -234,7 +234,7 @@ JS 同等: [`../packages-js/packages-js.md`](../packages-js/packages-js.md)。Re
 
 | 項目 | 値 |
 | --- | --- |
-| 入口 | `(*Median).GetWithAllThumbnails(ctx, id, storageKey ...string)`（`storageKey` は既存 `Get` と同じく任意） |
+| 入口 | `(*Median).GetWithAllThumbnails(ctx, id any, opt GetWithAllThumbnailsOptions)`（構造体は `{StorageKey}` のみ。`StorageKey` は既存 `Get` と同じく任意。id は必須の別引数） |
 | 戻り値 | 既存 `*StoreResult`（トップレベル＝オリジナルメタ。`Variants` は Store 返却と同形。無しは **空スライス**、nil にしない） |
 | Body | 付けない（メタのみ。`WithBody` なし） |
 | DB | **必須**。未設定は `ErrDBRequired`（not found ではない） |
@@ -262,7 +262,7 @@ JS 同等: [`../packages-js/packages-js.md`](../packages-js/packages-js.md)。Re
 - `width=0` の variant が数値として昇順に含まれる（NULL 扱いにしない）
 - 幅 NULL の variant のみ、数値幅のあとに並ぶ
 - 同幅の複数 variant は `variant_key` 昇順
-- `storageKey` 省略時は defaultKey、明示時はその key がオリジナル・各 variant の `StorageKey` に載る
+- `opt.StorageKey` 省略時（ゼロ値）は defaultKey、明示時はその key がオリジナル・各 variant の `StorageKey` に載る
 - テーブル名上書き、またはカラムマップ、または非 `auto_increment` ID 戦略のいずれか代表ケースでも同じ契約（全組み合わせの網羅は不要）
 
 #### テスト: 異常系
