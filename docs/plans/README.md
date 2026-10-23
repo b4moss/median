@@ -16,12 +16,12 @@ timestamp: 2026-10-22T09:34:00Z
 
 | マイルストーン | 内容 | 状態 |
 | --- | --- | --- |
-| [v0.10.0/](./v0.10.0/) | `GetWithAllThumbnails` / `getWithAllThumbnails`（[#77](https://github.com/b4moss/median/issues/77)） | 仕様詳細・PO 承認待ち |
+| [v0.11.0/](./v0.11.0/) | `GetWithAllThumbnails` / `getWithAllThumbnails`（[#77](https://github.com/b4moss/median/issues/77)） | 仕様詳細・PO 承認待ち |
 | [unscheduled/](./unscheduled/) | マイルストーン未割当（PHP 移植など） | — |
 
 ## 実装順（残り）
 
-1. `v0.10.0` — [v0.10.0/get-with-all-thumbnails.md](./v0.10.0/get-with-all-thumbnails.md)（承認後に実装）
+1. `v0.11.0` — [v0.11.0/get-with-all-thumbnails.md](./v0.11.0/get-with-all-thumbnails.md)（承認後に実装）
 2. （未割当）PHP — [unscheduled/packages-php.md](./unscheduled/packages-php.md)
 
 ----

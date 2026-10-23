@@ -1,19 +1,19 @@
 ---
 type: Index
-title: v0.10.0 — GetWithAllThumbnails
-description: v0.10.0 マイルストーン索引（関連サムネイルを含めてファミリー全体を返す）。
-tags: [median, plans, v0.10.0, core-api, index]
+title: v0.11.0 — GetWithAllThumbnails
+description: v0.11.0 マイルストーン索引（関連サムネイルを含めてファミリー全体を返す）。
+tags: [median, plans, v0.11.0, core-api, index]
 timestamp: 2026-10-22T10:54:00Z
 ---
 
-# v0.10.0 — GetWithAllThumbnails
+# v0.11.0 — GetWithAllThumbnails
 
 - **状態**: 仕様詳細（未実装・PO 承認待ち。U1〜U12 決定済み）
-- **マイルストーン**: `v0.10.0`（GitHub: `med-v0.10.0`）
+- **マイルストーン**: `v0.11.0`（GitHub: `med-v0.11.0`）
 - **Issue**: [#77](https://github.com/b4moss/median/issues/77)
 - **前提**: 現行 Go / npm **`0.9.0`**（[core-api](../../specs/core-api/) / [db-media](../../specs/db-media/) / [packages-js](../../specs/packages-js/)）
 - **詳細計画**: [get-with-all-thumbnails.md](./get-with-all-thumbnails.md)
-- **受け入れ（短い）**: DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が `StoreResult` を返す（派生 id でも親をたどり、active なオリジナル＋variants。無しは空配列。幅昇順・同幅は key 昇順）。DB なしは `ErrDBRequired` / `DBRequiredError`。Go / npm `0.10.0`
+- **受け入れ（短い）**: DB ありで `GetWithAllThumbnails` / `getWithAllThumbnails` が `StoreResult` を返す（派生 id でも親をたどり、active なオリジナル＋variants。無しは空配列。幅昇順・同幅は key 昇順）。DB なしは `ErrDBRequired` / `DBRequiredError`。Go / npm `0.11.0`
 
 ## 文書
 
