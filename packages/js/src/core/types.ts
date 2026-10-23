@@ -95,6 +95,10 @@ export type GetOptions = {
   id?: string | number;
 };
 
+export type GetWithAllThumbnailsOptions = {
+  storageKey?: string;
+};
+
 export type GetResult = {
   id?: string | number;
   path: string;
@@ -120,6 +124,10 @@ export type Median = {
   ): Promise<StoreResult>;
   delete(objectPath: string, opt?: DeleteOptions): Promise<void>;
   get(objectPath: string, opt?: GetOptions): Promise<GetResult>;
+  getWithAllThumbnails(
+    id: string | number,
+    opt?: GetWithAllThumbnailsOptions,
+  ): Promise<StoreResult>;
   presignGet(objectPath: string, storageKey?: string, ttlMs?: number): Promise<string>;
   readonly config: Readonly<Config>;
 };

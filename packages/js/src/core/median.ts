@@ -6,6 +6,7 @@ import { resolveFilename, type NameMode, DEFAULT_RANDOM_HEX_LEN } from "../inter
 import { buildStoragePath } from "../internal/path.js";
 import {
   createMediaRepo,
+  ErrNotFound as DBErrNotFound,
   isNotFound as isDBNotFound,
   type Media,
   type MediaRepo,
@@ -21,6 +22,7 @@ import { createLocalFS } from "../storage/local/local.js";
 import { createS3FS, DRIVER_S3, type S3FS } from "../storage/s3/s3.js";
 import {
   ErrActorRequired,
+  ErrDBRequired,
   ErrDuplicate,
   ErrEmptyPath,
   ErrIDRequired,
@@ -37,6 +39,7 @@ import type {
   DeleteOptions,
   GetOptions,
   GetResult,
+  GetWithAllThumbnailsOptions,
   Median,
   StoreOptions,
   StoreResult,
@@ -539,6 +542,63 @@ export async function createMedian(cfg: Config): Promise<Median> {
     return out;
   }
 
+  async function getWithAllThumbnails(
+    id: string | number,
+    opt: GetWithAllThumbnailsOptions = {},
+  ): Promise<StoreResult> {
+    if (!dbEnabled || !repo) {
+      throw ErrDBRequired;
+    }
+    if (id === undefined || id === null || id === "") {
+      throw ErrIDRequired;
+    }
+    const { key } = resolveKey(opt.storageKey);
+
+    const row = repo.findById(id);
+    let parent = row;
+    let parentId: string | number = row.id!;
+    if (row.originalId !== undefined && row.originalId !== null) {
+      parentId = row.originalId;
+      parent = repo.findById(parentId);
+    }
+    if (parent.status !== "active") {
+      throw DBErrNotFound;
+    }
+
+    const children = repo.listChildren(parentId);
+    const active = children.filter((ch) => ch.status === "active");
+    active.sort((a, b) => {
+      const aw = a.width;
+      const bw = b.width;
+      const aNull = aw === undefined || aw === null;
+      const bNull = bw === undefined || bw === null;
+      if (aNull && bNull) {
+        return (a.variantKey ?? "").localeCompare(b.variantKey ?? "");
+      }
+      if (aNull) return 1;
+      if (bNull) return -1;
+      if (aw !== bw) return (aw as number) - (bw as number);
+      return (a.variantKey ?? "").localeCompare(b.variantKey ?? "");
+    });
+
+    const variants: VariantResult[] = active.map((ch) => ({
+      key: ch.variantKey ?? "",
+      path: ch.filePath,
+      mime: ch.mime,
+      size: ch.size,
+      hash: ch.hash,
+      width: ch.width ?? 0,
+      height: ch.height ?? 0,
+      id: ch.id,
+      storageKey: key,
+    }));
+
+    const out = mediaToStoreResult(parent, key, resolved.defaultKey);
+    out.storageKey = key;
+    out.variants = variants;
+    return out;
+  }
+
   async function presignGet(objectPath: string, storageKey?: string, ttlMs?: number): Promise<string> {
     const key = storageKey || resolved.defaultKey;
     const fs = s3map[key];
@@ -553,6 +613,7 @@ export async function createMedian(cfg: Config): Promise<Median> {
     store,
     delete: del,
     get,
+    getWithAllThumbnails,
     presignGet,
     config: resolved,
   };
