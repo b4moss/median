@@ -179,7 +179,7 @@ median migrate dump --dialect <mysql|postgres|sqlite3> [--id-strategy …] [--ta
 | [`docs/specs/`](./docs/specs/) | 現行仕様（ドメイン切り） |
 | [`docs/plans/`](./docs/plans/) | 未実装計画（PHP unscheduled） |
 | [`docs/tests/`](./docs/tests/) | TDD 受け入れ |
-| [`docs/charter/`](./docs/charter/) | 憲章・OKF |
+| [b4moss/charter v1](https://github.com/b4moss/charter/tree/v1/docs/charter) | 憲章（[AGENTS.md](./AGENTS.md)） |
 | [`migrations/`](./migrations/) | スキーマ正本の説明 |
 | [`e2e/`](./e2e/) | E2E ハーネス |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD・公開タグ |

@@ -13,7 +13,7 @@ timestamp: 2026-09-27T04:40:00Z
 仕様: [`../../specs/ddl-cli/`](../../specs/ddl-cli/)（[ddl-cli.md](../../specs/ddl-cli/ddl-cli.md)）  
 前提（出荷契約）: [`../db-media/db-media.md`](../db-media/db-media.md)（スキーマ・`CreateMediaSQL` / `MigrateUp`）/ [`../go-module-path/go-module-path.md`](../go-module-path/go-module-path.md)  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`../../charter/tdd.md`](../../charter/tdd.md)（氷山パターン）
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)（氷山パターン）
 
 ## 共通前提
 

@@ -13,7 +13,7 @@ timestamp: 2026-09-27T00:40:00Z
 仕様: [`../../specs/packages-js/`](../../specs/packages-js/)（[packages-js.md](../../specs/packages-js/packages-js.md)）  
 Go 契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../svg-sanitize/`](../svg-sanitize/) / [`../pdf-thumbnail/`](../pdf-thumbnail/)  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)（氷山パターン）
 
 > **現行 DB 列・テーブル設定の受け入れは [`../db-media/`](../db-media/) を正とする。** 本ファイルの DB 必須カラム記述に旧 `path` 単列があれば現行の `file_path` / `file_name` / `original_file_name` で読み替える。
 

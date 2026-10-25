@@ -12,7 +12,7 @@ timestamp: 2026-09-27T05:00:00Z
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/storage/`](../../specs/storage/)  
 関連: [`../core-api/`](../core-api/) / [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン）
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)（氷山パターン）
 
 旧マイルストーン `v0.2.0` 由来。コア API は [`../core-api/`](../core-api/) を参照。
 

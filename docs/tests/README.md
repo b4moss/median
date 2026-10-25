@@ -8,7 +8,7 @@ timestamp: 2026-09-27T05:00:00Z
 
 # tests
 
-TDD の入力となるテスト仕様を置く。書き方・氷山パターンは charter [`tdd.md`](../charter/tdd.md)。  
+TDD の入力となるテスト仕様を置く。書き方・氷山パターンは charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)。  
 `specs/` と**同じドメイン切り**。**SemVer フォルダ（`vX.Y.Z`）では切らない**（OKF v0.1）。
 
 | ドメイン | テスト仕様 |

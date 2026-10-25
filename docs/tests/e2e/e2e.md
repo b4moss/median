@@ -15,7 +15,7 @@ timestamp: 2026-09-27T02:25:00Z
 出荷契約（参照）: [`../core-api/`](../core-api/) / [`../db-media/`](../db-media/) / [`../packages-js/`](../packages-js/)  
 DB 列の現行契約: [`../db-media/`](../db-media/)（E2E の DB メタ照合は `file_path` 等）  
 ロードマップ: [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`tdd.md`](../../charter/tdd.md)（氷山パターン・クリティカルのみ）
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)（氷山パターン・クリティカルのみ）
 
 本ファイルは二部構成とする。
 
