@@ -11,7 +11,7 @@ timestamp: 2026-09-27T02:40:00Z
 - **状態**: 出荷済（現行仕様）
 - **マイルストーン**: `v0.6.0`
 - **前提**: Go（`v0.4.0`）および TypeScript（`v0.5.0`）が出荷済みであること
-- **関連**: [README.md](../../README.md) / [roadmap.md](../../roadmap.md) / [charter/tdd.md](../../charter/tdd.md) / [tests/e2e/e2e.md](../../tests/e2e/e2e.md)
+- **関連**: [README.md](../../README.md) / [roadmap.md](../../roadmap.md) / [tdd.md](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md) / [tests/e2e/e2e.md](../../tests/e2e/e2e.md)
 - **実装**: [`e2e/`](../../../e2e/)
 - **Issue**: [#40](https://github.com/b4moss/median/issues/40)
 

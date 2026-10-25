@@ -1,6 +1,6 @@
 # CI / CD notes (median)
 
-Aligned with `docs/charter/git-rule.md` and peer `-an` libraries (shardian / crudian).
+Aligned with [`git-rule.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/git-rule.md) and peer `-an` libraries (shardian / crudian).
 
 ## Current publish targets (checkpoint)
 

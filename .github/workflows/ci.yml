@@ -1,6 +1,6 @@
 name: CI
 
-# Align with docs/charter/git-rule.md:
+# Align with https://github.com/b4moss/charter/blob/v1/docs/charter/tech/git-rule.md:
 # - PR → develop (from dev-v*): CI required
 # - PR → main (from develop): CI as a precaution
 # - PR → release: no CI (release merge is CD via publish workflows)

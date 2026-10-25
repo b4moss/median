@@ -12,7 +12,7 @@ timestamp: 2026-09-27T05:00:00Z
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/media-pipeline/`](../../specs/media-pipeline/)  
 関連: [`../db-media/`](../db-media/) / [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`tdd.md`](../../charter/tdd.md)
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)
 
 ## 共通前提
 

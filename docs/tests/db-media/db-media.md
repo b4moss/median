@@ -12,7 +12,7 @@ timestamp: 2026-09-27T05:00:00Z
 製品: [`../../README.md`](../../README.md)  
 仕様: [`../../specs/db-media/`](../../specs/db-media/)  
 関連: [`../media-pipeline/`](../media-pipeline/) / [`../s3-adapter/`](../s3-adapter/) / [`../../roadmap.md`](../../roadmap.md)  
-書き方: charter [`tdd.md`](../../charter/tdd.md)
+書き方: charter [`tdd.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/tdd.md)
 
 > パス列・テーブル設定の現行受け入れは本ファイル末尾の「パス列（現行）」を正とする（旧 `v0.7.0`）。
 

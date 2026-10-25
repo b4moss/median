@@ -8,7 +8,7 @@ timestamp: 2026-10-22T09:34:00Z
 
 # median roadmap
 
-SemVer（`docs/charter/versioning-rule.md`）に従う。`v0.n.0` は正式リリース前のため、MINOR 更新でも破壊的変更を許容する。
+SemVer（[`versioning-rule.md`](https://github.com/b4moss/charter/blob/v1/docs/charter/tech/versioning-rule.md)）に従う。`v0.n.0` は正式リリース前のため、MINOR 更新でも破壊的変更を許容する。
 
 詳細仕様の正本は出荷済みが `specs/`（ドメイン切り）、未実装が `plans/`。本ファイルは版一覧と短い受け入れのハブに限る。
 

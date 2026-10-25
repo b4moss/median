@@ -182,7 +182,7 @@ Full flags and examples: language hubs · [`migrations/README.md`](./migrations/
 | [`docs/specs/`](./docs/specs/) | Current specs (domain-oriented) |
 | [`docs/plans/`](./docs/plans/) | Upcoming plans (PHP unscheduled) |
 | [`docs/tests/`](./docs/tests/) | TDD acceptance specs |
-| [`docs/charter/`](./docs/charter/) | Charter + OKF |
+| [b4moss/charter v1](https://github.com/b4moss/charter/tree/v1/docs/charter) | Charter ([AGENTS.md](./AGENTS.md)) |
 | [`migrations/`](./migrations/) | Schema reference (goose-oriented source of truth) |
 | [`e2e/`](./e2e/) | E2E harness |
 | [`.github/CI.md`](./.github/CI.md) | CI/CD / publish tags |
